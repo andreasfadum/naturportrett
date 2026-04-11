@@ -1,0 +1,15 @@
+{
+  "id": "artsdatabanken",
+  "name": "Artsdatabanken",
+  "description": "Norsk biodiversitetsinformasjonssenter — taksonomi, rødliste og svarteliste",
+  "url": "https://artsdatabanken.no",
+  "enabled": false,
+  "type": "api",
+  "config": {
+    "baseUrl": "https://artskart.artsdatabanken.no/publicapi/api/observations",
+    "radiusKm": 0.5,
+    "maxResults": 100
+  },
+  "provides": ["observations", "red_list_status", "norwegian_names"],
+  "notes": "Aktivert i fremtidig versjon. Inneholder offisielle norske artsnavn og rødlistestatus."
+}

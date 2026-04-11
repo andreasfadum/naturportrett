@@ -1,0 +1,21 @@
+{
+  "id": "inaturalist",
+  "name": "iNaturalist",
+  "description": "Borgervitenskap-observasjoner med bilder og norske artsnavn",
+  "url": "https://www.inaturalist.org",
+  "enabled": true,
+  "type": "api",
+  "config": {
+    "baseUrl": "https://api.inaturalist.org/v1/observations",
+    "params": {
+      "quality_grade": "research",
+      "locale": "nb",
+      "order_by": "votes",
+      "photos": true
+    },
+    "radiusKm": 0.5,
+    "maxResults": 100
+  },
+  "provides": ["observations", "photos", "norwegian_names"],
+  "notes": "Primærkilde. Returnerer norske artsnavn og kvadratbilder direkte."
+}

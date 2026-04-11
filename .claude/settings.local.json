@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Read(//usr/local/**)",
+      "Read(//Users/andreas/.volta/**)",
+      "Read(//opt/homebrew/**)",
+      "Bash(mdfind -name \"node\" kind:executable)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

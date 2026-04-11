@@ -1,0 +1,918 @@
+/* Oslo Sans — selvhostet WOFF2 */
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-RegularItalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oslo Sans';
+  src: url('/fonts/OsloSans-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Oslo fargepalett */
+:root {
+  --oslo-morkebla: #2A2859;
+  --oslo-bla: #6FE9FF;
+  --oslo-lysbla: #B3F5FF;
+  --oslo-rod: #FF8274;
+  --oslo-morkegron: #034B45;
+  --oslo-gron: #43F8B6;
+  --oslo-lysgron: #C7F6C9;
+  --oslo-gul: #F9C66B;
+  --oslo-morkbeige: #D0BFAE;
+  --oslo-lysbeige: #F8F0DD;
+  --oslo-svart: #2C2C2C;
+  --oslo-hvit: #FFFFFF;
+
+  /* Typografi */
+  --font: 'Oslo Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Radier */
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  /* Skygger */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow: 0 2px 8px rgba(0,0,0,0.12);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.14);
+}
+
+/* Reset og base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--oslo-svart);
+  background-color: var(--oslo-hvit);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  color: var(--oslo-morkebla);
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ================================
+   Layout
+================================ */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+  width: 100%;
+}
+
+/* ================================
+   Header
+================================ */
+.app-header {
+  background-color: var(--oslo-morkebla);
+  color: var(--oslo-hvit);
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.app-header__logo {
+  height: 40px;
+  width: auto;
+}
+
+.app-header__divider {
+  width: 1px;
+  height: 32px;
+  background-color: rgba(255,255,255,0.3);
+}
+
+.app-header__title {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--oslo-hvit);
+  letter-spacing: -0.01em;
+}
+
+.app-header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--oslo-lysbla);
+  font-weight: 400;
+}
+
+/* ================================
+   Footer
+================================ */
+.app-footer {
+  background-color: var(--oslo-morkebla);
+  color: var(--oslo-lysbla);
+  padding: var(--space-6);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  margin-top: auto;
+}
+
+/* ================================
+   Steg-indikator
+================================ */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+.step-indicator__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--oslo-morkbeige);
+}
+
+.step-indicator__item--active {
+  color: var(--oslo-morkebla);
+  font-weight: 700;
+}
+
+.step-indicator__item--done {
+  color: var(--oslo-morkegron);
+}
+
+.step-indicator__num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--oslo-morkbeige);
+  color: var(--oslo-hvit);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-indicator__item--active .step-indicator__num {
+  background-color: var(--oslo-morkebla);
+}
+
+.step-indicator__item--done .step-indicator__num {
+  background-color: var(--oslo-morkegron);
+}
+
+.step-indicator__arrow {
+  color: var(--oslo-morkbeige);
+  font-size: var(--font-size-xs);
+  margin: 0 var(--space-1);
+}
+
+/* ================================
+   Adressesøk
+================================ */
+.address-search {
+  max-width: 600px;
+}
+
+.address-search__heading {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-3);
+  color: var(--oslo-morkebla);
+}
+
+.address-search__description {
+  color: #555;
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-lg);
+  line-height: 1.6;
+}
+
+.address-search__field {
+  position: relative;
+}
+
+.address-search__label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-base);
+}
+
+.address-search__input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.address-search__input {
+  width: 100%;
+  padding: var(--space-4) var(--space-4) var(--space-4) 3rem;
+  font-family: var(--font);
+  font-size: var(--font-size-lg);
+  border: 2px solid var(--oslo-morkebla);
+  border-radius: var(--radius);
+  background: var(--oslo-hvit);
+  color: var(--oslo-svart);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.address-search__input:focus {
+  border-color: var(--oslo-bla);
+  box-shadow: 0 0 0 3px rgba(111,233,255,0.35);
+}
+
+.address-search__icon {
+  position: absolute;
+  left: var(--space-3);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.address-search__spinner {
+  position: absolute;
+  right: var(--space-3);
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--oslo-lysbla);
+  border-top-color: var(--oslo-morkebla);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ================================
+   Adresseforslag (dropdown)
+================================ */
+.address-suggestions {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  right: 0;
+  background: var(--oslo-hvit);
+  border: 2px solid var(--oslo-morkebla);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.address-suggestions__item {
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  border-bottom: 1px solid var(--oslo-lysbeige);
+  transition: background-color 0.1s;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.address-suggestions__item:last-child {
+  border-bottom: none;
+}
+
+.address-suggestions__item:hover,
+.address-suggestions__item:focus {
+  background-color: var(--oslo-lysbla);
+  outline: none;
+}
+
+.address-suggestions__item-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.address-suggestions__item-text {
+  flex: 1;
+}
+
+.address-suggestions__main {
+  font-weight: 700;
+  font-size: var(--font-size-base);
+}
+
+.address-suggestions__sub {
+  font-size: var(--font-size-sm);
+  color: #666;
+}
+
+.address-suggestions__empty {
+  padding: var(--space-4);
+  color: #666;
+  font-size: var(--font-size-sm);
+  text-align: center;
+}
+
+/* ================================
+   Influenssone-info
+================================ */
+.influence-zone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--oslo-lysgron);
+  border-left: 4px solid var(--oslo-morkegron);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.influence-zone__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.influence-zone__text {
+  font-size: var(--font-size-sm);
+  color: var(--oslo-morkegron);
+}
+
+.influence-zone__address {
+  font-weight: 700;
+}
+
+/* ================================
+   Artsgitter
+================================ */
+.species-section__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.species-section__heading {
+  font-size: var(--font-size-2xl);
+  color: var(--oslo-morkebla);
+}
+
+.species-section__count {
+  font-size: var(--font-size-base);
+  color: #666;
+  font-weight: 400;
+}
+
+.species-section__actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Filter */
+.species-filter {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.species-filter__btn {
+  padding: var(--space-2) var(--space-4);
+  border: 2px solid var(--oslo-morkebla);
+  border-radius: 100px;
+  background: var(--oslo-hvit);
+  color: var(--oslo-morkebla);
+  font-family: var(--font);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.species-filter__btn:hover {
+  background-color: var(--oslo-lysbla);
+}
+
+.species-filter__btn--active {
+  background-color: var(--oslo-morkebla);
+  color: var(--oslo-hvit);
+}
+
+/* Grid */
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-4);
+}
+
+/* Kort */
+.species-card {
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--oslo-hvit);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.1s;
+  cursor: pointer;
+  position: relative;
+}
+
+.species-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.species-card--selected {
+  border-color: var(--oslo-morkebla);
+  box-shadow: var(--shadow);
+}
+
+.species-card__photo {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  object-fit: cover;
+  background: var(--oslo-lysbeige);
+  display: block;
+}
+
+.species-card__photo-placeholder {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--oslo-lysbeige);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.species-card__photo-placeholder svg {
+  width: 48px;
+  height: 48px;
+  opacity: 0.3;
+}
+
+.species-card__body {
+  padding: var(--space-3);
+}
+
+.species-card__category {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: 100px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.species-card__category--fugl { background: var(--oslo-lysbla); color: var(--oslo-morkebla); }
+.species-card__category--plante { background: var(--oslo-lysgron); color: var(--oslo-morkegron); }
+.species-card__category--pattedyr { background: var(--oslo-lysbeige); color: #5a3a1a; }
+.species-card__category--insekt { background: var(--oslo-gul); color: #5a3a00; }
+.species-card__category--sopp { background: var(--oslo-morkbeige); color: var(--oslo-svart); }
+.species-card__category--annet { background: #eee; color: #555; }
+
+.species-card__name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--oslo-svart);
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.species-card__scientific {
+  font-size: var(--font-size-xs);
+  font-style: italic;
+  color: #777;
+  line-height: 1.3;
+}
+
+.species-card__checkbox {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--oslo-morkebla);
+  border-radius: var(--radius-sm);
+  background: var(--oslo-hvit);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s;
+}
+
+.species-card--selected .species-card__checkbox {
+  background-color: var(--oslo-morkebla);
+}
+
+.species-card__checkbox svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.species-card--selected .species-card__checkbox svg {
+  opacity: 1;
+}
+
+/* Skjelett-loading */
+.species-skeleton {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--oslo-hvit);
+  box-shadow: var(--shadow-sm);
+}
+
+.species-skeleton__photo {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--oslo-lysbeige);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.species-skeleton__body {
+  padding: var(--space-3);
+}
+
+.species-skeleton__line {
+  height: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--oslo-lysbeige);
+  animation: shimmer 1.4s ease-in-out infinite;
+  margin-bottom: var(--space-2);
+}
+
+.species-skeleton__line--short { width: 60%; }
+.species-skeleton__line--medium { width: 80%; }
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ================================
+   Knapper
+================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background-color: var(--oslo-morkebla);
+  color: var(--oslo-hvit);
+}
+
+.btn--primary:hover {
+  background-color: #1e1c3e;
+  box-shadow: var(--shadow);
+}
+
+.btn--primary:disabled {
+  background-color: var(--oslo-morkbeige);
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--oslo-morkebla);
+  border-color: var(--oslo-morkebla);
+}
+
+.btn--secondary:hover {
+  background-color: var(--oslo-lysbla);
+}
+
+.btn--green {
+  background-color: var(--oslo-morkegron);
+  color: var(--oslo-hvit);
+}
+
+.btn--green:hover {
+  background-color: #023830;
+  box-shadow: var(--shadow);
+}
+
+.btn--green:disabled {
+  background-color: var(--oslo-morkbeige);
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ================================
+   Valgt-oppsummering
+================================ */
+.selected-summary {
+  background: var(--oslo-lysbla);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.selected-summary__label {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  color: var(--oslo-morkebla);
+  white-space: nowrap;
+}
+
+.selected-summary__chips {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.selected-summary__chip {
+  background: var(--oslo-morkebla);
+  color: var(--oslo-hvit);
+  padding: 3px var(--space-3);
+  border-radius: 100px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+/* ================================
+   Anbefalingspanel
+================================ */
+.recommendations-section {
+  max-width: 800px;
+}
+
+.recommendations-section__heading {
+  font-size: var(--font-size-2xl);
+  color: var(--oslo-morkebla);
+  margin-bottom: var(--space-6);
+}
+
+.recommendation-panel {
+  background: var(--oslo-lysbeige);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  line-height: 1.7;
+}
+
+.recommendation-panel h2,
+.recommendation-panel h3 {
+  color: var(--oslo-morkebla);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.recommendation-panel h2:first-child,
+.recommendation-panel h3:first-child {
+  margin-top: 0;
+}
+
+.recommendation-panel p {
+  margin-bottom: var(--space-4);
+  color: var(--oslo-svart);
+}
+
+.recommendation-panel ul,
+.recommendation-panel ol {
+  margin-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.recommendation-panel li {
+  margin-bottom: var(--space-2);
+}
+
+.recommendation-panel strong {
+  color: var(--oslo-morkebla);
+}
+
+.recommendation-panel em {
+  font-style: italic;
+}
+
+.recommendation-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  background: var(--oslo-lysbeige);
+  border-radius: var(--radius-lg);
+  color: var(--oslo-morkebla);
+  font-weight: 500;
+}
+
+.recommendation-loading__dots {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.recommendation-loading__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--oslo-bla);
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
+.recommendation-loading__dot:nth-child(2) { animation-delay: 0.2s; }
+.recommendation-loading__dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.recommendation-error {
+  background: #fff0f0;
+  border-left: 4px solid var(--oslo-rod);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius);
+  color: #c0392b;
+}
+
+/* ================================
+   Markdown-rendering i anbefalinger
+================================ */
+.markdown-content h2 {
+  font-size: var(--font-size-xl);
+  border-bottom: 2px solid var(--oslo-bla);
+  padding-bottom: var(--space-2);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.markdown-content h3 {
+  font-size: var(--font-size-lg);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+/* ================================
+   Responsivt
+================================ */
+@media (max-width: 768px) {
+  .main-content {
+    padding: var(--space-4);
+  }
+
+  .app-header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .app-header__title {
+    font-size: var(--font-size-lg);
+  }
+
+  .address-search__heading {
+    font-size: var(--font-size-2xl);
+  }
+
+  .species-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .recommendation-panel {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .species-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .step-indicator__label {
+    display: none;
+  }
+}

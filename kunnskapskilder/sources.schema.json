@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Kunnskapskilde",
+  "description": "Schema for konfigurasjonsfiler i kunnskapskilder/-mappen",
+  "type": "object",
+  "required": ["id", "name", "enabled", "type"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unik identifikator (kun bokstaver, tall og bindestrek)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Visningsnavn for kilden"
+    },
+    "description": {
+      "type": "string",
+      "description": "Kort beskrivelse av hva kilden inneholder"
+    },
+    "url": {
+      "type": "string",
+      "description": "Nettadressen til kilden"
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Om kilden er aktiv"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["api", "document"],
+      "description": "api = REST API, document = lokal fil (for fremtidig RAG)"
+    },
+    "config": {
+      "type": "object",
+      "description": "API-konfigurasjon",
+      "properties": {
+        "baseUrl": { "type": "string" },
+        "params": { "type": "object" },
+        "radiusKm": { "type": "number" },
+        "maxResults": { "type": "integer" }
+      }
+    },
+    "provides": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["observations", "photos", "norwegian_names", "red_list_status", "guidance_text"]
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

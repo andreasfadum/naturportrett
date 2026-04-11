@@ -1,0 +1,20 @@
+{
+  "id": "gbif",
+  "name": "GBIF — Global Biodiversity Information Facility",
+  "description": "Globalt nettverk av vitenskapelige artsregistreringer fra museer og felt",
+  "url": "https://www.gbif.org",
+  "enabled": true,
+  "type": "api",
+  "config": {
+    "baseUrl": "https://api.gbif.org/v1/occurrence/search",
+    "params": {
+      "country": "NO",
+      "hasCoordinate": true,
+      "mediaType": "StillImage"
+    },
+    "radiusKm": 0.5,
+    "maxResults": 100
+  },
+  "provides": ["observations", "photos"],
+  "notes": "Sekundærkilde. Benyttes for bilder og som backup der iNaturalist mangler data."
+}

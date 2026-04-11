@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="hvitbak">
+    <rect class="cls-1" width="32" height="32"/>
+  </g>
+  <g id="artwork_sort" data-name="artwork sort">
+    <g>
+      <path d="M13.25189,18.54873h3.33545c3.65332,0,5.96777-2.13281,5.96777-5.26416,0-3.15381-2.20117-5.332-5.83154-5.332H11.23236V24.74307h2.01953Zm0-8.7583h3.53955c2.38282,0,3.67578,1.27051,3.67578,3.51709,0,2.22364-1.293,3.44873-3.67578,3.44873H13.25189Z"/>
+      <path d="M0,0V32H32V0ZM30,30H2V2H30Z"/>
+    </g>
+  </g>
+</svg>

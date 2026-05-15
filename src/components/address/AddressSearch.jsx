@@ -42,8 +42,51 @@ export default function AddressSearch({ onAddressSelected }) {
 
   return (
     <div className="address-search">
+      <section style={{
+        background: 'var(--oslo-lysgron)',
+        borderRadius: 'var(--radius)',
+        padding: 'var(--space-5) var(--space-6)',
+        marginBottom: 'var(--space-8)',
+        color: 'var(--oslo-morkegron)',
+        fontSize: 'var(--font-size-sm)',
+        lineHeight: 1.6,
+      }}>
+        <h2 style={{
+          fontSize: 'var(--font-size-lg)',
+          marginTop: 0,
+          marginBottom: 'var(--space-3)',
+          color: 'var(--oslo-morkegron)',
+        }}>
+          Om tjenesten / Om naturportretter
+        </h2>
+        <p style={{ marginTop: 0 }}>Tjenesten er utviklet av Oslo kommune.</p>
+        <p>
+          Tjenesten oppretter natur- og artsportretter som kan brukes i design og
+          formgiving av grønne ute-/takarealer.
+        </p>
+        <p style={{ marginBottom: 'var(--space-2)' }}>
+          Tjenesten henter og sammenstiller informasjon fra følgende kilder:
+        </p>
+        <ul style={{ marginTop: 0, paddingLeft: 'var(--space-5)' }}>
+          <li>Kartverket (norske adresser)</li>
+          <li>iNaturalist (artsobservasjoner, foto og norske navn)</li>
+          <li>GBIF — Global Biodiversity Information Facility (artsdata, foto)</li>
+          <li>Naturmangfoldloven (nml)</li>
+          <li>Plan- og bygningsloven (pbl)</li>
+          <li>Oslo kommunes Naturmangfoldstrategi 2030</li>
+          <li>Anthropic Claude (KI-modell som sammenstiller informasjonen)</li>
+        </ul>
+        <p>
+          Sammenstillingene er basert på fastsatte instrukser og bruk av kunstig
+          intelligens.
+        </p>
+        <p style={{ marginBottom: 0 }}>
+          <strong>Portrettene av natur og arter må kvalitetssikres av fagkyndige.</strong>
+        </p>
+      </section>
+
       <h1 className="address-search__heading">
-        Finn arter i nærområdet
+        Finn natur og arter i nærområdet
       </h1>
       <p className="address-search__description">
         Skriv inn adressen til eiendommen du arbeider med.

@@ -1,6 +1,7 @@
 import { fetchSpeciesFromINaturalist } from './inaturalist.js'
 import { fetchSpeciesFromGBIF } from './gbif.js'
 import { getCategory } from '../utils/speciesCategories.js'
+import { getConservationStatus } from '../utils/conservationStatus.js'
 
 const MAX_SPECIES = 60
 
@@ -46,6 +47,7 @@ function aggregate(observations) {
     .map(obs => ({
       ...obs,
       category: getCategory(obs.iconicTaxonName, obs.kingdom),
+      conservationStatus: getConservationStatus(obs.scientificName),
     }))
     .sort((a, b) => b.observationCount - a.observationCount)
     .slice(0, MAX_SPECIES)

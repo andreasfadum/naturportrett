@@ -3,33 +3,50 @@ import AppHeader from './components/layout/AppHeader.jsx'
 import AppFooter from './components/layout/AppFooter.jsx'
 import DevBanner from './components/layout/DevBanner.jsx'
 import AddressSearch from './components/address/AddressSearch.jsx'
-import SpeciesSection from './components/species/SpeciesSection.jsx'
-import RecommendationsSection from './components/recommendations/RecommendationsSection.jsx'
+import NaturportrettSection from './components/naturportrett/NaturportrettSection.jsx'
+import PortraitTypeSelector from './components/portrait-selector/PortraitTypeSelector.jsx'
+import DetailPortraitSection from './components/detail-portrait/DetailPortraitSection.jsx'
 import StepIndicator from './components/layout/StepIndicator.jsx'
 
 export default function App() {
   const [step, setStep] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(null)
-  const [selectedSpecies, setSelectedSpecies] = useState([])
+  const [speciesForArea, setSpeciesForArea] = useState([])
+  const [portraitType, setPortraitType] = useState(null)
 
   function handleAddressSelected(address) {
     setSelectedAddress(address)
-    setSelectedSpecies([])
+    setSpeciesForArea([])
+    setPortraitType(null)
     setStep(2)
   }
 
-  function handleSpeciesConfirmed(species) {
-    setSelectedSpecies(species)
+  function handleNaturportrettContinue(species) {
+    setSpeciesForArea(species)
     setStep(3)
   }
 
+  function handlePortraitTypeSelected(type) {
+    setPortraitType(type)
+    setStep(4)
+  }
+
   function handleBack() {
-    if (step === 3) setStep(2)
-    if (step === 2) {
+    if (step === 4) setStep(3)
+    else if (step === 3) setStep(2)
+    else if (step === 2) {
       setStep(1)
       setSelectedAddress(null)
-      setSelectedSpecies([])
+      setSpeciesForArea([])
+      setPortraitType(null)
     }
+  }
+
+  function handleRestart() {
+    setStep(1)
+    setSelectedAddress(null)
+    setSpeciesForArea([])
+    setPortraitType(null)
   }
 
   return (
@@ -37,22 +54,34 @@ export default function App() {
       <DevBanner />
       <AppHeader />
       <main className="main-content">
-        <StepIndicator currentStep={step} />
+        <StepIndicator currentStep={step} portraitType={portraitType} />
+
         {step === 1 && (
           <AddressSearch onAddressSelected={handleAddressSelected} />
         )}
-        {step === 2 && (
-          <SpeciesSection
+
+        {step === 2 && selectedAddress && (
+          <NaturportrettSection
             address={selectedAddress}
-            onConfirm={handleSpeciesConfirmed}
+            onContinue={handleNaturportrettContinue}
             onBack={handleBack}
           />
         )}
+
         {step === 3 && (
-          <RecommendationsSection
-            address={selectedAddress}
-            selectedSpecies={selectedSpecies}
+          <PortraitTypeSelector
+            onSelect={handlePortraitTypeSelected}
             onBack={handleBack}
+          />
+        )}
+
+        {step === 4 && portraitType && (
+          <DetailPortraitSection
+            portraitType={portraitType}
+            address={selectedAddress}
+            species={speciesForArea}
+            onBack={handleBack}
+            onRestart={handleRestart}
           />
         )}
       </main>

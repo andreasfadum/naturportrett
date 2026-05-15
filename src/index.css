@@ -551,6 +551,13 @@ img {
   padding: var(--space-3);
 }
 
+.species-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: var(--space-2);
+}
+
 .species-card__category {
   display: inline-block;
   padding: 2px var(--space-2);
@@ -559,7 +566,16 @@ img {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: var(--space-2);
+}
+
+.species-card__conservation-badge {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: 100px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .species-card__category--fugl { background: var(--oslo-lysbla); color: var(--oslo-morkebla); }
@@ -914,5 +930,511 @@ img {
 
   .step-indicator__label {
     display: none;
+  }
+}
+
+/* ============================================================
+   PORTRAIT DOCUMENTS — matched against Oslo kommune templates
+   ============================================================ */
+
+.portrait-page-title {
+  font-family: var(--font);
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+  margin-bottom: var(--space-3);
+}
+
+.portrait-screen {
+  margin-bottom: var(--space-6);
+}
+
+.portrait-loading {
+  padding: var(--space-6) 0;
+}
+
+.portrait-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+}
+
+.skeleton-line {
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* === Portrait document — matches the docx maler === */
+.portrait-doc {
+  background: white;
+  color: var(--oslo-svart);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  line-height: 1.45;
+  padding: var(--space-6);
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.portrait-doc__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+}
+
+.portrait-doc__title {
+  font-size: 2.4rem;
+  font-weight: 300;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.portrait-doc__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.portrait-doc__date {
+  font-size: 0.85rem;
+  color: var(--oslo-svart);
+}
+
+.portrait-doc__logo {
+  width: 70px;
+  height: auto;
+}
+
+/* Hero section — name boxes + status + photo */
+.portrait-doc__hero {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  align-items: flex-start;
+}
+
+.portrait-doc__hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.portrait-doc__name-box {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-3) var(--space-4);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.portrait-doc__sciname-box {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-3) var(--space-4);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.portrait-doc__hero-middle {
+  display: flex;
+  flex-direction: column;
+}
+
+.portrait-doc__status-box {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-3) var(--space-4);
+  min-width: 130px;
+}
+
+.portrait-doc__status-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.portrait-doc__status-code {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: var(--space-2);
+}
+
+.portrait-doc__status-code.is-lc { color: #1a8a3f; }
+.portrait-doc__status-code.is-nt { color: #c2a23b; }
+.portrait-doc__status-code.is-vu { color: #e08e1a; }
+.portrait-doc__status-code.is-cr { color: #b62a2a; }
+.portrait-doc__status-code.is-se { color: #000; background: #ff5f5f; padding: 2px 8px; display: inline-block; border-radius: 3px; }
+
+.portrait-doc__status-text {
+  font-size: 0.82rem;
+  margin-top: 4px;
+}
+
+.portrait-doc__hero-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.portrait-doc__hero-photo {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Sections */
+.portrait-doc__section {
+  margin-bottom: var(--space-5);
+}
+
+.portrait-doc__h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-2) var(--space-3);
+  display: inline-block;
+  margin: 0 0 var(--space-3) 0;
+}
+
+.portrait-doc__h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-2) var(--space-3);
+  display: inline-block;
+  margin: var(--space-4) 0 var(--space-2) 0;
+}
+
+.portrait-doc__textblock {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--oslo-svart);
+  background: white;
+}
+
+ul.portrait-doc__textblock {
+  padding-left: var(--space-6);
+}
+
+.portrait-doc__factbox-inline {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.portrait-doc__factbox {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-3) var(--space-4);
+}
+
+.portrait-doc__factbox-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.portrait-doc__factbox-value {
+  font-size: 0.95rem;
+}
+
+.portrait-doc__fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-3);
+}
+
+/* Multi-column layouts */
+.portrait-doc__two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.portrait-doc__three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+/* Tables */
+.portrait-doc__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-3);
+}
+
+.portrait-doc__table th,
+.portrait-doc__table td {
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+
+.portrait-doc__table th {
+  font-weight: 700;
+  background: white;
+  width: 35%;
+}
+
+.portrait-doc__table--small th,
+.portrait-doc__table--small td {
+  padding: 4px var(--space-2);
+  font-size: 0.85rem;
+}
+
+.portrait-doc__table thead th {
+  background: white;
+  font-weight: 700;
+  width: auto;
+}
+
+/* Year cycle / blomstringstid */
+.portrait-doc__year-cycle th {
+  width: auto;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: var(--space-2);
+}
+
+.portrait-doc__year-cycle tbody th {
+  text-align: left;
+}
+
+.portrait-doc__year-cycle td {
+  width: 50px;
+  height: 28px;
+  padding: 0;
+  text-align: center;
+}
+
+.year-cycle__active {
+  background: #ffd9b0;
+}
+
+/* Attribute checklist */
+.portrait-doc__attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2) var(--space-4);
+}
+
+.portrait-doc__attribute-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.portrait-doc__attribute-label {
+  flex: 1;
+  border: 1px solid var(--oslo-svart);
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+}
+
+.portrait-doc__attribute-mark {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: 1px solid var(--oslo-svart);
+}
+
+.portrait-doc__attribute-mark.is-yes {
+  background: #ff8a3d;
+  color: white;
+}
+
+.portrait-doc__attribute-mark.is-no {
+  background: #cccccc;
+  color: #555;
+}
+
+/* Map placeholder */
+.portrait-doc__map-placeholder {
+  border: 1px dashed #999;
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: #888;
+  background: #fafafa;
+}
+
+.portrait-doc__metadata {
+  margin-top: var(--space-6);
+}
+
+.portrait-doc__subsection {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* === Portrait type selector === */
+.portrait-type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.portrait-type-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: var(--space-5);
+  background: white;
+  border: 2px solid var(--oslo-morkebla);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+}
+
+.portrait-type-card:hover {
+  background: var(--oslo-lysgron);
+  transform: translateY(-2px);
+}
+
+.portrait-type-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.portrait-type-card__title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+  margin-bottom: var(--space-2);
+}
+
+.portrait-type-card__desc {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.45;
+}
+
+/* Naturtype-grid (for naturtypeportrett subject picker) */
+.naturtype-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3);
+}
+
+.naturtype-card {
+  text-align: left;
+  padding: var(--space-4);
+  background: white;
+  border: 1px solid var(--oslo-morkebla);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.naturtype-card:hover {
+  background: var(--oslo-lysgron);
+}
+
+.naturtype-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+  margin-bottom: var(--space-2);
+}
+
+.naturtype-card__nin {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ============================================================
+   PRINT STYLING — for PDF generation via window.print()
+   ============================================================ */
+
+@media print {
+  .no-print,
+  .dev-banner,
+  .app-header,
+  .app-footer,
+  .step-indicator {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  .app-container {
+    background: white;
+    box-shadow: none;
+  }
+
+  .main-content {
+    padding: 0;
+    margin: 0;
+    max-width: none;
+  }
+
+  .portrait-doc {
+    padding: 0;
+    max-width: none;
+    page-break-inside: avoid;
+  }
+
+  .portrait-doc__section,
+  .portrait-doc__two-col,
+  .portrait-doc__three-col {
+    page-break-inside: avoid;
+  }
+
+  .portrait-doc__metadata {
+    page-break-before: auto;
+  }
+
+  /* Force black text on white for crisp print */
+  .portrait-doc * {
+    color: var(--oslo-svart) !important;
+  }
+
+  .portrait-doc__status-code.is-lc { color: #1a8a3f !important; }
+  .portrait-doc__status-code.is-nt { color: #c2a23b !important; }
+  .portrait-doc__status-code.is-vu { color: #e08e1a !important; }
+  .portrait-doc__status-code.is-cr { color: #b62a2a !important; }
+  .portrait-doc__status-code.is-se { color: #000 !important; }
+
+  .portrait-doc__attribute-mark.is-yes {
+    background: #ff8a3d !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .year-cycle__active {
+    background: #ffd9b0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+@media (max-width: 768px) {
+  .portrait-doc__hero,
+  .portrait-doc__two-col,
+  .portrait-doc__three-col {
+    grid-template-columns: 1fr;
+  }
+
+  .portrait-doc__attributes {
+    grid-template-columns: 1fr;
   }
 }

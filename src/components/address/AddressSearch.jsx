@@ -57,7 +57,7 @@ export default function AddressSearch({ onAddressSelected }) {
           marginBottom: 'var(--space-3)',
           color: 'var(--oslo-morkegron)',
         }}>
-          Om tjenesten / Om naturportretter
+          Om tjenesten
         </h2>
         <p style={{ marginTop: 0 }}>Tjenesten er utviklet av Oslo kommune.</p>
         <p>
@@ -71,10 +71,10 @@ export default function AddressSearch({ onAddressSelected }) {
           <li>Kartverket (norske adresser)</li>
           <li>iNaturalist (artsobservasjoner, foto og norske navn)</li>
           <li>GBIF — Global Biodiversity Information Facility (artsdata, foto)</li>
+          <li>Artsdatabanken (Rødlista 2021, Fremmedartslista 2023)</li>
           <li>Naturmangfoldloven (nml)</li>
           <li>Plan- og bygningsloven (pbl)</li>
           <li>Oslo kommunes Naturmangfoldstrategi 2030</li>
-          <li>Anthropic Claude (KI-modell som sammenstiller informasjonen)</li>
         </ul>
         <p>
           Sammenstillingene er basert på fastsatte instrukser og bruk av kunstig

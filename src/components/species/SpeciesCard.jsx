@@ -42,13 +42,38 @@ export default function SpeciesCard({ species, isSelected, onToggle }) {
 
       {/* Innhold */}
       <div className="species-card__body">
-        <span className={`species-card__category species-card__category--${categoryCss}`}>
-          {species.category}
-        </span>
+        <div className="species-card__badges">
+          <span className={`species-card__category species-card__category--${categoryCss}`}>
+            {species.category}
+          </span>
+          {species.conservationStatus && (
+            <ConservationBadge status={species.conservationStatus} />
+          )}
+        </div>
         <div className="species-card__name">{species.norwegianName}</div>
         <div className="species-card__scientific">{species.scientificNameDisplay}</div>
       </div>
     </div>
+  )
+}
+
+function ConservationBadge({ status }) {
+  const isRedlist = status.type === 'redlist'
+  const bgColor = isRedlist
+    ? (['CR', 'EN'].includes(status.category) ? 'var(--oslo-rod)' : 'var(--oslo-gul)')
+    : (['SE', 'HI'].includes(status.category) ? 'var(--oslo-svart)' : 'var(--oslo-morkbeige)')
+  const fgColor = isRedlist
+    ? (['CR', 'EN'].includes(status.category) ? '#fff' : 'var(--oslo-svart)')
+    : (['SE', 'HI'].includes(status.category) ? '#fff' : 'var(--oslo-svart)')
+
+  return (
+    <span
+      className="species-card__conservation-badge"
+      style={{ background: bgColor, color: fgColor }}
+      title={`${isRedlist ? 'Rødlistet' : 'Svartelistet (fremmed art)'}: ${status.category} – ${status.label}`}
+    >
+      {isRedlist ? `🔴 ${status.category}` : `⚠ ${status.category}`}
+    </span>
   )
 }
 

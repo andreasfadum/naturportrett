@@ -1,4 +1,5 @@
 import PortrettMetadata from '../detail-portrait/PortrettMetadata.jsx'
+import AreaMap from './AreaMap.jsx'
 
 export default function NaturportrettView({ portrait, address, species }) {
   const p = portrait || {}
@@ -25,14 +26,15 @@ export default function NaturportrettView({ portrait, address, species }) {
         </div>
       </section>
 
-      {/* Oversiktskart placeholder */}
+      {/* Oversiktskart */}
       <section className="portrait-doc__section">
         <h2 className="portrait-doc__h2">Oversiktskart</h2>
-        <div className="portrait-doc__map-placeholder">
-          Kartvisning kommer i neste versjon.
-          <br />
-          <small>Koordinater: {address.representasjonspunkt?.lat?.toFixed(5)}, {address.representasjonspunkt?.lon?.toFixed(5)}</small>
-        </div>
+        <AreaMap
+          lat={address.representasjonspunkt?.lat}
+          lon={address.representasjonspunkt?.lon}
+          radiusM={500}
+          label={p.prosjektnavn || address.adressenavn}
+        />
       </section>
 
       {/* Naturtyper */}

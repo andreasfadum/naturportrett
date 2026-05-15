@@ -83,27 +83,42 @@ claudeRouter.post('/portrait', async (req, res) => {
     const userMessage = promptModule.buildUserPrompt(payload)
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 4000,
+      max_tokens: 8000,
       system: promptModule.SYSTEM_PROMPT,
-      messages: [{ role: 'user', content: userMessage }],
+      messages: [
+        { role: 'user', content: userMessage },
+        // Assistant prefill: tvinger Claude til å starte JSON-svaret direkte
+        { role: 'assistant', content: '{' },
+      ],
     })
 
-    const rawText = response.content?.[0]?.text || ''
-    // Trekk ut JSON: noen ganger pakkes svaret i markdown-codefences
-    const jsonText = extractJson(rawText)
+    // Siden vi prefilte med '{', må vi prefikse svaret med det samme tegnet
+    const rawText = '{' + (response.content?.[0]?.text || '')
+    const stopReason = response.stop_reason
+
+    const jsonText = extractBalancedJson(rawText)
 
     let parsed
     try {
       parsed = JSON.parse(jsonText)
     } catch (parseErr) {
-      console.warn('JSON parse-feil, returnerer rå tekst som fallback:', parseErr.message)
-      return res.status(502).json({
-        error: 'Kunne ikke tolke svaret fra Claude som JSON.',
-        rawText: rawText.slice(0, 2000),
-      })
+      // Forsøk å autofikse vanlige feil og parse på nytt
+      try {
+        parsed = JSON.parse(autoFixJson(jsonText))
+      } catch (parseErr2) {
+        console.warn('JSON parse-feil:', parseErr2.message, '| stop_reason:', stopReason)
+        const truncated = stopReason === 'max_tokens'
+        return res.status(502).json({
+          error: truncated
+            ? 'KI-svaret ble for langt og avkortet før det var ferdig. Prøv igjen — i de fleste tilfeller fungerer det andre forsøk.'
+            : 'Kunne ikke tolke svaret fra Claude som strukturert data. Prøv igjen.',
+          stopReason,
+          rawText: rawText.slice(0, 2000),
+        })
+      }
     }
 
-    return res.json({ portrait: parsed, model: 'claude-sonnet-4-6' })
+    return res.json({ portrait: parsed, model: 'claude-sonnet-4-6', stopReason })
   } catch (err) {
     console.error('Claude portrait-feil:', err.message)
     let userMessage = err.message
@@ -111,19 +126,62 @@ claudeRouter.post('/portrait', async (req, res) => {
       userMessage = 'API-nøkkelen er ugyldig.'
     } else if (err.status === 429) {
       userMessage = 'For mange forespørsler. Vent litt og prøv igjen.'
+    } else if (err.status >= 500) {
+      userMessage = 'Midlertidig feil hos KI-leverandøren. Prøv igjen om litt.'
     }
     return res.status(500).json({ error: userMessage })
   }
 })
 
-function extractJson(text) {
+/**
+ * Ekstraher JSON ved å telle balanserte braces.
+ * Håndterer markdown codefences, foran-/etter-tekst, og avkortet JSON.
+ */
+function extractBalancedJson(text) {
   if (!text) return ''
+
   // Fjern markdown codefences hvis de finnes
   const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/)
-  if (fenceMatch) return fenceMatch[1].trim()
-  // Plukk ut første '{' til siste '}'
+  if (fenceMatch) text = fenceMatch[1]
+
   const start = text.indexOf('{')
-  const end = text.lastIndexOf('}')
-  if (start >= 0 && end > start) return text.slice(start, end + 1)
-  return text.trim()
+  if (start < 0) return text.trim()
+
+  let depth = 0
+  let inString = false
+  let escape = false
+  let end = -1
+
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i]
+    if (escape) { escape = false; continue }
+    if (ch === '\\') { escape = true; continue }
+    if (ch === '"') { inString = !inString; continue }
+    if (inString) continue
+    if (ch === '{') depth++
+    else if (ch === '}') {
+      depth--
+      if (depth === 0) { end = i; break }
+    }
+  }
+
+  if (end > 0) return text.slice(start, end + 1)
+
+  // Hvis vi ikke fant balanse: forsøk å lukke uavsluttede strukturer
+  let salvaged = text.slice(start)
+  if (inString) salvaged += '"'
+  salvaged += '}'.repeat(Math.max(depth, 0))
+  return salvaged
+}
+
+/**
+ * Vanlige fikser for ugyldig JSON som Claude av og til produserer.
+ */
+function autoFixJson(text) {
+  let s = text
+  // Fjern trailing commas: ", }" og ", ]"
+  s = s.replace(/,\s*([}\]])/g, '$1')
+  // Fjern eventuelle linjebrytinger inni strengverdier som ikke er escaped
+  // (forsiktig: bare innenfor "..." par)
+  return s
 }

@@ -1273,6 +1273,62 @@ ul.portrait-doc__textblock {
   background: #fafafa;
 }
 
+/* Leaflet map */
+.area-map-wrap {
+  border: 1px solid var(--oslo-svart);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.area-map {
+  width: 100%;
+  height: 380px;
+}
+
+.area-map__legend {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-3);
+  background: #f8f8f8;
+  font-size: 0.85rem;
+  border-top: 1px solid #ddd;
+  align-items: center;
+}
+
+.area-map__legend-dot,
+.area-map__legend-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.area-map__legend-dot {
+  background: var(--oslo-morkebla);
+}
+
+.area-map__legend-circle {
+  background: rgba(67, 248, 182, 0.3);
+  border: 2px solid var(--oslo-morkebla);
+}
+
+.area-map__marker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--oslo-morkebla);
+  border: 3px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.area-map__marker-icon {
+  background: transparent !important;
+  border: 0 !important;
+}
+
 .portrait-doc__metadata {
   margin-top: var(--space-6);
 }
@@ -1424,6 +1480,24 @@ ul.portrait-doc__textblock {
     background: #ffd9b0 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+
+  /* Sørg for at kartet rendrer i PDF */
+  .area-map-wrap {
+    page-break-inside: avoid;
+  }
+
+  .area-map {
+    height: 320px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .leaflet-tile-pane,
+  .leaflet-pane,
+  .leaflet-overlay-pane {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 

@@ -37,7 +37,7 @@ export default function SpeciesSection({ address, onConfirm, onBack }) {
     <div>
       <div style={{ marginBottom: 'var(--space-6)' }}>
         <h1 className="species-section__heading" style={{ fontSize: 'var(--font-size-2xl)', color: 'var(--oslo-morkebla)', marginBottom: 'var(--space-2)' }}>
-          Arter i nærområdet
+          Natur og arter i nærområdet
         </h1>
         <InfluenceZoneInfo address={address} />
       </div>
@@ -60,7 +60,7 @@ export default function SpeciesSection({ address, onConfirm, onBack }) {
           <div className="species-section__header">
             <div>
               <p style={{ color: '#555', fontSize: 'var(--font-size-sm)' }}>
-                {species.length} arter funnet · Velg artene du vil ha vurdering for
+                {species.length} arter funnet · Velg naturtypene og artene du vil ha portretter for
               </p>
             </div>
           </div>

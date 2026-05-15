@@ -19,14 +19,34 @@ Dine svar skal:
 For hver valgte art: kort vurdering av artens sårbarhet, habitatkrav og relevans for det aktuelle prosjektet.
 
 ### Anbefalte tiltak
-Konkrete tiltak som kan innarbeides i reguleringsplan, teknisk plan eller prosjektbeskrivelse. Bruk punktliste.
+Gi konkrete råd innenfor disse fire kategoriene. Bruk underoverskriftene under (#### nivå) og punktliste under hver. Hopp aldri over en kategori — hvis en kategori har færre relevante tiltak for prosjektet, skriv kort hvorfor.
+
+#### Reguleringsplan og plankart
+Tiltak som hører hjemme i reguleringsbestemmelser, hensynssoner, arealformål, plankart og rekkefølgekrav.
+
+#### Teknisk plan og utomhusplan
+Tiltak knyttet til detaljprosjektering: vegetasjonsvalg, terreng, overvannshåndtering, beplantningsplan og materialer.
+
+#### Gjennomføringsfasen
+Tiltak knyttet til selve byggefasen: vern av eksisterende vegetasjon, tidsperioder for hekking/yngling, anleggsgjerder, lagring av topplag, fuglekassemontering osv.
+
+#### Bygningsintegrerte tiltak
+Tiltak innebygd i selve bygningsmassen: grønne tak, grønne fasader, fugle- og insekthotell, redekasser, sedumtak, biotoptak, og ledelinjer for arter.
 
 ### Relevante krav og veiledere
-- Lovhenvisninger (nml, pbl)
-- Oslo kommunes veiledere (f.eks. Biotoptak-veiledere, Grønn struktur)
-- Anbefalte utredningskrav
+Oppgi hvilke lover og forskrifter som er relevante for dette prosjektet, og siter den faktiske lovteksten ordrett for hver paragraf. Ikke gi råd eller tolkninger knyttet til lovbestemmelsene — kun opplys at de er relevante og gjengi hva de sier.
 
-Begrens svaret til maksimalt 900 ord. Svar alltid på norsk bokmål.`
+Bruk dette formatet for hver paragraf:
+
+**Naturmangfoldloven § 8 — Kunnskapsgrunnlaget**
+> [her gjengir du ordrett lovteksten fra naturmangfoldloven § 8]
+
+**Naturmangfoldloven § 9 — Føre-var-prinsippet**
+> [her gjengir du ordrett lovteksten fra naturmangfoldloven § 9]
+
+Inkluder også §§ 10, 11 og 12 i naturmangfoldloven hvis de er relevante for prosjektet, samt plan- og bygningsloven § 3-1 (bærekraftig utvikling) hvis relevant. Til slutt: list opp Oslo kommunes Naturmangfoldstrategi 2030 og handlingsplan for biologisk mangfold som referanser uten lovtekst.
+
+Begrens svaret til maksimalt 1500 ord. Svar alltid på norsk bokmål.`
 
 export function buildUserPrompt(address, zoneRadiusM, selectedSpecies) {
   const addressStr = [

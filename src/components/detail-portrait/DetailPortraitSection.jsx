@@ -6,6 +6,7 @@ import ArtsportrettView from './ArtsportrettView.jsx'
 import PlanteportrettView from './PlanteportrettView.jsx'
 import NaturtypeportrettView from './NaturtypeportrettView.jsx'
 import PdfDownloadButton from './PdfDownloadButton.jsx'
+import ProgressBar from '../layout/ProgressBar.jsx'
 
 const TYPE_LABELS = {
   artsportrett: { tittel: 'Artsportrett', filter: ['Fugl', 'Pattedyr', 'Insekt', 'Sopp', 'Annet'], pickLabel: 'Velg en art', emptyMsg: 'Ingen dyrearter i resultatene for denne adressen.' },
@@ -95,14 +96,20 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     return (
       <div className="portrait-loading">
         <h1 className="portrait-page-title">{cfg.tittel}</h1>
-        <p style={{ color: '#666' }}>
-          Genererer {cfg.tittel.toLowerCase()} for <strong>{pickedSubject.norwegianName || pickedSubject.navn}</strong>…
+        <p style={{ color: '#666', marginBottom: 'var(--space-3)' }}>
+          Lager {cfg.tittel.toLowerCase()} for <strong>{pickedSubject.norwegianName || pickedSubject.navn}</strong>
         </p>
-        <div className="portrait-skeleton">
-          <div className="skeleton-line" />
-          <div className="skeleton-line" style={{ width: '85%' }} />
-          <div className="skeleton-line" style={{ width: '70%' }} />
-        </div>
+        <ProgressBar
+          isActive={isLoading}
+          expectedDurationMs={14000}
+          stages={[
+            'Forbereder spørring…',
+            'Henter relevant kunnskap fra KI-modellen…',
+            'Strukturerer portrettdata…',
+            'Validerer og formaterer JSON-svar…',
+            'Sluttfører…',
+          ]}
+        />
       </div>
     )
   }

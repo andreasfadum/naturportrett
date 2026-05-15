@@ -1,13 +1,27 @@
 const STEPS = [
   { num: 1, label: 'Adresse' },
-  { num: 2, label: 'Arter' },
-  { num: 3, label: 'Vurdering' },
+  { num: 2, label: 'Naturportrett' },
+  { num: 3, label: 'Portrettype' },
+  { num: 4, label: 'Detaljportrett' },
 ]
 
-export default function StepIndicator({ currentStep }) {
+const PORTRAIT_LABELS = {
+  artsportrett: 'Artsportrett',
+  planteportrett: 'Planteportrett',
+  naturtypeportrett: 'Naturtypeportrett',
+}
+
+export default function StepIndicator({ currentStep, portraitType }) {
+  const steps = STEPS.map(s => {
+    if (s.num === 4 && portraitType && PORTRAIT_LABELS[portraitType]) {
+      return { ...s, label: PORTRAIT_LABELS[portraitType] }
+    }
+    return s
+  })
+
   return (
-    <nav className="step-indicator" aria-label="Fremdrift">
-      {STEPS.map((step, i) => {
+    <nav className="step-indicator no-print" aria-label="Fremdrift">
+      {steps.map((step, i) => {
         const isDone = step.num < currentStep
         const isActive = step.num === currentStep
         return (
@@ -24,7 +38,7 @@ export default function StepIndicator({ currentStep }) {
               </span>
               <span className="step-indicator__label">{step.label}</span>
             </span>
-            {i < STEPS.length - 1 && (
+            {i < steps.length - 1 && (
               <span className="step-indicator__arrow">›</span>
             )}
           </span>

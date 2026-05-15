@@ -1,5 +1,3 @@
-import { VERSION_DATE } from '../../version.js'
-
 export default function DevBanner() {
   return (
     <div style={{
@@ -11,7 +9,7 @@ export default function DevBanner() {
       fontFamily: 'var(--font)',
       letterSpacing: '0.02em',
     }}>
-      Testversjon under utvikling — sist oppdatert {VERSION_DATE}
+      Testversjon under utvikling — sist oppdatert {__BUILD_DATE__}
     </div>
   )
 }

@@ -85,15 +85,10 @@ claudeRouter.post('/portrait', async (req, res) => {
       model: 'claude-sonnet-4-6',
       max_tokens: 8000,
       system: promptModule.SYSTEM_PROMPT,
-      messages: [
-        { role: 'user', content: userMessage },
-        // Assistant prefill: tvinger Claude til å starte JSON-svaret direkte
-        { role: 'assistant', content: '{' },
-      ],
+      messages: [{ role: 'user', content: userMessage }],
     })
 
-    // Siden vi prefilte med '{', må vi prefikse svaret med det samme tegnet
-    const rawText = '{' + (response.content?.[0]?.text || '')
+    const rawText = response.content?.[0]?.text || ''
     const stopReason = response.stop_reason
 
     const jsonText = extractBalancedJson(rawText)

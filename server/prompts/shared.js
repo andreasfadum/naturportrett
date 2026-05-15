@@ -8,7 +8,14 @@ export const REFERENCES = `Faglig grunnlag:
 - Artsdatabankens Rødliste 2021 og Fremmedartsliste 2023
 - Naturtyper i Norge (NiN-systemet)`
 
-export const JSON_OUTPUT_RULES = `KRITISK: Du skal returnere KUN gyldig JSON, ingen forklaringer eller markdown utenfor JSON-objektet. Start svaret direkte med '{' og avslutt med '}'. Alle strengverdier skal være på norsk bokmål.`
+export const JSON_OUTPUT_RULES = `OUTPUT-REGLER (KRITISK):
+- Du skal returnere KUN ett enkelt JSON-objekt og ingenting annet.
+- IKKE bruk markdown-codefences (\`\`\`json eller \`\`\`).
+- IKKE skriv noen tekst, forklaring eller hilsen før eller etter JSON-objektet.
+- Første tegn i svaret SKAL være '{' og siste tegn SKAL være '}'.
+- IKKE bruk trailing commas (f.eks. ", }" eller ", ]") — dette er ugyldig JSON.
+- Alle strengverdier skal være på norsk bokmål.
+- Hvis et felt mangler informasjon, bruk en tom streng "" eller en tom liste [] — ikke null.`
 
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',

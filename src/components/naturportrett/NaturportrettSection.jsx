@@ -44,13 +44,13 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
             <h1 className="portrait-page-title">Naturportrett</h1>
             <ProgressBar
               isActive={isLoading}
-              expectedDurationMs={18000}
+              expectedDurationMs={24000}
               stages={[
-                'Søker etter arter innenfor 500 m (iNaturalist + GBIF)…',
-                'Aggregerer artsdata og rødliste/svartelistestatus…',
-                'Bygger kontekst for naturportrett…',
-                'Genererer naturportrett (KI sammenstiller informasjon)…',
-                'Sluttfører…',
+                'Finner planter og dyr i nærområdet…',
+                'Ser etter sårbare og fremmede arter…',
+                'Samler informasjon om området…',
+                'Skriver naturportrettet…',
+                'Gjør portrettet klart for visning…',
               ]}
             />
           </div>

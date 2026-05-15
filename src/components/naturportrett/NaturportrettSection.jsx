@@ -4,6 +4,7 @@ import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import InfluenceZoneInfo from '../address/InfluenceZoneInfo.jsx'
 import NaturportrettView from './NaturportrettView.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
+import ProgressBar from '../layout/ProgressBar.jsx'
 
 export default function NaturportrettSection({ address, onContinue, onBack }) {
   const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address)
@@ -41,16 +42,17 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
         {isLoading && (
           <div className="portrait-loading">
             <h1 className="portrait-page-title">Naturportrett</h1>
-            <p style={{ color: '#666' }}>
-              {speciesLoading
-                ? `Henter artsdata innenfor 500 m fra adressen…`
-                : `Genererer naturportrett basert på ${species.length} observerte arter…`}
-            </p>
-            <div className="portrait-skeleton">
-              <div className="skeleton-line" />
-              <div className="skeleton-line" style={{ width: '85%' }} />
-              <div className="skeleton-line" style={{ width: '70%' }} />
-            </div>
+            <ProgressBar
+              isActive={isLoading}
+              expectedDurationMs={18000}
+              stages={[
+                'Søker etter arter innenfor 500 m (iNaturalist + GBIF)…',
+                'Aggregerer artsdata og rødliste/svartelistestatus…',
+                'Bygger kontekst for naturportrett…',
+                'Genererer naturportrett (KI sammenstiller informasjon)…',
+                'Sluttfører…',
+              ]}
+            />
           </div>
         )}
 

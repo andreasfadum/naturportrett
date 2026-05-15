@@ -101,13 +101,13 @@ export default function DetailPortraitSection({ portraitType, address, species, 
         </p>
         <ProgressBar
           isActive={isLoading}
-          expectedDurationMs={14000}
+          expectedDurationMs={20000}
           stages={[
-            'Forbereder spørring…',
-            'Henter relevant kunnskap fra KI-modellen…',
-            'Strukturerer portrettdata…',
-            'Validerer og formaterer JSON-svar…',
-            'Sluttfører…',
+            'Henter informasjon…',
+            'Beskriver egenskaper og levevis…',
+            'Skriver portrettet…',
+            'Setter sammen sluttresultatet…',
+            'Gjør portrettet klart for visning…',
           ]}
         />
       </div>

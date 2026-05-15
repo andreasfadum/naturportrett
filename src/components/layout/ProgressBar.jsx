@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * ProgressBar med animert framdrift og stage-tekster.
- * Siden Claude-API-en ikke streamer JSON, viser vi en estimert framdrift
- * basert på forventet varighet. Når operasjonen er ferdig hopper baren til 100 %.
+ * ProgressBar med jevn framdrift fra 0 til 100 og stage-tekster.
+ *
+ * - 0–95 % linært over forventet varighet (jevn framdrift)
+ * - 95–99 % asymptotisk hvis det tar lenger enn forventet (fortsetter sakte)
+ * - 100 % når operasjonen faktisk er ferdig
  */
 export default function ProgressBar({
   isActive,
   stages = ['Behandler…'],
-  expectedDurationMs = 12000,
+  expectedDurationMs = 18000,
 }) {
   const [progress, setProgress] = useState(0)
   const [stageIdx, setStageIdx] = useState(0)
@@ -23,26 +25,33 @@ export default function ProgressBar({
       const startTime = Date.now()
       const interval = setInterval(() => {
         const elapsed = Date.now() - startTime
-        const ratio = Math.min(1, elapsed / expectedDurationMs)
-        // Asymptotisk kurve som flater ut mot 92 % — så det ikke "henger på 99 %"
-        const eased = 92 * (1 - Math.exp(-2.5 * ratio))
-        setProgress(eased)
+        const ratio = elapsed / expectedDurationMs
 
-        const newStage = Math.min(stages.length - 1, Math.floor(ratio * stages.length))
+        let p
+        if (ratio < 1) {
+          // Linær 0–95 % over forventet varighet
+          p = 95 * ratio
+        } else {
+          // Etter forventet varighet: kryp asymptotisk mot 99 %
+          const overrun = ratio - 1
+          p = 95 + 4 * (1 - Math.exp(-1.5 * overrun))
+        }
+        setProgress(p)
+
+        const stageRatio = Math.min(ratio, 1)
+        const newStage = Math.min(stages.length - 1, Math.floor(stageRatio * stages.length))
         setStageIdx(newStage)
-
-        if (ratio >= 1) clearInterval(interval)
-      }, 80)
+      }, 60)
 
       return () => clearInterval(interval)
     } else if (wasActive.current) {
-      // Hopp til 100 % ved fullføring, deretter fade ut
+      // Hopp til 100 % ved fullføring, fade ut etterpå
       setProgress(100)
       setStageIdx(stages.length - 1)
       const t = setTimeout(() => {
         setProgress(0)
         wasActive.current = false
-      }, 600)
+      }, 500)
       return () => clearTimeout(t)
     }
   }, [isActive, stages.length, expectedDurationMs])

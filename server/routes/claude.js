@@ -81,7 +81,7 @@ claudeRouter.post('/portrait', async (req, res) => {
 
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
-    const response = await client.messages.create({
+    const response = await createWithRetry(client, {
       model: 'claude-sonnet-4-6',
       max_tokens: 8000,
       system: promptModule.SYSTEM_PROMPT,
@@ -127,6 +127,32 @@ claudeRouter.post('/portrait', async (req, res) => {
     return res.status(500).json({ error: userMessage })
   }
 })
+
+/**
+ * Kaller Anthropic med automatisk gjenforsøk på forbigående feil (5xx + 429).
+ * Anthropic kan returnere 529 "overloaded" eller 503 under høy last — disse
+ * er forbigående og lykkes nesten alltid ved nytt forsøk. Andre feil (401,
+ * 400 osv.) kastes umiddelbart.
+ */
+async function createWithRetry(client, params, maxRetries = 2) {
+  let lastErr
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await client.messages.create(params)
+    } catch (err) {
+      lastErr = err
+      const transient = err.status >= 500 || err.status === 429
+      if (transient && attempt < maxRetries) {
+        const waitMs = 1500 * (attempt + 1)
+        console.warn(`Forbigående KI-feil (status ${err.status}) — gjenforsøk ${attempt + 1}/${maxRetries} om ${waitMs} ms`)
+        await new Promise(r => setTimeout(r, waitMs))
+        continue
+      }
+      throw err
+    }
+  }
+  throw lastErr
+}
 
 /**
  * Ekstraher JSON ved å telle balanserte braces.

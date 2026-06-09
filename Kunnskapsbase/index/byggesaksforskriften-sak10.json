@@ -1,0 +1,443 @@
+{
+  "lovId": "byggesaksforskriften-sak10",
+  "kortKode": "sak10",
+  "tittel": "Forskrift om byggesak (byggesaksforskriften – SAK10)",
+  "datoKode": "FOR-2010-03-26-488",
+  "sistEndret": "FOR-2025-11-03-2172 fra 01.01.2026",
+  "lovdataBaseUrl": "https://lovdata.no/forskrift/2010-03-26-488",
+  "kapitler": [
+    {
+      "nummer": "Første",
+      "tittel": "del. Generelle bestemmelser",
+      "paragrafRange": "§§ 1-1–1-5"
+    },
+    {
+      "nummer": "Andre",
+      "tittel": "del. Søknadsplikt, innhold i og behandling av søknader",
+      "paragrafRange": "§§ 2-1–8-2"
+    },
+    {
+      "nummer": "Tredje",
+      "tittel": "del. Kvalifikasjoner og ansvar",
+      "paragrafRange": "§§ 9-1–13-10"
+    },
+    {
+      "nummer": "Fjerde",
+      "tittel": "del. Kontroll, tilsyn og overtredelsesgebyr",
+      "paragrafRange": "§§ 14-1–16-4"
+    },
+    {
+      "nummer": "Femte",
+      "tittel": "del. Diverse bestemmelser",
+      "paragrafRange": "§§ 17-1–20-4"
+    }
+  ],
+  "paragrafer": [
+    {
+      "id": "sak10-1-1",
+      "nummer": "1-1",
+      "displayNavn": "§ 1-1",
+      "tema": "formål",
+      "sitat": "sikre godt forberedte søknader, hensiktsmessig oppgave-/\nansvarsfordeling, effektiv og forsvarlig saksbehandling, kvalifiserte foretak,\nuavhengig kontroll, effektivt tilsyn, og forsvarlig/ensartet reaksjon mot brudd.",
+      "kapittel": "Første del. Generelle bestemmelser",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A71-1"
+    },
+    {
+      "id": "sak10-1-2",
+      "nummer": "1-2",
+      "displayNavn": "§ 1-2",
+      "tema": "definisjoner",
+      "sitat": "bl.a. *funksjon* (ansvarlig søker/prosjekterende/\nutførende/kontrollerende), *tiltaksklasse* (1–3 etter kompleksitet/konsekvens),\n*godkjenningsområde*, *ansvarsområde*, *gjennomføringsplan*, *samsvarserklæring*,\n*kontrollerklæring*, *avvik*.",
+      "kapittel": "Første del. Generelle bestemmelser",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A71-2"
+    },
+    {
+      "id": "sak10-1-3",
+      "nummer": "1-3",
+      "displayNavn": "§ 1-3",
+      "tema": "opplysningsplikt",
+      "sitat": "opplysningsplikt",
+      "kapittel": "Første del. Generelle bestemmelser",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A71-3"
+    },
+    {
+      "id": "sak10-1-4",
+      "nummer": "1-4",
+      "displayNavn": "§ 1-4",
+      "tema": "utvalgte naturtyper",
+      "sitat": "utvalgte naturtyper",
+      "kapittel": "Første del. Generelle bestemmelser",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A71-4"
+    },
+    {
+      "id": "sak10-1-5",
+      "nummer": "1-5",
+      "displayNavn": "§ 1-5",
+      "tema": "fartøy",
+      "sitat": "(byggesaksbestemmelsene gjelder husbåter og fartøy tatt ut av drift til beboelse/\nnæring).",
+      "kapittel": "Første del. Generelle bestemmelser",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A71-5"
+    },
+    {
+      "id": "sak10-2-1",
+      "nummer": "2-1",
+      "displayNavn": "§ 2-1",
+      "tema": "bruksendring",
+      "sitat": "varig/tidsbestemt bruksendring er søknadspliktig (annen\nbruk enn tillatt; kan påvirke hensyn i pbl; tilleggsdel↔hoveddel).",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A72-1"
+    },
+    {
+      "id": "sak10-2-2",
+      "nummer": "2-2",
+      "displayNavn": "§ 2-2",
+      "tema": "oppdeling av boenhet",
+      "sitat": "søknadsplikt når enheter har alle hovedfunksjoner,\negen inngang og er fysisk atskilt.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A72-2"
+    },
+    {
+      "id": "sak10-3-1",
+      "nummer": "3-1",
+      "displayNavn": "§ 3-1",
+      "tema": "mindre tiltak på bebygd eiendom",
+      "sitat": "(pbl § 20-4 a): bl.a. enkelt tilbygg\n≤ 50 m² BRA/BYA; frittliggende bygning (ikke beboelse) ≤ 70 m²; skilt; frittliggende\nboligbygning inntil 30 m² BRA i én etasje, maks 4,5 m.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A73-1"
+    },
+    {
+      "id": "sak10-3-2",
+      "nummer": "3-2",
+      "displayNavn": "§ 3-2",
+      "tema": "driftsbygninger i landbruket",
+      "sitat": "inntil 1000 m² BRA.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A73-2"
+    },
+    {
+      "id": "sak10-4-1",
+      "nummer": "4-1",
+      "displayNavn": "§ 4-1",
+      "tema": "tiltak unntatt søknad/tillatelse",
+      "sitat": "(forutsatt samsvar med plan/lov):\nbl.a. frittliggende bygning ≤ 50 m² (møne 4,0 m / gesims 3,0 m, ≥ 1,0 m fra\nnabogrense), tilbygg ≤ 15 m², terrasser, mindre innvendige/utvendige tiltak\n(levegg, innhegning, mindre forstøtningsmur, mindre fylling/planering, kabelgrøft\nm.m.). Tiltakshaver har ansvar for samsvar; må ikke i strid med veglov/jernbanelov;\nmelde til kommunen innen 4 uker for a/b/c.\n**§ 4-2:** plassering av visse bygg/anlegg uten søknad (anleggstomt, campingvogn).",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A74-1"
+    },
+    {
+      "id": "sak10-4-3",
+      "nummer": "4-3",
+      "displayNavn": "§ 4-3",
+      "tema": "unntak for tiltak behandlet etter andre lover",
+      "sitat": "offentlige veganlegg\n(detaljavklart i reguleringsplan), vannkraft-/energi-/havenergikonsesjon,\n**landbruksveier** (skogbrukslova/jordlova), flytende akvakulturanlegg,\nsteinbrudd/gruver (minerallov), jernbaneanlegg m.m. – unntas helt/delvis fra pbl\nkap. 20–25 mv. (Sentral grenseflate pbl ↔ sektorlover.)\n**§ 4-4:** nødvendige sikringstiltak etter akutte hendelser (brann/naturskade)\nuten søknad.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A74-3"
+    },
+    {
+      "id": "sak10-5-1",
+      "nummer": "5-1",
+      "displayNavn": "§ 5-1",
+      "tema": "til 5-5",
+      "sitat": "generelle krav til søknad/erklæring/dokumentasjon;",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A75-1"
+    },
+    {
+      "id": "sak10-5-2",
+      "nummer": "5-2",
+      "displayNavn": "§ 5-2",
+      "tema": "nabovarsel",
+      "sitat": "nabovarsel",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A75-2"
+    },
+    {
+      "id": "sak10-5-3",
+      "nummer": "5-3",
+      "displayNavn": "§ 5-3",
+      "tema": "gjennomføringsplan",
+      "sitat": "gjennomføringsplan",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A75-3"
+    },
+    {
+      "id": "sak10-5-4",
+      "nummer": "5-4",
+      "displayNavn": "§ 5-4",
+      "tema": "",
+      "sitat": "opplysninger ved\nsøknad (bl.a. forhold til plangrunnlaget og **pbl § 1-8**, grad av utnytting,\nsikkerhet mot fare, dispensasjonsbehov, nabovarsling);",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A75-4"
+    },
+    {
+      "id": "sak10-5-5",
+      "nummer": "5-5",
+      "displayNavn": "§ 5-5",
+      "tema": "",
+      "sitat": "dokumentasjon i\ntiltaket.\n\n**Kapittel 6 – kommunens saksbehandling:**",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A75-5"
+    },
+    {
+      "id": "sak10-6-1",
+      "nummer": "6-1",
+      "displayNavn": "§ 6-1",
+      "tema": "forhåndskonferanse",
+      "sitat": "(avklare\nforutsetninger/rammer);",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-1"
+    },
+    {
+      "id": "sak10-6-2",
+      "nummer": "6-2",
+      "displayNavn": "§ 6-2",
+      "tema": "samordningsplikt",
+      "sitat": "(helse, brann, veg, kulturminne\nm.fl.);",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-2"
+    },
+    {
+      "id": "sak10-6-3",
+      "nummer": "6-3",
+      "displayNavn": "§ 6-3",
+      "tema": "plassering",
+      "sitat": "plassering",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-3"
+    },
+    {
+      "id": "sak10-6-4",
+      "nummer": "6-4",
+      "displayNavn": "§ 6-4",
+      "tema": "rammetillatelse",
+      "sitat": "rammetillatelse",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-4"
+    },
+    {
+      "id": "sak10-6-8",
+      "nummer": "6-8",
+      "displayNavn": "§ 6-8",
+      "tema": "selvbygger",
+      "sitat": "selvbygger",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-8"
+    },
+    {
+      "id": "sak10-6-9",
+      "nummer": "6-9",
+      "displayNavn": "§ 6-9",
+      "tema": "frata ansvarsrett",
+      "sitat": "**Kapittel 7 – tidsfrister** (i tillegg til pbl § 21-7):",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A76-9"
+    },
+    {
+      "id": "sak10-7-1",
+      "nummer": "7-1",
+      "displayNavn": "§ 7-1",
+      "tema": "",
+      "sitat": "bl.a.\nforhåndskonferanse innen 2 uker, midlertidig brukstillatelse 3 uker, klage\nforberedes/oversendes innen 8 uker, klage avgjøres innen 12 uker (6 uker ved\nutsatt iverksetting).",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A77-1"
+    },
+    {
+      "id": "sak10-7-4",
+      "nummer": "7-4",
+      "displayNavn": "§ 7-4",
+      "tema": "kun § 19-2",
+      "sitat": "avgjøres innen **12\nuker** (fristen løper ikke mens søknaden er til uttalelse hos statlige/regionale\nmyndigheter, jf. pbl § 19-1). **§ 7-5:** statlige/regionale myndigheter må uttale\nseg innen **4 uker**.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A77-4"
+    },
+    {
+      "id": "sak10-7-6",
+      "nummer": "7-6",
+      "displayNavn": "§ 7-6",
+      "tema": "gebyrbortfall",
+      "sitat": "ved fristoverskridelse (25 % pr.\npåbegynt uke).\n\n**Kapittel 8 – ferdigstillelse:**",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A77-6"
+    },
+    {
+      "id": "sak10-8-1",
+      "nummer": "8-1",
+      "displayNavn": "§ 8-1",
+      "tema": "ferdigattest",
+      "sitat": "(vilkår pbl § 21-10;\nmidlertidig brukstillatelse);",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A78-1"
+    },
+    {
+      "id": "sak10-8-2",
+      "nummer": "8-2",
+      "displayNavn": "§ 8-2",
+      "tema": "",
+      "sitat": "overlevering av FDV-dokumentasjon.",
+      "kapittel": "Andre del. Søknadsplikt, innhold og behandling",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A78-2"
+    },
+    {
+      "id": "sak10-11-3",
+      "nummer": "11-3",
+      "displayNavn": "§ 11-3",
+      "tema": "krav til utdanning og praksis",
+      "sitat": "(praksis gjelder etter endt utdanning).\n  Utdanningsnivå viser til § 11-2: a = fag-/svennebrev; b = mesterbrev; c = høyere\n  fagskolegrad (120 sp); d = bachelor/ingeniør (180 sp); e = master (300 sp).\n\n  | Tiltaksklasse | Funksjon | Utdanningsnivå (§ 11-2) | Arbeidserfaring (år) |\n  |---|---|---|---|\n  | 1 | Søker | b eller c | 4 |\n  | 1 | Prosjekterende | b eller c | 4 |\n  | 1 | Utførende | a | 2 |\n  | 1 | Kontrollerende | b eller c | 4 |\n  | 2 | Søker | b eller c | 6 |\n  | 2 | Prosjekterende | c / d | 10 (c) / 6 (d) |\n  | 2 | Utførende | b eller c | 3 |\n  | 2 | Kontrollerende | d | 6 |\n  | 3 | Søker | e | 8 |\n  | 3 | Prosjekterende | e | 8 |\n  | 3 | Utførende | c / d | 8 (c) / 5 (d) |\n  | 3 | Kontrollerende | e | 8 |\n\n  Videreutdanning og fag-/svennebrev (praksiskandidater): relevant praksis før\n  fullført videreutdanning/fagbrev godskrives med ½ år ved søknad om sentral\n  godkjenning.\n- **Kap. 12 ansvar:**",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A711-3"
+    },
+    {
+      "id": "sak10-12-1",
+      "nummer": "12-1",
+      "displayNavn": "§ 12-1",
+      "tema": "tiltakshaver",
+      "sitat": "tiltakshaver",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-1"
+    },
+    {
+      "id": "sak10-12-2",
+      "nummer": "12-2",
+      "displayNavn": "§ 12-2",
+      "tema": "ansvarlig søker",
+      "sitat": "ansvarlig søker",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-2"
+    },
+    {
+      "id": "sak10-12-3",
+      "nummer": "12-3",
+      "displayNavn": "§ 12-3",
+      "tema": "prosjekterende",
+      "sitat": "prosjekterende",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-3"
+    },
+    {
+      "id": "sak10-12-4",
+      "nummer": "12-4",
+      "displayNavn": "§ 12-4",
+      "tema": "utførende",
+      "sitat": "utførende",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-4"
+    },
+    {
+      "id": "sak10-12-5",
+      "nummer": "12-5",
+      "displayNavn": "§ 12-5",
+      "tema": "kontrollerende",
+      "sitat": "kontrollerende",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-5"
+    },
+    {
+      "id": "sak10-12-6",
+      "nummer": "12-6",
+      "displayNavn": "§ 12-6",
+      "tema": "særskilte",
+      "sitat": "(oppbevaring av dokumentasjon i 5 år; ulovlige forhold\n  meldes kommunen).\n- **Kap. 13 sentral godkjenning** (Direktoratet for byggkvalitet; § 13-1a\n  seriøsitetsvilkår; § 13-5 godkjenningsområder; § 13-6 tilbaketrekking; § 13-10\n  klagenemnd).",
+      "kapittel": "Tredje del. Kvalifikasjoner og ansvar (sammenfattet)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A712-6"
+    },
+    {
+      "id": "sak10-14-1",
+      "nummer": "14-1",
+      "displayNavn": "§ 14-1",
+      "tema": "",
+      "sitat": "uavhengighet;",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A714-1"
+    },
+    {
+      "id": "sak10-14-2",
+      "nummer": "14-2",
+      "displayNavn": "§ 14-2",
+      "tema": "",
+      "sitat": "obligatorisk uavhengig\n  kontroll (våtrom/fuktsikring og lufttetthet i nye boliger; tiltaksklasse 2/3:\n  bygningsfysikk, konstruksjonssikkerhet, geoteknikk, brannsikkerhet);",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A714-2"
+    },
+    {
+      "id": "sak10-14-3",
+      "nummer": "14-3",
+      "displayNavn": "§ 14-3",
+      "tema": "",
+      "sitat": "kontroll etter kommunens vurdering;",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A714-3"
+    },
+    {
+      "id": "sak10-14-4",
+      "nummer": "14-4",
+      "displayNavn": "§ 14-4",
+      "tema": "",
+      "sitat": "«(ikke gitt)»; **§ 14-6/§ 14-7**\n  gjennomføring;",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A714-4"
+    },
+    {
+      "id": "sak10-14-8",
+      "nummer": "14-8",
+      "displayNavn": "§ 14-8",
+      "tema": "",
+      "sitat": "sluttkontroll.\n- **Kap. 15 kommunens tilsyn:**",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A714-8"
+    },
+    {
+      "id": "sak10-15-1",
+      "nummer": "15-1",
+      "displayNavn": "§ 15-1",
+      "tema": "",
+      "sitat": "strategi/rapportering (pbl § 25-1);",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A715-1"
+    },
+    {
+      "id": "sak10-15-2",
+      "nummer": "15-2",
+      "displayNavn": "§ 15-2",
+      "tema": "",
+      "sitat": "tilsynsrapporter;",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A715-2"
+    },
+    {
+      "id": "sak10-15-3",
+      "nummer": "15-3",
+      "displayNavn": "§ 15-3",
+      "tema": "Tidsavgrensede krav om tilsyn",
+      "sitat": "> (ikke gitt)\n\n**II.** Endringen trer i kraft 1. januar 2026.",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "endretAv": "FOR-2025-11-03-2172 (i kraft 01.01.2026)",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A715-3"
+    },
+    {
+      "id": "sak10-16-1",
+      "nummer": "16-1",
+      "displayNavn": "§ 16-1",
+      "tema": "",
+      "sitat": "forhold og beløpsgrenser (bl.a.\n  tiltak uten tillatelse, bruk uten tillatelse, prosjektering/utførelse i strid\n  med pbl/TEK/plan/§ 1-8, manglende ansvarlig foretak, manglende uavhengig\n  kontroll, brudd på plan/forbud, uriktige opplysninger); maks **kr 400 000** for\n  ett tiltak;",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A716-1"
+    },
+    {
+      "id": "sak10-16-2",
+      "nummer": "16-2",
+      "displayNavn": "§ 16-2",
+      "tema": "",
+      "sitat": "§ 16-2",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A716-2"
+    },
+    {
+      "id": "sak10-16-3",
+      "nummer": "16-3",
+      "displayNavn": "§ 16-3",
+      "tema": "",
+      "sitat": "varsling til påtalemyndighet.",
+      "kapittel": "Fjerde del. Kontroll, tilsyn og overtredelsesgebyr",
+      "lovdataUrl": "https://lovdata.no/forskrift/2010-03-26-488/%C2%A716-3"
+    }
+  ]
+}

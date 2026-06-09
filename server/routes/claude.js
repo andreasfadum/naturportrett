@@ -5,6 +5,7 @@ import * as naturportrett from '../prompts/naturportrett.js'
 import * as artsportrett from '../prompts/artsportrett.js'
 import * as planteportrett from '../prompts/planteportrett.js'
 import * as naturtypeportrett from '../prompts/naturtypeportrett.js'
+import { enrichRelevanteLover } from '../lover/index.js'
 
 export const claudeRouter = Router()
 
@@ -111,6 +112,10 @@ claudeRouter.post('/portrait', async (req, res) => {
           rawText: rawText.slice(0, 2000),
         })
       }
+    }
+
+    if (Array.isArray(parsed.relevanteLover)) {
+      parsed.relevanteLoverEnriched = enrichRelevanteLover(parsed.relevanteLover)
     }
 
     return res.json({ portrait: parsed, model: 'claude-sonnet-4-6', stopReason })

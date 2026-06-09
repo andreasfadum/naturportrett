@@ -10,7 +10,8 @@
     "build": "vite build",
     "build:prod": "vite build",
     "start": "node server/index.js",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:lover-index": "node scripts/build-lover-index.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

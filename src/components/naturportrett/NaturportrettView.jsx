@@ -1,4 +1,5 @@
 import PortrettMetadata from '../detail-portrait/PortrettMetadata.jsx'
+import LegalReferences from '../legal/LegalReferences.jsx'
 import AreaMap from './AreaMap.jsx'
 
 export default function NaturportrettView({ portrait, address, species }) {
@@ -95,7 +96,9 @@ export default function NaturportrettView({ portrait, address, species }) {
       <TextSection title="Økologiske sammenhenger og barrierer" body={p.okologiskeSammenhenger} />
       <TextSection title="Trusler og fremtidig potensiale" body={p.trusler} />
       <TextSection title="Spesielt viktige områder" body={p.spesieltViktigeOmrader} />
-      <TextSection title="Føringer og juridiske hensyn" body={p.foringerOgJuridiskeHensyn} />
+
+      <LegalReferences items={p.relevanteLoverEnriched} />
+
       <TextSection title="Andre kilder for informasjon om området" body={p.andreKilder} />
 
       <PortrettMetadata referanseprosjekt={p.prosjektnavn || address.adressenavn} />

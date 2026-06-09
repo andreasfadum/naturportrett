@@ -1,0 +1,301 @@
+{
+  "lovId": "forvaltningsloven",
+  "kortKode": "forvaltningsloven",
+  "tittel": "Lov om behandlingsmåten i forvaltningssaker (forvaltningsloven)",
+  "datoKode": "LOV-1967-02-10",
+  "sistEndret": "LOV-2025-04-25-12 fra 01.01.2026",
+  "lovdataBaseUrl": "https://lovdata.no/lov/1967-02-10",
+  "kapitler": [
+    {
+      "nummer": "I.",
+      "tittel": "Lovens område. Definisjoner",
+      "paragrafRange": "§§ 1–5"
+    },
+    {
+      "nummer": "II.",
+      "tittel": "Om ugildhet/habilitet",
+      "paragrafRange": "§§ 6–10"
+    },
+    {
+      "nummer": "III.",
+      "tittel": "Alminnelige regler om saksbehandlingen",
+      "paragrafRange": "§§ 11–15 a"
+    },
+    {
+      "nummer": "IV.",
+      "tittel": "Saksforberedelse ved enkeltvedtak",
+      "paragrafRange": "§§ 16–22"
+    },
+    {
+      "nummer": "V.",
+      "tittel": "Om vedtaket",
+      "paragrafRange": "§§ 23–27 b"
+    },
+    {
+      "nummer": "VI.",
+      "tittel": "Om klage og omgjøring",
+      "paragrafRange": "§§ 28–36"
+    },
+    {
+      "nummer": "VII.",
+      "tittel": "Om forskrifter",
+      "paragrafRange": "§§ 37–40"
+    },
+    {
+      "nummer": "VIII. V",
+      "tittel": "irkningen av feil og utsatt iverksetting",
+      "paragrafRange": "§§ 41–42"
+    },
+    {
+      "nummer": "IX.",
+      "tittel": "Administrative sanksjoner",
+      "paragrafRange": "§§ 43–50"
+    },
+    {
+      "nummer": null,
+      "tittel": "X. Tvangsmulkt (§ 51)",
+      "paragrafRange": null
+    },
+    {
+      "nummer": null,
+      "tittel": "XI. Ikrafttredelse (§ 52)",
+      "paragrafRange": null
+    }
+  ],
+  "paragrafer": [
+    {
+      "id": "forvaltningsloven-1",
+      "nummer": "1",
+      "displayNavn": "§ 1",
+      "tema": "virkeområde",
+      "sitat": "loven gjelder virksomhet som drives av forvaltningsorganer\n(stat/kommune; private når de treffer enkeltvedtak/forskrift).",
+      "kapittel": "Kapittel I–II (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A71"
+    },
+    {
+      "id": "forvaltningsloven-2",
+      "nummer": "2",
+      "displayNavn": "§ 2",
+      "tema": "definisjoner",
+      "sitat": "*vedtak* (bestemmende for rettigheter/plikter under\noffentlig myndighet), *enkeltvedtak* (en/flere bestemte personer), *forskrift*\n(ubestemt krets), *part* (avgjørelsen retter seg mot / saken direkte gjelder).\n\n**§§ 6–10 (habilitet/ugildhet):** når en tjenestemann er inhabil (partsforhold,\nslekt, verv mv.), og «andre særegne forhold … egnet til å svekke tilliten til\nupartiskhet». (Sammenfattet – se Lovdata.)",
+      "kapittel": "Kapittel I–II (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A72"
+    },
+    {
+      "id": "forvaltningsloven-11",
+      "nummer": "11",
+      "displayNavn": "§ 11",
+      "tema": "veiledningsplikt",
+      "sitat": "forvaltningsorganene har innenfor sitt sakområde en\nalminnelig veiledningsplikt; skal av eget tiltak vurdere partenes behov for\nveiledning.",
+      "kapittel": "Kapittel III – alminnelige saksbehandlingsregler (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A711"
+    },
+    {
+      "id": "forvaltningsloven-11a",
+      "nummer": "11 a",
+      "displayNavn": "§ 11 a",
+      "tema": "saksbehandlingstid, foreløpig svar",
+      "sitat": "«Forvaltningsorganet skal\nforberede og avgjøre saken uten ugrunnet opphold.» Foreløpig svar ved lang\nbehandlingstid; i enkeltvedtakssaker dersom svar ikke kan gis innen en måned.",
+      "kapittel": "Kapittel III – alminnelige saksbehandlingsregler (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A711a"
+    },
+    {
+      "id": "forvaltningsloven-12",
+      "nummer": "12",
+      "displayNavn": "§ 12",
+      "tema": "advokat/fullmektig",
+      "sitat": "· **§ 13–13 g (taushetsplikt)** med begrensninger\n(§ 13 a–b: bl.a. innsyn for parter, bruk for sakens formål, statistikk/kontroll,\ndeling for å unngå fare for liv/helse). (Sammenfattet.)",
+      "kapittel": "Kapittel III – alminnelige saksbehandlingsregler (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A712"
+    },
+    {
+      "id": "forvaltningsloven-16",
+      "nummer": "16",
+      "displayNavn": "§ 16",
+      "tema": "forhåndsvarsling",
+      "sitat": "part som ikke har uttalt seg skal varsles og gis\nfrist til å uttale seg før vedtak treffes (med unntak).",
+      "kapittel": "Kapittel IV – saksforberedelse ved enkeltvedtak (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A716"
+    },
+    {
+      "id": "forvaltningsloven-17",
+      "nummer": "17",
+      "displayNavn": "§ 17",
+      "tema": "forvaltningsorganets utrednings- og informasjonsplikt",
+      "sitat": "«Forvaltnings-\norganet skal påse at saken er så godt opplyst som mulig før vedtak treffes.»\nMottatte opplysninger om en part skal som hovedregel forelegges parten til\nuttalelse (§§ 18–19).",
+      "kapittel": "Kapittel IV – saksforberedelse ved enkeltvedtak (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A717"
+    },
+    {
+      "id": "forvaltningsloven-18",
+      "nummer": "18",
+      "displayNavn": "§ 18",
+      "tema": "partsinnsyn",
+      "sitat": "en part har rett til å gjøre seg kjent med sakens\ndokumenter (med unntak §§ 18 a–19, bl.a. organinterne dokumenter og § 19\ninnskrenket adgang). **§ 18 d:** unntakene gjelder ikke saksframlegg med vedlegg\ntil folkevalgte organer i kommuner/fylkeskommuner.",
+      "kapittel": "Kapittel IV – saksforberedelse ved enkeltvedtak (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A718"
+    },
+    {
+      "id": "forvaltningsloven-23",
+      "nummer": "23",
+      "displayNavn": "§ 23",
+      "tema": "form",
+      "sitat": "enkeltvedtak skal som hovedregel være skriftlig.",
+      "kapittel": "Kapittel V – om vedtaket (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A723"
+    },
+    {
+      "id": "forvaltningsloven-24",
+      "nummer": "24",
+      "displayNavn": "§ 24",
+      "tema": "begrunnelsesplikt",
+      "sitat": "enkeltvedtak skal grunngis, samtidig med vedtaket\n(med visse unntak ved innvilgelse).",
+      "kapittel": "Kapittel V – om vedtaket (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A724"
+    },
+    {
+      "id": "forvaltningsloven-25",
+      "nummer": "25",
+      "displayNavn": "§ 25",
+      "tema": "begrunnelsens innhold",
+      "sitat": "vis til reglene vedtaket bygger på, de faktiske\nforhold, og «de hovedhensyn som har vært avgjørende ved utøving av\nforvaltningsmessig skjønn bør nevnes».",
+      "kapittel": "Kapittel V – om vedtaket (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A725"
+    },
+    {
+      "id": "forvaltningsloven-27",
+      "nummer": "27",
+      "displayNavn": "§ 27",
+      "tema": "underretning",
+      "sitat": "partene skal underrettes så snart som mulig; opplyse om\nklageadgang, klagefrist, klageinstans, innsynsrett mv.",
+      "kapittel": "Kapittel V – om vedtaket (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A727"
+    },
+    {
+      "id": "forvaltningsloven-28",
+      "nummer": "28",
+      "displayNavn": "§ 28",
+      "tema": "klage, klageinstans",
+      "sitat": "enkeltvedtak kan påklages til nærmest overordnede\norgan (underinstans/klageinstans). For kommunale vedtak er statsforvalteren ofte\nklageinstans.",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A728"
+    },
+    {
+      "id": "forvaltningsloven-29",
+      "nummer": "29",
+      "displayNavn": "§ 29",
+      "tema": "klagefrist",
+      "sitat": "3 uker fra underretning.",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A729"
+    },
+    {
+      "id": "forvaltningsloven-33",
+      "nummer": "33",
+      "displayNavn": "§ 33",
+      "tema": "saksforberedelse i klagesak",
+      "sitat": "underinstansen kan oppheve/endre; ellers\nsendes saken til klageinstansen, som «skal påse at saken er så godt opplyst som\nmulig».",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A733"
+    },
+    {
+      "id": "forvaltningsloven-34",
+      "nummer": "34",
+      "displayNavn": "§ 34",
+      "tema": "klageinstansens kompetanse",
+      "sitat": "klageinstansen kan prøve alle sider av\nsaken. **Andre ledd:** «Der statlig organ er klageinstans for vedtak truffet av\nen kommune eller fylkeskommune, skal klageinstansen legge **stor vekt på hensynet\ntil det kommunale selvstyre** ved prøving av det frie skjønn. Det skal fremgå av\nvedtaket hvordan klageinstansen har vektlagt hensynet til det kommunale\nselvstyret.»",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A734"
+    },
+    {
+      "id": "forvaltningsloven-35",
+      "nummer": "35",
+      "displayNavn": "§ 35",
+      "tema": "omgjøring uten klage",
+      "sitat": "(omgjøring uten klage)",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A735"
+    },
+    {
+      "id": "forvaltningsloven-36",
+      "nummer": "36",
+      "displayNavn": "§ 36",
+      "tema": "sakskostnader",
+      "sitat": "## Kapittel VII – om forskrifter (utdrag)",
+      "kapittel": "Kapittel VI – klage og omgjøring (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A736"
+    },
+    {
+      "id": "forvaltningsloven-37",
+      "nummer": "37",
+      "displayNavn": "§ 37",
+      "tema": "utredningsplikt, forhåndsvarsling, høring",
+      "sitat": "«Forvaltningsorganet skal\npåse at saken er så godt opplyst som mulig før vedtak treffes.» Berørte\ninstitusjoner/organisasjoner skal gis anledning til å uttale seg før forskriften\nutferdiges/endres/oppheves (med unntak). *(Relevant for kommuneplanens arealdel,\nsom er forskriftslignende.)*",
+      "kapittel": "Kapittel VII – om forskrifter (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A737"
+    },
+    {
+      "id": "forvaltningsloven-38",
+      "nummer": "38",
+      "displayNavn": "§ 38",
+      "tema": "formkrav/kunngjøring",
+      "sitat": "(formkrav/kunngjøring)",
+      "kapittel": "Kapittel VII – om forskrifter (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A738"
+    },
+    {
+      "id": "forvaltningsloven-39",
+      "nummer": "39",
+      "displayNavn": "§ 39",
+      "tema": "forsømt kunngjøring",
+      "sitat": "(forsømt kunngjøring)",
+      "kapittel": "Kapittel VII – om forskrifter (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A739"
+    },
+    {
+      "id": "forvaltningsloven-40",
+      "nummer": "40",
+      "displayNavn": "§ 40",
+      "tema": "fravik av forskrift",
+      "sitat": "## Kapittel VIII – virkning av feil (sentralt)",
+      "kapittel": "Kapittel VII – om forskrifter (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A740"
+    },
+    {
+      "id": "forvaltningsloven-41",
+      "nummer": "41",
+      "displayNavn": "§ 41",
+      "tema": "virkningen av feil ved behandlingsmåten",
+      "sitat": "«Er reglene om\nbehandlingsmåten i denne lov eller forskrifter gitt i medhold av loven ikke\noverholdt ved behandlingen av en sak som gjelder enkeltvedtak, er vedtaket\nlikevel gyldig **når det er grunn til å regne med at feilen ikke kan ha virket\nbestemmende på vedtakets innhold**.»",
+      "kapittel": "Kapittel VIII – virkning av feil (sentralt)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A741"
+    },
+    {
+      "id": "forvaltningsloven-42",
+      "nummer": "42",
+      "displayNavn": "§ 42",
+      "tema": "utsatt iverksetting",
+      "sitat": "underinstans/klageinstans kan beslutte at vedtak\nikke skal iverksettes før klagefrist/klage er avgjort.",
+      "kapittel": "Kapittel VIII – virkning av feil (sentralt)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A742"
+    },
+    {
+      "id": "forvaltningsloven-51",
+      "nummer": "51",
+      "displayNavn": "§ 51",
+      "tema": "tvangsmulkt",
+      "sitat": "vangsmulkt.",
+      "kapittel": "Kapittel IX–XI (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A751"
+    },
+    {
+      "id": "forvaltningsloven-52",
+      "nummer": "52",
+      "displayNavn": "§ 52",
+      "tema": "ikrafttredelse",
+      "sitat": "> Loven oppheves ved lov 20. juni 2025 nr. 81 (i kraft fra den tid Kongen",
+      "kapittel": "Kapittel IX–XI (utdrag)",
+      "lovdataUrl": "https://lovdata.no/lov/1967-02-10/%C2%A752"
+    }
+  ]
+}

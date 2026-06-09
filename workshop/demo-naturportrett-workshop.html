@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Naturportrett — skjema & workshop (demo)</title>
+<style>
+:root{--oslo:#2A2859;--bg:#f5f5f2;--line:#e2e2dd;--ok:#1d8a4e}
+*{box-sizing:border-box}
+body{font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;background:var(--bg);color:#1a1a1a}
+header{background:var(--oslo);color:#fff;padding:16px 20px}
+header h1{margin:0;font-size:18px}header p{margin:6px 0 0;opacity:.9;font-size:12.5px}
+.brandrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.logo{height:34px;width:auto;display:block}
+.brandtxt{font-size:13px;line-height:1.15;font-weight:700}
+.brandtxt span{font-weight:400;opacity:.85;font-size:12px}
+.pilot{margin-left:auto;background:#e69500;color:#1a1a1a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:11px;letter-spacing:.3px;white-space:nowrap}
+.tabs{display:flex;gap:2px;background:#fff;border-bottom:1px solid var(--line);padding:0 12px;position:sticky;top:0;z-index:5}
+.tabs button{border:0;background:none;padding:12px 13px;font-size:13.5px;cursor:pointer;color:#555;border-bottom:3px solid transparent}
+.tabs button.on{color:var(--oslo);font-weight:700;border-bottom-color:var(--oslo)}
+.wrap{max-width:730px;margin:0 auto;padding:18px 16px 70px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:14px}
+.q{margin:0 0 16px}
+.q label.lab{display:block;font-weight:600;font-size:14px;margin-bottom:7px}
+.q .hint{font-weight:400;color:#777;font-size:12.5px}
+.opt{display:block;margin:4px 0;font-size:13.5px}
+.opt input{margin-right:7px}
+.likert{display:flex;gap:6px;flex-wrap:wrap}
+.likert label{border:1px solid #ccc;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer}
+select,textarea,input[type=text]{width:100%;font-size:14px;padding:8px;border:1px solid #ccc;border-radius:7px;font-family:inherit}
+textarea{min-height:54px}
+.btn{background:var(--oslo);color:#fff;border:0;border-radius:8px;padding:11px 18px;font-size:14.5px;cursor:pointer}
+.btn.sec{background:#fff;color:var(--oslo);border:1px solid var(--oslo)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.thanks{background:#e2f3e9;border:1px solid #b6e0c6;color:#176c3c;padding:12px 14px;border-radius:8px;margin-bottom:14px}
+.count{font-size:13px;color:#333}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.muted{color:#777;font-size:12.5px}
+h2{font-size:16px;color:var(--oslo);margin:0 0 8px}
+.task{border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-bottom:12px}
+.task.sel{border-color:var(--oslo);box-shadow:0 0 0 2px rgba(42,40,89,.08)}
+.task h3{margin:0 0 4px;font-size:14.5px}
+.task .lev{color:#555;font-size:12.5px;margin:4px 0 8px}
+.chk{font-size:13px;font-weight:600;color:var(--oslo)}
+.badge{display:inline-block;background:#eef;border-radius:10px;padding:1px 8px;font-size:11px;color:var(--oslo);margin-left:6px}
+</style>
+</head>
+<body>
+<header>
+  <div class="brandrow">
+    <img class="logo" src="data:image/svg+xml;base64,PHN2ZyBpZD0iUkdCX0xvZ29fSHZpdCIgZGF0YS1uYW1lPSJSR0IgTG9nbyBIdml0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NTcuMjYgMzExIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPlJHQiBMb2dvIEh2aXQ8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE4MC43MywxMTIuNGwtMS45Mi0xLjIzYTY2LjY0LDY2LjY0LDAsMCwwLTEwLjItNS4zOWwwLDBjLTEuNDktLjYzLTMtMS4yMS00LjU0LTEuNzNhNjcuMjcsNjcuMjcsMCwwLDAtMTEuMTktMi43N2MtMS42MS0uMjUtMy4yNS0uNDUtNC44Ny0uNTlhNjkuNDgsNjkuNDgsMCwwLDAtMTEuNTQsMGMtMS42My4xNC0zLjI3LjM0LTQuODcuNTlBNjcsNjcsMCwwLDAsMTIwLjM3LDEwNGMtMS41My41Mi0zLjA2LDEuMS00LjUzLDEuNzNsLS4wNiwwYTY3LDY3LDAsMCwwLTEwLjE5LDUuMzlsLTEuOTMsMS4yM0w5My40OCw5M2wxLjY2LTFhOTAuNjYsOTAuNjYsMCwwLDEsMTAuNzYtNS42OWwxLjgtLjc5LDMuNzEsNy4wN2MxLjE0LS40NiwyLjMtLjksMy40Ni0xLjMyTDExMyw4My40OWwxLjg2LS42QTkwLjIyLDkwLjIyLDAsMCwxLDEyNi42NCw4MGwxLjkzLS4zNCwxLjkxLDcuNzYuNzEtLjFjMS0uMTQsMi0uMjUsMy0uMzVWNzlsMi0uMTNjMi0uMTMsNC4wOC0uMiw2LjA5LS4yczQuMDYuMDcsNi4wOC4ybDIsLjEzdjhjMS4yMi4xMiwyLjQ1LjI3LDMuNjguNDVsMS45MS03Ljc2LDEuOTMuMzRhOTAuNjEsOTAuNjEsMCwwLDEsMTEuODIsMi45MWwxLjg2LjYtMS45Miw3Ljc2YzEuMTcuNDIsMi4zMy44NiwzLjQ2LDEuMzJsMy43Mi03LjA3LDEuNzkuNzlBODkuMTMsODkuMTMsMCwwLDEsMTg5LjI1LDkybDEuNjYsMVpNOTksOTQuNTNsNi4yNCwxMS45MWE3Mi4wNiw3Mi4wNiwwLDAsMSw4Ljg5LTQuNTJsLjA3LDBjMS41NS0uNjYsMy4xNy0xLjI3LDQuNzktMS44M2E3Mi40Nyw3Mi40NywwLDAsMSwxMS44OS0yLjk0YzEuNzEtLjI3LDMuNDUtLjQ4LDUuMTgtLjYyYTczLjU3LDczLjU3LDAsMCwxLDEyLjI0LDBjMS43Mi4xNCwzLjQ3LjM1LDUuMTcuNjJhNzIuNDcsNzIuNDcsMCwwLDEsMTEuODksMi45NGMxLjYyLjU2LDMuMjQsMS4xNyw0LjgxLDEuODRsLjA2LDBhNzEuMjMsNzEuMjMsMCwwLDEsOC44OCw0LjUybDYuMjUtMTEuOTFjLTIuMjEtMS4yOS00LjQ5LTIuNS02LjgxLTMuNTlsLTMuNjgsNy0xLjc4LS43OC0uNzgtLjMzYy0xLjk0LS44Mi0zLjk0LTEuNTctNi0yLjI0bC0xLjg1LS42LDEuOS03LjY5Yy0yLjQ2LS43My01LTEuMzUtNy40OC0xLjg1bC0xLjg5LDcuNjktMS45Mi0uMzJjLTIuMzYtLjQtNC43Ny0uNjktNy4xNS0uODdsLTEuOTQtLjE0VjgyLjljLTIuNTgtLjExLTUuMTMtLjExLTcuNywwdjcuOTJsLTEuOTQuMTRjLTEuNTUuMTItMy4xMi4yOC00LjY2LjQ5LS44My4xMS0xLjY3LjI0LTIuNS4zOGwtMS45MS4zMi0xLjktNy42OWMtMi41MS41LTUsMS4xMi03LjQ3LDEuODVMMTE5Ljg2LDk0bC0xLjg0LjZjLTIsLjY3LTQsMS40Mi02LDIuMjRsLS43OC4zM0wxMDkuNSw5OGwtMy42OC03QzEwMy41MSw5MiwxMDEuMjMsOTMuMjQsOTksOTQuNTNaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTQyLjE3LDIzMi4zN2E2My41NCw2My41NCwwLDEsMSw0NC45My0xOC42MUE2My4xMyw2My4xMywwLDAsMSwxNDIuMTcsMjMyLjM3Wm0wLTEyMi42OEE1OS4xMyw1OS4xMywwLDEsMCwxODQsMTI3LDU4Ljc1LDU4Ljc1LDAsMCwwLDE0Mi4xNywxMDkuNjlaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMTI5Ljc3LDE1MC44MmExNS4yOCwxNS4yOCwwLDAsMS0zLjA1LTkuMjIsMTUuNDIsMTUuNDIsMCwwLDEsMzAuODQsMCwxNS4yOCwxNS4yOCwwLDAsMS0zLjA1LDkuMjJsMy4wOCwyLjI5YTE5LjI2LDE5LjI2LDAsMSwwLTMwLjksMFoiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0xNDIuMTQsMTU1LjE5YTcuNDMsNy40MywwLDAsMCw3LjQyLTcuNDNWMTQ3aDIuNTF2LTQuODVhOS45Myw5LjkzLDAsMSwwLTE5Ljg2LDBWMTQ3aDIuNTF2Ljc1QTcuNDMsNy40MywwLDAsMCwxNDIuMTQsMTU1LjE5Wm0tNi4wOS0xM2E2LjA5LDYuMDksMCwwLDEsMTIuMTgsMFYxNDdoLTEuODF2Ljc1YTQuMjgsNC4yOCwwLDAsMS04LjU2LDBWMTQ3aC0xLjgxWiIvPjxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iOTguNjMiIHk9IjE3MS43MyIgd2lkdGg9IjUuODUiIGhlaWdodD0iNS44NSIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTE4OS4yMywxNjcuMzd2Mi43OWgzLjQybC04Ljc0LDguNzR2LTE1bDIuMzksMi4zOSwyLTItNS43NS01Ljc1LTUuNzksNS43OSwyLDIsMi40Mi0yLjQydjE1bC04LjcyLTguNzJoMy4zN3YtMi43OWgtOC4xNHY4LjE5aDIuOHYtMy40Mmw2LjkzLDYuOTNIMTY0LjA5bC0xLjQzLTEuMjgtMS4xNS0xMC40OGMwLS41My0uNjUtNS44Mi01LTguMDdsLTQuNi0xLjc2LS42My0uMjMtLjYzLjJhMzIuMDcsMzIuMDcsMCwwLDEtOC40OC45MiwzMS44NCwzMS44NCwwLDAsMS04LjQ3LS45MmwtLjY0LS4yMS01LDEuOTEtLjIuMDljLTQuMzgsMi4yNS01LDcuNTQtNSw4LjA3bC0xLjE5LDEwLjg2LTEuMDguOWgtNC43M2ExNC44OCwxNC44OCwwLDEsMC0xNi41LDEwLjI5aDBsLjE5LDBjLjQuMDUuOC4wOSwxLjIxLjEybDE5LjY5LDJhMTA5LDEwOSwwLDAsMS0zLjkyLDE5LjcyaDBsMS44Mi41OSwxLjgzLjZhMTEwLjA1LDExMC4wNSwwLDAsMCw0LjEtMjAuNTdsNC43My00LS42NywyNy40MywxLjYxLjNhNzIuMDYsNzIuMDYsMCwwLDAsMjQuOCwwbDEuNi0uMy0uNjctMjcuNCw0Ljc2LDRhMTA5LjgyLDEwOS44MiwwLDAsMCw0LjEsMjAuNTRsMy42NS0xLjE5YTEwOC4yNywxMDguMjcsMCwwLDEtMy45Mi0xOS43bDE5LjY2LTEuODN2LTYuNzVsMTAuNzktMTAuNzl2My4zN2gyLjc5di04LjE0Wm0tNDcuMDktNS4xNmEzOCwzOCwwLDAsMCw5LS45MmwzLjcxLDEuNDFjMi41MiwxLjM3LDIuODcsNC45MywyLjg4LDVsLjkyLDguNDJoLTUuMjZhMTEuMTgsMTEuMTgsMCwwLDEtNS45Mi0xLjYyLDE4LDE4LDAsMCwxLTMuNTUtMy40NWwtNy4zNS05LjEzQTQ0LjQsNDQuNCwwLDAsMCwxNDIuMTQsMTYyLjIxWk0xMDEuNTYsMTg1LjdsLS41NSwwLTEuMTQtLjExYTExLDExLDAsMSwxLDEuNjkuMTNabTI3LjUtMy02LjE2LDUuMjMtMTIuNTItMS4yNmExNSwxNSwwLDAsMCwzLjU1LTMuNzJoOGw3LjMtNi4xNFptLTMuMjMtOC4wNy43Ni02Ljg4di0uMDVzLjM2LTMuNTksMi44OC01bDIuMTMtLjgxLDMuNzcsNC42OFptMTYuMzQsMzguMThhNzAuNDQsNzAuNDQsMCwwLDEtMTAtLjczbC4yMi05aDBsLjczLTI5LjUyLDQuNjUtMy45MiwzLjA5LDMuODJhMjAuOCwyMC44LDAsMCwwLDQuNTYsNC4zNiwxNC43NiwxNC43NiwwLDAsMCw2LjEyLDIuMDhsLjc5LDMyLjE5QTY5Ljc5LDY5Ljc5LDAsMCwxLDE0Mi4xNywyMTIuNzdaTTE4MCwxODYuMThsLTE4LjM4LDEuNzItOS40NC04Yy4zOCwwLC43NywwLDEuMTcsMGg1LjkzbDMuMzQsM0gxODBaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjQxLjUxLDE2Ni4wNmMwLTE1LjU0LDkuNzgtMjUuMDYsMjEuNzctMjUuMDZzMjEuNzgsOS41MiwyMS43OCwyNS4wNmMwLDE2LjA4LTkuNzgsMjUuNzMtMjEuNzgsMjUuNzNTMjQxLjUxLDE4Mi4xNCwyNDEuNTEsMTY2LjA2Wm0zNy4zOSwwYzAtMTMuNC02LjkxLTE5LjQzLTE1LjYyLTE5LjQzcy0xNS42MSw2LTE1LjYxLDE5LjQzLDcuMTcsMjAuMSwxNS42MSwyMC4xUzI3OC45LDE3OS40NiwyNzguOSwxNjYuMDZaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMzA1LjgsMTU1YzYuNTYsMCwxMS4zOSwyLjg4LDEzLjI2LDcuNTdsLTQuMzUsMi4yMWMtMS40Ny0zLjE1LTQuNjktNC44OS05LTQuODktNC41NSwwLTcuNTcsMS44MS03LjU3LDQuODIsMCwyLjYyLDEuNjgsNC4xNiw1LjUsNWw1LjE2LDFjNy43LDEuNTQsMTEuMzksNC45NSwxMS4zOSwxMC4zMSwwLDYuMzctNS42MywxMC43Mi0xMy45NCwxMC43Mi03LjI0LDAtMTIuMzktMi44MS0xNC45NC04bDQuNDItMi4zNGMxLjgxLDMuNjIsNS4zNiw1LjU2LDEwLjM5LDUuNTZzOC41MS0yLjIxLDguNTEtNS41NmMwLTMtMS43NS00LjU2LTUuODMtNS40M2wtNi4xLTEuMmMtNi41Ny0xLjM0LTEwLjEyLTQuNjktMTAuMTItOS41OUMyOTIuNTMsMTU5LjM2LDI5OCwxNTUsMzA1LjgsMTU1WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTMzNy43NiwxOTEuNTJjLTYsMC04LjkxLTMuNjgtOC45MS05LjQ0VjE0MS42MWg1Ljc2djQwLjJjMCwzLjA4LDEuNjcsNC41NSw0LjQ5LDQuNTVhOC4xOCw4LjE4LDAsMCwwLDIuMTQtLjI2djVBMTUuNDEsMTUuNDEsMCwwLDEsMzM3Ljc2LDE5MS41MloiLz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Ik0zNDYuMTMsMTczLjNjMC0xMS4wNiw3LjI0LTE4LjI5LDE2LjI4LTE4LjI5czE2LjIyLDcuMjMsMTYuMjIsMTguMjljMCwxMS4yNS03LjMxLDE4LjQ5LTE2LjIyLDE4LjQ5UzM0Ni4xMywxODQuNTUsMzQ2LjEzLDE3My4zWm0yNi41MywwYzAtOS4wNS00LjY5LTEzLjI3LTEwLjI1LTEzLjI3cy0xMC4zMSw0LjIyLTEwLjMxLDEzLjI3LDQuNjIsMTMuNDcsMTAuMzEsMTMuNDdTMzcyLjY2LDE4Mi4zNCwzNzIuNjYsMTczLjNaIi8+PC9zdmc+" alt="Oslo kommune">
+    <div class="brandtxt">Oslo kommune<br><span>Plan- og bygningsetaten</span></div>
+    <span class="pilot">TIDLIG PILOTFASE</span>
+  </div>
+  <h1>Naturportrett — spørreskjema & workshop <span style="opacity:.7;font-weight:400">(demo)</span></h1>
+  <p>Dette prosjektet er i en <b>tidlig pilotfase</b>. Vi viser noe som er under utvikling, og innspillene dine former veien videre. Alt lagres kun lokalt i denne nettleseren; ingen navn lagres.</p>
+</header>
+<div class="tabs">
+  <button id="tab1" class="on" onclick="show('skjema')">1 · Spørreskjema</button>
+  <button id="tab2" onclick="show('workshop')">2 · Workshop</button>
+  <button id="tab3" onclick="show('admin')">Administrator</button>
+</div>
+<div class="wrap">
+  <div id="skjema"></div>
+  <div id="workshop" style="display:none"></div>
+  <div id="admin" style="display:none"></div>
+</div>
+
+<script>
+// ---------- spørreskjema-innhold ----------
+const ETATER=["Bymiljøetaten","Eiendoms- og byfornyelsesetaten","Oslobygg KF","Klimaetaten","Plan- og bygningsetaten","Annet"];
+const STILLINGER={
+ "naturforvalter-biolog":"Naturforvalter / biolog",
+ "landskapsarkitekt-plankonsulent":"Landskapsarkitekt / plankonsulent",
+ "eiendomsutvikler-prosjektleder":"Eiendomsutvikler / prosjektleder",
+ "byggherre-prosjekterende":"Byggherre / prosjekterende",
+ "saksbehandler-planradgiver":"Saksbehandler / planrådgiver",
+ "radgiver":"Rådgiver","annet":"Annet"};
+const GENERAL=[
+ {id:"g1",type:"rank",label:"Hvilke portretttyper bør utvikles først?",hint:"Velg inntil 3.",options:["Naturportrett (område)","Artsportrett (enkeltart)","Artsgruppeportrett (fugler/insekter/planter)","Naturtypeportrett","Rødlisteportrett","Fremmedartsportrett","Naturvernportrett"]},
+ {id:"g2a",type:"likert",label:"Hvor mye ville et naturportrett hevet kvaliteten og effektiviteten i naturutredninger du kjenner til?"},
+ {id:"g2b",type:"text",label:"Hva ville det konkret spart deg for eller forbedret? (valgfritt)"},
+ {id:"g3a",type:"likert",label:"Portrettet kan foreslå natur-/plantekonsepter og tiltak som inspirasjon — et startpunkt du selv vurderer og bygger videre på, ikke normative anbefalinger tjenesten går god for. Hvor nyttig ville slike inspirasjonsforslag være?",hint:"Inspirasjon = forslag du selv vurderer og bearbeider. Normativ anbefaling = et «gjør X»-råd tjenesten står inne for — det gir den bevisst ikke."},
+ {id:"g3b",type:"text",label:"I hvilke situasjoner ville slike inspirasjonsforslag hjulpet deg mest? (valgfritt)"},
+ {id:"g4",type:"rank",label:"Hva er viktigst at den første versjonen inneholder?",hint:"Velg inntil 3.",options:["Kartlagte arter","Rødlistearter","Naturtyper","Fremmede arter","Økologiske funksjoner/sammenhenger","Forvaltningsråd","Kilder og usikkerhet"]},
+ {id:"g5",type:"single",label:"Hvem bør være hovedbruker?",options:["Privat plankonsulent/landskapsarkitekt","Kommunal saksbehandler","Utbygger","Alle"]},
+ {id:"g6",type:"text",label:"Hva bekymrer deg mest ved en slik tjeneste? (kort)"},
+ {id:"gmiss",type:"text",label:"Hva har vi oversett, eller hva savner du? (helt fritt — skriv gjerne mye)"},
+ {id:"g7",type:"multi",label:"Vil du bidra videre?",options:["Testbruker","Faglig referansegruppe","Dele eksempelsaker","Nei"]},
+ {id:"epost",type:"email",label:"E-post — fyll inn hvis du vil bli kontaktet / bidra videre",hint:"Påkrevd hvis du krysset av for å bidra over."}
+];
+const TAILORED={
+ "naturforvalter-biolog":[
+  {id:"t1",type:"text",label:"Hvilke portretttyper ville gitt mest faglig verdi i egen forvaltning og i innspill til plansaker?"},
+  {id:"t2",type:"text",label:"Hvilke faglige kilder/register bør portrettet bygge på — og hvilke bør brukes med varsomhet?"},
+  {id:"t3",type:"text",label:"Hvor bør portrettet utløse feltregistrering i stedet for å gi falsk trygghet?"}],
+ "landskapsarkitekt-plankonsulent":[
+  {id:"t1",type:"text",label:"I hvilken fase av prosjekteringen ville et naturportrett endret dine valg av naturkonsept/plantekonsept?"},
+  {id:"t2",type:"text",label:"Hva må et artsportrett inneholde for å være konkret nok i prosjektering (terreng eller bygningsintegrert)?"},
+  {id:"t3",type:"text",label:"Når er et «utadvendt» naturkonsept mest riktig? Foreslå ett kriterium."}],
+ "eiendomsutvikler-prosjektleder":[
+  {id:"t1",type:"text",label:"Ville tidlig naturinnsikt endret hvilke tomter/prosjekter dere går videre med — og når i løpet?"},
+  {id:"t2",type:"text",label:"Ønsket resultat for dere: færre sene overraskelser, raskere avklaring, bedre dialog med PBE, annet?"},
+  {id:"t3",type:"text",label:"Hvem hos dere ville brukt portrettet, og i hvilken situasjon?"}],
+ "byggherre-prosjekterende":[
+  {id:"t1",type:"single",label:"Hvor i et byggeprosjekt gir portrettet mest verdi?",options:["Tomtevalg","Prosjektering","Uteområde","Tak/fasade"]},
+  {id:"t2",type:"text",label:"Ville artsportretter hjulpet dere å designe konkrete bygningsintegrerte tiltak (f.eks. biotop-tak)? Hva må til?"},
+  {id:"t3",type:"text",label:"Ville KI-ideer koblet til normen for vegetasjon og vannhåndtering vært nyttige i prosjektutvikling?"}],
+ "radgiver":[
+  {id:"t1",type:"text",label:"Hvor ser du faglige synergier mellom naturportrettet og klima-/naturbaserte løsninger (blågrønt, overvann, karbon)?"},
+  {id:"t2",type:"text",label:"Bør portrettet eksplisitt koble naturverdier til klimatilpasning — hvordan?"},
+  {id:"t3",type:"text",label:"Hva er ønsket resultat fra deres ståsted?"}],
+ "saksbehandler-planradgiver":[
+  {id:"t1",type:"text",label:"Ville portrettet styrket dine faglige krav og vurderinger i en plansak? Hvordan?"},
+  {id:"t2",type:"text",label:"Hvor går grensen før portrettet må følges av en full utredning?"},
+  {id:"t3",type:"single",label:"Hjelper det å sikre likebehandling på tvers av saker?",options:["Ja, tydelig","Litt","Nei","Usikker"]}],
+ "annet":[
+  {id:"t1",type:"text",label:"Hvordan ser du for deg at du selv ville brukt et naturportrett?"},
+  {id:"t2",type:"text",label:"Hva er det viktigste tjenesten må levere for å være nyttig for deg?"},
+  {id:"t3",type:"text",label:"Hvem mener du er den viktigste brukeren?"}]
+};
+
+// ---------- workshop-oppgaver (5) ----------
+const TASKS=[
+ {id:1,t:"Velg portretttypene for v1",d:"Bli enige om hvilke 2–3 portretttyper tjenesten bør utvikle først, med én setnings begrunnelse per og hvilket formål hver tjener.",lev:"rangert kortliste + begrunnelser"},
+ {id:2,t:"Fra område til målart",d:"Ta utgangspunkt i et konkret Oslo-strøk. Med naturportrettet som grunnlag: hvilke 2–3 målarter ville dere utforsket, og hvilket tiltak (terreng eller bygningsintegrert, f.eks. biotop-tak) kunne styrket dem?",lev:"målarter + tiltaksidé"},
+ {id:3,t:"Ideer mot normen",d:"Velg ett kriterium fra normen for vegetasjon og vannhåndtering. Hva slags KI-genererte ideer ville vært nyttige der — og hvor går grensen mot «anbefalinger» dere ikke ville stolt på?",lev:"nyttevurdering + grense"},
+ {id:4,t:"Plasser portrettet i din arbeidsflyt",d:"Beskriv hvor i planprosessen et naturportrett gir mest verdi, og hvilken konkret beslutning det skal støtte.",lev:"fase → beslutning → hva portrettet må vise"},
+ {id:5,t:"Drøm og bekymring",d:"Den ene funksjonen som ville fått dere til å bruke tjenesten, og den ene risikoen som ville fått dere til å ikke stole på den.",lev:"to korte tekster"}
+];
+
+const PROMPT_TEXT=
+`Du hjelper Plan- og bygningsetaten i Oslo med en miniworkshop om tjenesten «Naturportrett» (KI-drevet område-/arts-/naturtypeportrett for tidlig fase; ideer, ikke fasit).
+
+OPPGAVE: Les alle deltakersvarene under og lag NØYAKTIG 5 paroppgaver til en 20-min workshop (par, helst på tvers av etater). Gruppene velger selv hvilke oppgaver de besvarer, for hånd eller digitalt.
+
+KRAV:
+- Hver oppgave: kort tittel, 1-3 setningers instruks, og konkret leveranse.
+- Forankre i det deltakerne FAKTISK svarte (portretttyper, temaer, bekymringer, kilder som går igjen). Lag gjerne frø-lister hentet rett fra svarene.
+- Minst én oppgave skal handle om HVILKE PORTRETTTYPER tjenesten bør utvikle først.
+- Bygg på de fem reservemalene (Velg portretttyper / Fra område til målart / Ideer mot normen / Plasser i arbeidsflyt / Drøm og bekymring), tilpasset svarene.
+- IKKE dikt opp sitater eller deltakere. Norsk, kort, lesbart på én skjerm.
+
+FORMAT (markdown): ## Workshop-oppgaver (par) + 5 × (### Oppgave N — tittel / instruks / **Leveranse:** ...)`;
+
+const SUMMARY_PROMPT=
+`Du hjelper Plan- og bygningsetaten i Oslo etter en miniworkshop om tjenesten «Naturportrett». Under får du (1) alle spørreskjemasvar og (2) alle workshop-svar.
+
+Lag på norsk:
+
+A) KORT OPPSUMMERING (3-6 setninger som Andreas kan lese opp): hva slags svar kom det MEST inn på (hvilke portretttyper, temaer og prioriteringer går igjen), og hva deltakerne melder at de SAVNER eller mener er OVERSETT.
+
+B) STRUKTURERT ARKIV:
+- Tematisk sortering: for hvert tema, kort hva som kom fram + hvilke etater/roller som løftet det.
+- Egen bolk «Savnet / oversett» (samle alle svar på det frie feltet).
+- Egen bolk «Til oppfølging — kontaktliste»: de som la igjen e-post for å bidra, med rolle og hva de vil bidra med.
+- Egen bolk «Workshop»: hva gruppene svarte, per oppgave.
+
+KRAV: IKKE dikt opp. Bruk bare det som står i dataene. Marker tydelig hvis noe er tynt/usikkert. Behold deltakernes komplette svar tilgjengelig i arkivdelen.
+
+=== SPØRRESKJEMA ===
+<JSON med alle skjemasvar>
+=== WORKSHOP ===
+<JSON med alle workshop-svar>`;
+
+// ---------- state ----------
+const RKEY="np_workshop_responses", AKEY="np_workshop_answers";
+const loadR=()=>JSON.parse(localStorage.getItem(RKEY)||"[]");
+const saveR=a=>localStorage.setItem(RKEY,JSON.stringify(a));
+const loadA=()=>JSON.parse(localStorage.getItem(AKEY)||"[]");
+const saveA=a=>localStorage.setItem(AKEY,JSON.stringify(a));
+let cur={etat:"",stilling:""};
+const $=s=>document.querySelector(s);
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function show(t){
+ ["skjema","workshop","admin"].forEach((x,i)=>{$("#"+x).style.display=t==x?"":"none";$("#tab"+(i+1)).classList.toggle("on",t==x);});
+ if(t=="admin")renderAdmin(); if(t=="workshop")renderWorkshop();
+}
+
+// ---------- skjema ----------
+function fieldHTML(q){
+ let inner="";
+ if(q.type=="text")inner=`<textarea data-q="${q.id}" placeholder="Kort svar..."></textarea>`;
+ else if(q.type=="email")inner=`<input type="email" data-q="${q.id}" placeholder="navn@etat.oslo.kommune.no">`;
+ else if(q.type=="likert")inner='<div class="likert">'+[1,2,3,4,5].map(n=>`<label><input type="radio" name="${q.id}" value="${n}">${n}</label>`).join("")+'<span class="hint" style="align-self:center">1 = lite · 5 = mye</span></div>';
+ else if(q.type=="single")inner=q.options.map(o=>`<label class="opt"><input type="radio" name="${q.id}" value="${esc(o)}">${esc(o)}</label>`).join("");
+ else inner=q.options.map(o=>`<label class="opt"><input type="checkbox" name="${q.id}" value="${esc(o)}">${esc(o)}</label>`).join("");
+ return `<div class="q"><label class="lab">${esc(q.label)} ${q.hint?`<span class="hint">${esc(q.hint)}</span>`:""}</label>${inner}</div>`;
+}
+function renderForm(){
+ const tail=cur.stilling&&TAILORED[cur.stilling]?TAILORED[cur.stilling]:[];
+ $("#skjema").innerHTML=`
+  <div class="card"><h2>Om deg</h2>
+   <div class="q"><label class="lab">Etat</label><select id="selEtat"><option value="">— velg —</option>${ETATER.map(e=>`<option ${cur.etat==e?"selected":""}>${esc(e)}</option>`).join("")}</select></div>
+   <div class="q"><label class="lab">Stilling / rolle</label><select id="selStilling"><option value="">— velg —</option>${Object.entries(STILLINGER).map(([k,v])=>`<option value="${k}" ${cur.stilling==k?"selected":""}>${esc(v)}</option>`).join("")}</select></div>
+  </div>
+  ${cur.etat&&cur.stilling?`
+  <div class="card"><h2>Generelle spørsmål</h2>${GENERAL.map(fieldHTML).join("")}</div>
+  <div class="card"><h2>Tilpassede spørsmål — ${esc(STILLINGER[cur.stilling]||"din rolle")}</h2>
+   <p class="muted" style="margin:-2px 0 10px">Disse spørsmålene er tilpasset rollen du valgte: ${esc(cur.etat)} · ${esc(STILLINGER[cur.stilling]||"")}.</p>
+   ${tail.length?tail.map(fieldHTML).join(""):'<p class="muted">Ingen tilpassede spørsmål for denne rollen.</p>'}</div>
+  <div class="row"><button class="btn" onclick="submitForm()">Send inn svar</button><span class="muted">Svar #${loadR().length+1}</span></div>`:`<p class="muted">Velg etat og stilling for å se spørsmålene.</p>`}`;
+ $("#selEtat").onchange=e=>{cur.etat=e.target.value;renderForm();};
+ $("#selStilling").onchange=e=>{cur.stilling=e.target.value;renderForm();};
+}
+function collect(q){
+ if(q.type=="text"||q.type=="email"){const el=document.querySelector(`[data-q="${q.id}"]`);return el?el.value.trim():"";}
+ if(q.type=="likert"||q.type=="single"){const el=document.querySelector(`input[name="${q.id}"]:checked`);return el?el.value:"";}
+ return [...document.querySelectorAll(`input[name="${q.id}"]:checked`)].map(e=>e.value);
+}
+function submitForm(){
+ if(!cur.etat||!cur.stilling){alert("Velg etat og stilling først.");return;}
+ const tail=TAILORED[cur.stilling]||[];const all=[...GENERAL,...tail];
+ const vals={};all.forEach(q=>vals[q.id]=collect(q));
+ const contribOpts=["Testbruker","Faglig referansegruppe","Dele eksempelsaker"];
+ const wantsContrib=Array.isArray(vals.g7)&&vals.g7.some(x=>contribOpts.includes(x));
+ const epost=(vals.epost||"").trim();
+ if(wantsContrib&&!epost){alert("Du har valgt å bidra videre — skriv inn e-post nederst så vi kan kontakte deg.");return;}
+ const svar=[];all.forEach(q=>{if(q.id=="epost")return;const a=vals[q.id];if(a&&a.length!==0)svar.push({spørsmål:q.label,svar:a});});
+ const arr=loadR();arr.push({tidspunkt:new Date().toISOString(),etat:cur.etat,stilling:STILLINGER[cur.stilling]||cur.stilling,epost:epost||null,svar});saveR(arr);
+ $("#skjema").innerHTML=`<div class="thanks">Takk! Svaret er registrert (totalt ${arr.length}).</div>
+  <div class="row"><button class="btn" onclick="newResp()">Registrer ny deltaker</button><button class="btn sec" onclick="show('admin')">Administrator</button></div>`;
+}
+function newResp(){cur={etat:"",stilling:""};renderForm();}
+
+// ---------- workshop ----------
+function renderWorkshop(){
+ $("#workshop").innerHTML=`
+  <div class="card"><h2>Workshop — velg oppgave(r)</h2>
+   <p class="muted">Dere jobber to og to (gjerne på tvers av etater) i ca. 20 minutter. Velg selv <b>én eller flere</b> av de 5 oppgavene. Skriv svaret digitalt under, eller løs på papir og kryss av for hvilke dere besvarte.</p>
+   <div class="q"><label class="lab">Gruppe (valgfritt)</label><input type="text" id="grp" placeholder="f.eks. BYM + EBY"></div>
+   ${TASKS.map(t=>`<div class="task" id="task${t.id}">
+      <label class="chk"><input type="checkbox" data-sel="${t.id}" onchange="document.getElementById('task${t.id}').classList.toggle('sel',this.checked)"> Oppgave ${t.id} — ${esc(t.t)}</label>
+      <p class="lev" style="margin-top:6px">${esc(t.d)}<br><b>Leveranse:</b> ${esc(t.lev)}</p>
+      <textarea data-ans="${t.id}" placeholder="Svar (valgfritt — kan også løses på papir)"></textarea>
+   </div>`).join("")}
+   <div class="row"><button class="btn" onclick="submitWorkshop()">Lever workshop-svar</button></div>
+  </div>
+  <p class="muted">Merk: i den ekte versjonen er disse 5 oppgavene <b>generert fra spørreskjema-svarene</b>. Her vises reserve-oppgavene som demo.</p>`;
+}
+function submitWorkshop(){
+ const grp=$("#grp").value.trim();const bes=[];
+ TASKS.forEach(t=>{
+  const sel=document.querySelector(`[data-sel="${t.id}"]`).checked;
+  const ans=document.querySelector(`[data-ans="${t.id}"]`).value.trim();
+  if(sel||ans)bes.push({oppgave:`Oppgave ${t.id} — ${t.t}`,besvart:sel||!!ans,svar:ans});
+ });
+ if(!bes.length){alert("Velg minst én oppgave eller skriv et svar.");return;}
+ const arr=loadA();arr.push({tidspunkt:new Date().toISOString(),gruppe:grp||("Gruppe "+(arr.length+1)),besvarelser:bes});saveA(arr);
+ $("#workshop").innerHTML=`<div class="thanks">Takk! Workshop-svar registrert for ${esc(grp||"gruppen")} (totalt ${arr.length}).</div>
+  <div class="row"><button class="btn" onclick="renderWorkshop()">Ny gruppe</button><button class="btn sec" onclick="show('admin')">Administrator</button></div>`;
+}
+
+// ---------- admin ----------
+function pkg(){const d=loadR();return d.length?PROMPT_TEXT+"\n\n=== SVARDATA ===\n"+JSON.stringify(d,null,2):"";}
+function copyPkg(){const p=pkg();if(!p){alert("Ingen skjemasvar ennå.");return;}navigator.clipboard.writeText(p).then(()=>alert("Genererings-pakke kopiert! Lim inn i Claude."),()=>{const t=document.createElement("textarea");t.value=p;document.body.append(t);t.select();document.execCommand("copy");t.remove();alert("Kopiert (fallback).");});}
+function dl(name,txt){const b=new Blob([txt],{type:"text/plain"});const u=URL.createObjectURL(b);const a=document.createElement("a");a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);}
+function dlPkg(){const p=pkg();if(p)dl("genererings-pakke.txt",p);}
+function dlAns(){const d=loadA();if(!d.length){alert("Ingen workshop-svar ennå.");return;}dl("workshop-svar.json",JSON.stringify(d,null,2));}
+function summaryPkg(){const R=loadR(),A=loadA();if(!R.length&&!A.length)return "";return SUMMARY_PROMPT+"\n\n=== SPØRRESKJEMA ===\n"+JSON.stringify(R,null,2)+"\n\n=== WORKSHOP ===\n"+JSON.stringify(A,null,2);}
+function copySummary(){const p=summaryPkg();if(!p){alert("Ingen data ennå.");return;}navigator.clipboard.writeText(p).then(()=>alert("Oppsummerings-pakke kopiert! Lim inn i Claude for arkiv + oppsummering."),()=>{const t=document.createElement("textarea");t.value=p;document.body.append(t);t.select();document.execCommand("copy");t.remove();alert("Kopiert (fallback).");});}
+function dlSummary(){const p=summaryPkg();if(p)dl("oppsummerings-pakke.txt",p);}
+function resetAll(){if(confirm("Slette alle testdata (skjema + workshop)?")){saveR([]);saveA([]);renderAdmin();}}
+function renderAdmin(){
+ const R=loadR(),A=loadA();
+ $("#admin").innerHTML=`
+  <div class="card"><h2>Steg 1 — Skjemasvar <span class="badge">${R.length}</span></h2>
+   ${R.length?`<table><thead><tr><th>#</th><th>Etat</th><th>Stilling</th><th>Antall svar</th></tr></thead><tbody>${R.map((d,i)=>`<tr><td>${i+1}</td><td>${esc(d.etat)}</td><td>${esc(d.stilling)}</td><td>${d.svar.length}</td></tr>`).join("")}</tbody></table>`:'<p class="muted">Fyll ut skjemaet noen ganger for å simulere deltakere.</p>'}
+   <div class="row" style="margin-top:12px">
+    <button class="btn" onclick="copyPkg()">Lag genererings-pakke (kopier)</button>
+    <button class="btn sec" onclick="dlPkg()">Last ned pakke</button>
+   </div>
+   <p class="muted" style="margin-top:8px">Lim pakka inn i Claude → du får 5 tilpassede workshop-oppgaver. I live-versjonen gjør serveren dette på ett klikk.</p>
+   <p class="muted">${R.filter(d=>d.epost).length} deltaker(e) har lagt igjen e-post for videre kontakt.</p>
+  </div>
+  <div class="card"><h2>Steg 2 — Workshop-svar <span class="badge">${A.length}</span></h2>
+   ${A.length?`<table><thead><tr><th>Gruppe</th><th>Besvarte oppgaver</th></tr></thead><tbody>${A.map(d=>`<tr><td>${esc(d.gruppe)}</td><td>${esc(d.besvarelser.filter(b=>b.besvart).map(b=>b.oppgave.split("—")[0].trim()).join(", "))}</td></tr>`).join("")}</tbody></table>
+   <div class="row" style="margin-top:12px"><button class="btn sec" onclick="dlAns()">Last ned workshop-svar</button></div>`:'<p class="muted">Ingen workshop-svar ennå (fane 2).</p>'}
+  </div>
+  <div class="card"><h2>Avslutt og oppsummer</h2>
+   <p class="muted">Når alle har svart (eller du vil avslutte): lag én pakke med ALLE skjema- og workshop-svar + oppsummerings-instruks, og lim inn i Claude. Du får både et komplett, sortert arkiv og en kort oppsummering — hva det kom mest inn på, og hva deltakerne savner.</p>
+   <div class="row"><button class="btn" onclick="copySummary()">Avslutt – lag oppsummering (kopier)</button><button class="btn sec" onclick="dlSummary()">Last ned</button></div>
+  </div>
+  <div class="card"><h2>Reserve-oppgaveliste (5, forhåndsgodkjent)</h2>
+   <p class="muted">Brukes uendret hvis genereringen er treg/feiler. Gruppene velger selv hvilke de besvarer.</p>
+   ${TASKS.map(t=>`<div class="task"><h3>Oppgave ${t.id} — ${esc(t.t)}</h3><p class="lev">${esc(t.d)}<br><b>Leveranse:</b> ${esc(t.lev)}</p></div>`).join("")}
+  </div>
+  <div class="row"><button class="btn sec" onclick="resetAll()">Nullstill alle testdata</button></div>`;
+}
+renderForm();
+</script>
+</body>
+</html>

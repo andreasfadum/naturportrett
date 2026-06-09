@@ -8,7 +8,7 @@
     "server": "node server/index.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "build": "vite build",
-    "build:prod": "vite build",
+    "build:prod": "vite build && cd workshop-app && npm install && npm run build",
     "start": "node server/index.js",
     "preview": "vite preview",
     "build:lover-index": "node scripts/build-lover-index.js"

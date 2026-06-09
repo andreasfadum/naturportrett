@@ -1,10 +1,12 @@
 import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
+import fs from 'node:fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { claudeRouter } from './routes/claude.js'
 import { sourcesRouter } from './routes/sources.js'
+import { createWorkshopRouter } from '../workshop-app/server/router.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -23,7 +25,15 @@ app.use('/api/sources', sourcesRouter)
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok', model: 'claude-sonnet-4-6' }))
 
-// Server bygget frontend i produksjon
+// Workshop-app monteres på /workshop_01 (egen under-app, eget datalager)
+app.use('/workshop_01/api', createWorkshopRouter())
+const workshopDist = join(__dirname, '../workshop-app/dist')
+if (fs.existsSync(workshopDist)) {
+  app.use('/workshop_01', express.static(workshopDist))
+  app.get('/workshop_01/*', (_, res) => res.sendFile(join(workshopDist, 'index.html')))
+}
+
+// Server bygget Naturportrett-frontend i produksjon
 const distPath = join(__dirname, '../dist')
 app.use(express.static(distPath))
 app.get('*', (_, res) => res.sendFile(join(distPath, 'index.html')))

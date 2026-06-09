@@ -1,0 +1,25 @@
+{
+  "name": "naturportrett-workshop",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Spørreskjema + workshop-app for Naturportrett-møtet 17. juni (separat under-app, rører ikke prototypen).",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server/index.js",
+    "dev:all": "concurrently -n web,api -c blue,green \"npm:dev\" \"npm:server\"",
+    "build": "vite build",
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^9.0.1",
+    "vite": "^5.4.8"
+  }
+}

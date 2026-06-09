@@ -53,7 +53,7 @@ export default function RecommendationsSection({ address, selectedSpecies, onBac
           fontSize: 'var(--font-size-xs)',
           color: 'var(--oslo-morkegron)',
         }}>
-          <strong>Kunnskapskilder:</strong> iNaturalist · GBIF · Naturmangfoldloven (nml) · Plan- og bygningsloven (pbl)
+          <strong>Kunnskapskilder:</strong> iNaturalist · GBIF · Lovbase med ordrette sitater fra naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven og SAK10
         </div>
       )}
 

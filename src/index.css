@@ -1218,6 +1218,104 @@ ul.portrait-doc__textblock {
   margin-top: var(--space-3);
 }
 
+/* Lovgrunnlag */
+.legal-disclaimer {
+  font-style: italic;
+  background: var(--oslo-lysbeige);
+  margin-bottom: var(--space-4);
+}
+
+.legal-block {
+  border: 1px solid var(--oslo-morkebla);
+  margin-bottom: var(--space-4);
+  background: white;
+}
+
+.legal-block__header {
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-morkebla);
+  color: white;
+}
+
+.legal-block__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.legal-block__why {
+  margin: var(--space-2) 0 0 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+}
+
+.legal-block__missing {
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--oslo-svart);
+  background: var(--oslo-lysbeige);
+}
+
+.legal-paragraph {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--oslo-morkbeige);
+}
+
+.legal-paragraph:first-of-type {
+  border-top: none;
+}
+
+.legal-paragraph__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.legal-paragraph__num {
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+}
+
+.legal-paragraph__theme {
+  color: var(--oslo-svart);
+}
+
+.legal-paragraph__link {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--oslo-morkebla);
+  text-decoration: underline;
+}
+
+.legal-paragraph__chapter {
+  font-size: 0.8rem;
+  color: var(--oslo-svart);
+  opacity: 0.7;
+  margin-bottom: var(--space-2);
+}
+
+.legal-paragraph__quote {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-lysbeige);
+  border-left: 3px solid var(--oslo-morkebla);
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+}
+
+.legal-paragraph__changed {
+  margin-top: var(--space-2);
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--oslo-svart);
+}
+
 /* Tables */
 .portrait-doc__table {
   width: 100%;

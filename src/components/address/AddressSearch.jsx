@@ -72,8 +72,7 @@ export default function AddressSearch({ onAddressSelected }) {
           <li>iNaturalist (artsobservasjoner, foto og norske navn)</li>
           <li>GBIF — Global Biodiversity Information Facility (artsdata, foto)</li>
           <li>Artsdatabanken (Rødlista 2021, Fremmedartslista 2023)</li>
-          <li>Naturmangfoldloven (nml)</li>
-          <li>Plan- og bygningsloven (pbl)</li>
+          <li>Naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven og SAK10 — paragrafer siteres ordrett fra Lovdata, ikke tolket</li>
           <li>Oslo kommunes Naturmangfoldstrategi 2030</li>
         </ul>
         <p>

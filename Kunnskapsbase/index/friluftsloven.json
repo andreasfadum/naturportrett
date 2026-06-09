@@ -1,0 +1,321 @@
+{
+  "lovId": "friluftsloven",
+  "kortKode": "friluftsloven",
+  "tittel": "Lov om friluftslivet (friluftsloven)",
+  "datoKode": "LOV-1957-06-28-16",
+  "sistEndret": "LOV-2024-12-06-74 fra 01.01.2025",
+  "lovdataBaseUrl": "https://lovdata.no/lov/1957-06-28-16",
+  "kapitler": [
+    {
+      "nummer": "Kapittel I",
+      "tittel": "Om ferdsel m.v.",
+      "paragrafRange": "§§ 1–10"
+    },
+    {
+      "nummer": "Kapittel II",
+      "tittel": "Om ferdselsrettens utøving og innskrenkninger",
+      "paragrafRange": "§§ 11–20"
+    },
+    {
+      "nummer": "Kapittel III",
+      "tittel": "Om friluftslivsforvaltningen. Forholdet til forvaltningsloven",
+      "paragrafRange": "§§ 21–24"
+    },
+    {
+      "nummer": null,
+      "tittel": "Kapittel IV. (Opphevet ved lov 21. apr 1989 nr. 17.)",
+      "paragrafRange": null
+    },
+    {
+      "nummer": "Kapittel V",
+      "tittel": "Om tvangsinngrep, skjønn m.v.",
+      "paragrafRange": "§§ 34–38"
+    },
+    {
+      "nummer": "Kapittel VI",
+      "tittel": "Om reaksjoner ved overtredelse mv.",
+      "paragrafRange": "§§ 39–41"
+    }
+  ],
+  "paragrafer": [
+    {
+      "id": "friluftsloven-1",
+      "nummer": "1",
+      "displayNavn": "§ 1",
+      "tema": "Lovens formål",
+      "sitat": "Formålet er å verne friluftslivets naturgrunnlag og sikre\nallmennhetens rett til ferdsel, opphold m.v. i naturen, slik at muligheten til å\nutøve friluftsliv som en helsefremmende, trivselskapende og miljøvennlig\nfritidsaktivitet bevares og fremmes.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A71"
+    },
+    {
+      "id": "friluftsloven-1a",
+      "nummer": "1 a",
+      "displayNavn": "§ 1 a",
+      "tema": "Hva som forstås med innmark og utmark",
+      "sitat": "Som innmark/like med innmark\nregnes gårdsplass, hustomt, dyrket mark, engslått og kulturbeite samt liknende\nområde hvor allmennhetens ferdsel vil være til utilbørlig fortrengsel for eier\neller bruker; samt mindre udyrkete grunnstykker i/inngjerdet med slikt område, og\nområde for industrielt/særlig øyemed. **Utmark** er udyrket mark som ikke regnes\nlike med innmark.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A71a"
+    },
+    {
+      "id": "friluftsloven-2",
+      "nummer": "2",
+      "displayNavn": "§ 2",
+      "tema": "Ferdsel i utmark",
+      "sitat": "I utmark kan enhver ferdes til fots hele året når det\nskjer hensynsfullt og med tilbørlig varsomhet. Tilsvarende for ride-/kløvhest,\nkjelke, tråsykkel mv. på veg/sti i utmark og overalt i utmark på fjellet, med\nmindre kommunen (med eiers samtykke) har forbudt det på angitte strekninger.\nMotorferdsel: se motorferdselloven.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A72"
+    },
+    {
+      "id": "friluftsloven-3",
+      "nummer": "3",
+      "displayNavn": "§ 3",
+      "tema": "Ferdsel i innmark",
+      "sitat": "I innmark kan enhver ferdes til fots når marken er\nfrosset/snølagt, men ikke 30. april–14. oktober. Gjelder ikke gårdsplass/hustomt,\ninngjerdet hage/park mv. Eier kan forby ferdsel over hage, plantefelt, høstsådd\nåker og gjenlegg ved fare for nevneverdig skade. Statsforvalteren kan justere\ntidsrommet per fylke.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A73"
+    },
+    {
+      "id": "friluftsloven-3a",
+      "nummer": "3 a",
+      "displayNavn": "§ 3 a",
+      "tema": "Ferdsel på vei eller sti i innmark",
+      "sitat": "Ferdsel i innmark som fører til\nutmark – til fots på vei/sti, eller på vei/opparbeidet sti med hest, sykkel,\nkjelke mv. (ikke organisert aktivitet) – er tillatt hele året hvis det skjer uten\nå passere gårdsplass/hustomt eller være til utilbørlig fortrengsel.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A73a"
+    },
+    {
+      "id": "friluftsloven-4",
+      "nummer": "4",
+      "displayNavn": "§ 4",
+      "tema": "Ferdsel med motorvogn og hestekjøretøy",
+      "sitat": "Eier av privat veg kan forby\nferdsel med hestekjøretøy, motorvogn (inkl. sykkel med hjelpemotor) og parkering.\nVed offentlig veg er parkering i utmark tillatt om det ikke volder nevneverdig\nskade/ulempe.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A74"
+    },
+    {
+      "id": "friluftsloven-5",
+      "nummer": "5",
+      "displayNavn": "§ 5",
+      "tema": "Allmennhetens høstingsrett",
+      "sitat": "Under ferdsel i utmark kan allmennheten\nhøste ville nøtter (spises på stedet), plukke ville blomster, planter, bær, sopp\nog røtter av ville urter, hensynsfullt. Særregel for multer i Nordland, Troms og\nFinnmark.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A75"
+    },
+    {
+      "id": "friluftsloven-6",
+      "nummer": "6",
+      "displayNavn": "§ 6",
+      "tema": "Ferdsel på sjøen og i vassdrag",
+      "sitat": "På sjøen (også islagt) er ferdsel med\nbåt fri for enhver. For innsjøer/elver: vannressursloven og motorferdselloven.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A76"
+    },
+    {
+      "id": "friluftsloven-7",
+      "nummer": "7",
+      "displayNavn": "§ 7",
+      "tema": "Landsetting og fortøyning av båt",
+      "sitat": "Enhver kan for kortere tid dra i land\nbåt på strandstrekning i utmark; ikke bruke kai/brygge uten samtykke.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A77"
+    },
+    {
+      "id": "friluftsloven-8",
+      "nummer": "8",
+      "displayNavn": "§ 8",
+      "tema": "Bading",
+      "sitat": "Enhver kan bade i sjø/vassdrag fra strand i utmark eller fra båt\ni rimelig avstand fra bebodd hus og uten utilbørlig fortrengsel/ulempe.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A78"
+    },
+    {
+      "id": "friluftsloven-9",
+      "nummer": "9",
+      "displayNavn": "§ 9",
+      "tema": "Rasting og telting",
+      "sitat": "Rasting/telting ikke i innmark uten samtykke. I\nutmark ikke til utilbørlig fortrengsel; telt ikke nærmere bebodd hus enn **150\nmeter** (unntak for tilrettelagte teltplasser og evt. kystnære områder ved\nforskrift). Telting/opphold maks **2 døgn** uten samtykke (unntak høgfjell/fjernt\nfra bebyggelse).",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A79"
+    },
+    {
+      "id": "friluftsloven-10",
+      "nummer": "10",
+      "displayNavn": "§ 10",
+      "tema": "Friluftsmøte m.v.",
+      "sitat": "Friluftsmøte, idrettsstevne o.l. som kan medføre\nnevneverdig skade/ulempe krever samtykke fra eier/bruker.",
+      "kapittel": "Kapittel I. Om ferdsel m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A710"
+    },
+    {
+      "id": "friluftsloven-11",
+      "nummer": "11",
+      "displayNavn": "§ 11",
+      "tema": "Ferdselskultur og eierens bortvisingsrett",
+      "sitat": "Enhver skal opptre\nhensynsfullt og varsomt, ikke etterlate stedet skjemmende/skadet. Eier kan vise\nbort folk som opptrer hensynsløst.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A711"
+    },
+    {
+      "id": "friluftsloven-12",
+      "nummer": "12",
+      "displayNavn": "§ 12",
+      "tema": "Erstatning for skade og ulempe",
+      "sitat": "Alminnelige erstatningsregler gjelder.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A712"
+    },
+    {
+      "id": "friluftsloven-13",
+      "nummer": "13",
+      "displayNavn": "§ 13",
+      "tema": "Ulovlige stengsler eller forbudsskilt",
+      "sitat": "Eier må ikke ved stengsel\nvanskeliggjøre lovlig ferdsel/opphold/bading/høsting med mindre det tjener\nberettigete interesser og ikke er til utilbørlig fortrengsel. Ulovlige stengsler/\nskilt kan kreves fjernet etter § 40.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A713"
+    },
+    {
+      "id": "friluftsloven-14",
+      "nummer": "14",
+      "displayNavn": "§ 14",
+      "tema": "Avgift for adgang til friluftsområde",
+      "sitat": "Eier kan, etter kommunens løyve,\nkreve rimelig avgift for adgang til opparbeidet friluftsområde.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A714"
+    },
+    {
+      "id": "friluftsloven-15",
+      "nummer": "15",
+      "displayNavn": "§ 15",
+      "tema": "Regulering av ferdsel på visse friluftsområde",
+      "sitat": "Kommunen kan (med eiers\nsamtykke) fastsette atferdsregler der utfarten er stor.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A715"
+    },
+    {
+      "id": "friluftsloven-16",
+      "nummer": "16",
+      "displayNavn": "§ 16",
+      "tema": "Sperring av særlig utsatt område",
+      "sitat": "Kommunen kan (med eiers samtykke)\nbestemme hel/delvis sperring i inntil 5 år om gangen.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A716"
+    },
+    {
+      "id": "friluftsloven-17",
+      "nummer": "17",
+      "displayNavn": "§ 17",
+      "tema": "",
+      "sitat": "(Opphevet.)",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A717"
+    },
+    {
+      "id": "friluftsloven-18",
+      "nummer": "18",
+      "displayNavn": "§ 18",
+      "tema": "Krav om innløsning av særlig utsatt område",
+      "sitat": "Eier kan kreve at kommunen\ninnløser område som i særlig grad er utsatt for ferdsel når sperring ikke\ntreffes/ikke er tilstrekkelig.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A718"
+    },
+    {
+      "id": "friluftsloven-19",
+      "nummer": "19",
+      "displayNavn": "§ 19",
+      "tema": "Forholdet til andre lover",
+      "sitat": "Allemannsretten gjelder med de begrensninger\nsom følger av annen lovgivning eller forskrifter.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A719"
+    },
+    {
+      "id": "friluftsloven-20",
+      "nummer": "20",
+      "displayNavn": "§ 20",
+      "tema": "Uttalelse om tvilsspørsmål",
+      "sitat": "Ved tvil om innmark/utmark, avstand for\nrasting/telting (§ 9), eller om stengsel/skilt er lovlig (§ 13), kan grunneier,\nbruker eller et friluftslag kreve uttalelse fra kommunen.",
+      "kapittel": "Kapittel II. Om ferdselsrettens utøving og innskrenkninger",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A720"
+    },
+    {
+      "id": "friluftsloven-21",
+      "nummer": "21",
+      "displayNavn": "§ 21",
+      "tema": "Friluftslivsorganene",
+      "sitat": "Departementet, Direktoratet, Statsforvalteren,\nFylkeskommunen, Kommunen.",
+      "kapittel": "Kapittel III. Om friluftslivsforvaltningen. Forholdet til forvaltningsloven.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A721"
+    },
+    {
+      "id": "friluftsloven-22",
+      "nummer": "22",
+      "displayNavn": "§ 22",
+      "tema": "Friluftslivsorganenes arbeidsoppgaver",
+      "sitat": "Organene har generelt ansvar for\nå fremme allmennhetens friluftsinteresser; kommune, fylkeskommune og\nstatsforvalter kan opptre, klage og reise søksmål for å ivareta disse interessene.",
+      "kapittel": "Kapittel III. Om friluftslivsforvaltningen. Forholdet til forvaltningsloven.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A722"
+    },
+    {
+      "id": "friluftsloven-23",
+      "nummer": "23",
+      "displayNavn": "§ 23",
+      "tema": "Forskrifter",
+      "sitat": "Departementet kan gi nærmere forskrifter.",
+      "kapittel": "Kapittel III. Om friluftslivsforvaltningen. Forholdet til forvaltningsloven.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A723"
+    },
+    {
+      "id": "friluftsloven-24",
+      "nummer": "24",
+      "displayNavn": "§ 24",
+      "tema": "Forholdet til forvaltningsloven, herunder kunngjøring og klage",
+      "sitat": "Forvaltningsloven gjelder når ikke annet er bestemt. Angir hvilke vedtak som\nfølger reglene om enkeltvedtak hhv. forskrifter, og klageveier (kommunens vedtak\npåklages til statsforvalteren; fylkeskommunens til Miljødirektoratet).",
+      "kapittel": "Kapittel III. Om friluftslivsforvaltningen. Forholdet til forvaltningsloven.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A724"
+    },
+    {
+      "id": "friluftsloven-34",
+      "nummer": "34",
+      "displayNavn": "§ 34",
+      "tema": "Friluftsmark",
+      "sitat": "Med Stortingets samtykke kan Kongen legge ut statens\ngrunn til friluftsmark.",
+      "kapittel": "Kapittel V. Om tvangsinngrep, skjønn m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A734"
+    },
+    {
+      "id": "friluftsloven-35",
+      "nummer": "35",
+      "displayNavn": "§ 35",
+      "tema": "Tiltak og inngrepsløyve for å lette ferdsel i utmark",
+      "sitat": "Kommunen kan\nvarde/merke ruter og turstier, bygge klopper/bruer mv.; kan gi\nfriluftsorganisasjoner tilsvarende rett. Skade kan kreves erstattet ved skjønn\n(styres av jordskifteretten).\n\n**§§ 36–38.** (Opphevet.)",
+      "kapittel": "Kapittel V. Om tvangsinngrep, skjønn m.v.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A735"
+    },
+    {
+      "id": "friluftsloven-39",
+      "nummer": "39",
+      "displayNavn": "§ 39",
+      "tema": "Straff",
+      "sitat": "Forsettlig/uaktsom overtredelse straffes med bøter når ikke\nstrengere straffebud rammer forholdet.",
+      "kapittel": "Kapittel VI. Om reaksjoner ved overtredelse mv.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A739"
+    },
+    {
+      "id": "friluftsloven-40",
+      "nummer": "40",
+      "displayNavn": "§ 40",
+      "tema": "Stansing, fjerning av ulovlige byggverk, tvangsmulkt m.v.",
+      "sitat": "Kommunen kan\nkreve ulovlig arbeid stanset; friluftsorganene (§ 21) kan kreve ulovlige\nbyggverk/stengsler/skilt fjernet på den skyldiges kostnad; tvangsmulkt kan\nilegges. Politiets hjelp kan kreves.",
+      "kapittel": "Kapittel VI. Om reaksjoner ved overtredelse mv.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A740"
+    },
+    {
+      "id": "friluftsloven-41",
+      "nummer": "41",
+      "displayNavn": "§ 41",
+      "tema": "Ikrafttreden og oppheving av andre lover",
+      "sitat": "Loven trådte i kraft 1. juli\n1957 og opphevet bl.a. strandlovene fra 1937 og 1954.",
+      "kapittel": "Kapittel VI. Om reaksjoner ved overtredelse mv.",
+      "lovdataUrl": "https://lovdata.no/lov/1957-06-28-16/%C2%A741"
+    }
+  ]
+}

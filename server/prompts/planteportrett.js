@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -61,8 +61,11 @@ Returner et JSON-objekt med følgende struktur:
   "anbefaltSamplanting": "Andre arter som passer å plante sammen med denne",
   "vedlikeholdsbehov": "Krav til vanning, klipping, gjødsling",
   "saerskilteHensyn": "Spesielle utfordringer eller hensyn",
-  "kommentarer": "Tilleggsinformasjon"
+  "kommentarer": "Tilleggsinformasjon",
+  ${RELEVANTE_LOVER_FIELD}
 }
+
+${RELEVANTE_LOVER_INSTRUKS}
 
 Vær konkret og handlingsrettet. For plante som brukes på grønne tak, inkluder eksempler fra Oslo (Vega Scene, etc.) hvis relevant.`
 

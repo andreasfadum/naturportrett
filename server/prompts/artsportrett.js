@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -55,8 +55,11 @@ Returner et JSON-objekt med følgende struktur:
     "Konkret designtiltak 1",
     "Konkret designtiltak 2"
   ],
-  "kommentarer": "Tilleggsinformasjon: parasitter, bevaring, interaksjoner, rolle i økosystemet"
+  "kommentarer": "Tilleggsinformasjon: parasitter, bevaring, interaksjoner, rolle i økosystemet",
+  ${RELEVANTE_LOVER_FIELD}
 }
+
+${RELEVANTE_LOVER_INSTRUKS}
 
 Vær konkret med tall og avstander. Inkluder praktiske mål (f.eks. 'fuglekasse 12×12 cm', 'hekkelokalitet til mat: <100 m').`
 

@@ -2,6 +2,7 @@ import PortrettMetadata from './PortrettMetadata.jsx'
 import YearCycleTimeline from './YearCycleTimeline.jsx'
 import AttributeChecklist from './AttributeChecklist.jsx'
 import ConservationStatusBadge from './ConservationStatusBadge.jsx'
+import LegalReferences from '../legal/LegalReferences.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -194,6 +195,8 @@ export default function PlanteportrettView({ portrait, subject }) {
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
+
+      <LegalReferences items={p.relevanteLoverEnriched} />
 
       <PortrettMetadata referanseprosjekt={p.folkenavn} />
     </article>

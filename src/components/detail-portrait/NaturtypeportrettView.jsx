@@ -1,5 +1,6 @@
 import PortrettMetadata from './PortrettMetadata.jsx'
 import ConservationStatusBadge from './ConservationStatusBadge.jsx'
+import LegalReferences from '../legal/LegalReferences.jsx'
 
 export default function NaturtypeportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -139,6 +140,8 @@ export default function NaturtypeportrettView({ portrait, subject }) {
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
+
+      <LegalReferences items={p.relevanteLoverEnriched} />
 
       <PortrettMetadata referanseprosjekt={p.navn} />
     </article>

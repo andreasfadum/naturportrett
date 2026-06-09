@@ -1,0 +1,35 @@
+{
+  "lover": {
+    "nml": {
+      "lovId": "naturmangfoldloven",
+      "fil": "naturmangfoldloven.json",
+      "tittel": "Lov om forvaltning av naturens mangfold (naturmangfoldloven)",
+      "kortKode": "nml"
+    },
+    "friluftsloven": {
+      "lovId": "friluftsloven",
+      "fil": "friluftsloven.json",
+      "tittel": "Lov om friluftslivet (friluftsloven)",
+      "kortKode": "friluftsloven"
+    },
+    "forvaltningsloven": {
+      "lovId": "forvaltningsloven",
+      "fil": "forvaltningsloven.json",
+      "tittel": "Lov om behandlingsmåten i forvaltningssaker (forvaltningsloven)",
+      "kortKode": "forvaltningsloven"
+    },
+    "sak10": {
+      "lovId": "byggesaksforskriften-sak10",
+      "fil": "byggesaksforskriften-sak10.json",
+      "tittel": "Forskrift om byggesak (byggesaksforskriften – SAK10)",
+      "kortKode": "sak10"
+    },
+    "pbl": {
+      "lovId": "plan-og-bygningsloven",
+      "fil": "plan-og-bygningsloven-stub.json",
+      "tittel": "Plan- og bygningsloven (pbl)",
+      "kortKode": "pbl",
+      "kilde": "manuelt stub — kun § 3-1 er indeksert. Konverter pbl.docx til markdown for full indeks."
+    }
+  }
+}

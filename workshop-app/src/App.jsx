@@ -14,7 +14,7 @@ export default function App() {
         <button className={tab === 'workshop' ? 'on' : ''} onClick={() => setTab('workshop')}>2 · Workshop</button>
         <button className={tab === 'admin' ? 'on' : ''} onClick={() => setTab('admin')}>Administrator</button>
       </div>
-      {tab === 'skjema' && <Skjema />}
+      {tab === 'skjema' && <Skjema goToWorkshop={() => setTab('workshop')} />}
       {tab === 'workshop' && <Workshop />}
       {tab === 'admin' && <Admin />}
     </>

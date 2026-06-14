@@ -42,3 +42,13 @@ th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertic
 pre.archive{white-space:pre-wrap;font-size:12.5px;background:#faf9f6;border:1px solid var(--line);border-radius:8px;padding:12px;line-height:1.4}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid #ccc;border-top-color:var(--oslo);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
+.annet-text{margin-top:6px;margin-left:22px;width:calc(100% - 22px);font-size:13.5px}
+.cta-card{background:#fff;border:2px solid var(--oslo);border-radius:12px;padding:22px 22px 18px;text-align:center}
+.cta-card h2{margin:0 0 8px;color:var(--oslo);font-size:18px}
+.cta-card p{margin:0 0 18px;color:#444;font-size:14px;line-height:1.5}
+.btn--cta{font-size:17px;font-weight:700;padding:16px 28px;border-radius:10px;box-shadow:0 2px 6px rgba(42,40,89,.15)}
+.btn--cta:hover{background:#3a3873}
+.warn{background:#fff7e6;border:1px solid #f0c97a;border-radius:10px;padding:16px 18px}
+.warn h2{margin:0 0 8px;color:#7a4900;font-size:16px}
+.warn p{margin:0 0 14px;font-size:14px;line-height:1.4}
+.info{background:#eef;border:1px solid #ccd;color:var(--oslo);padding:10px 14px;border-radius:8px;margin-bottom:14px;font-size:13.5px}

@@ -1,6 +1,8 @@
 import React from 'react'
 
-export default function Field({ q, value, onChange }) {
+export const OTHER = '__annet__'
+
+export default function Field({ q, value, onChange, otherText, onOtherText }) {
   const lab = (
     <label className="lab">{q.label} {q.hint && <span className="hint">{q.hint}</span>}</label>
   )
@@ -29,23 +31,33 @@ export default function Field({ q, value, onChange }) {
   }
 
   if (q.type === 'single') {
+    const isOther = value === OTHER
     return (
       <div className="q">{lab}
         {q.options.map(o => (
           <label className="opt" key={o}><input type="radio" name={q.id} checked={value === o} onChange={() => onChange(o)} />{o}</label>
         ))}
+        <label className="opt"><input type="radio" name={q.id} checked={isOther} onChange={() => onChange(OTHER)} />Annet, vennligst spesifiser:</label>
+        {isOther && (
+          <input type="text" className="annet-text" value={otherText || ''} placeholder="Skriv ditt svar..." onChange={e => onOtherText(e.target.value)} />
+        )}
       </div>
     )
   }
 
   // multi / rank
   const arr = Array.isArray(value) ? value : []
+  const isOther = arr.includes(OTHER)
   const toggle = o => arr.includes(o) ? onChange(arr.filter(x => x !== o)) : onChange([...arr, o])
   return (
     <div className="q">{lab}
       {q.options.map(o => (
         <label className="opt" key={o}><input type="checkbox" checked={arr.includes(o)} onChange={() => toggle(o)} />{o}</label>
       ))}
+      <label className="opt"><input type="checkbox" checked={isOther} onChange={() => toggle(OTHER)} />Annet, vennligst spesifiser:</label>
+      {isOther && (
+        <input type="text" className="annet-text" value={otherText || ''} placeholder="Skriv ditt svar..." onChange={e => onOtherText(e.target.value)} />
+      )}
     </div>
   )
 }

@@ -6,16 +6,35 @@ import {
   SUMMARY_SYSTEM, buildSummaryUser
 } from './prompts.js'
 
+const ADMIN_PASSWORD = process.env.WORKSHOP_ADMIN_PASSWORD || 'naturportrett'
+
+function krevAdmin(req, res, next) {
+  const oppgitt = req.headers['x-workshop-admin']
+  if (oppgitt && oppgitt === ADMIN_PASSWORD) return next()
+  res.status(401).json({ feil: 'feil passord' })
+}
+
 export function createWorkshopRouter() {
   const router = Router()
 
   // ---- innsamling ----
   router.post('/submit', (req, res) => {
-    const { etat, stilling, epost, svar } = req.body || {}
+    const { etat, stilling, epost, svar, klientId, override } = req.body || {}
     if (!etat || !stilling) return res.status(400).json({ feil: 'Mangler etat/stilling' })
+    if (klientId && !override) {
+      const eksisterende = readJSON('responses.json', []).find(r => r.klientId === klientId && !r.erOverride)
+      if (eksisterende) {
+        return res.status(409).json({
+          feil: 'duplikat',
+          tidligereTidspunkt: eksisterende.tidspunkt
+        })
+      }
+    }
     const n = append('responses.json', {
       tidspunkt: new Date().toISOString(),
-      etat, stilling, epost: epost || null, svar: svar || []
+      etat, stilling, epost: epost || null, svar: svar || [],
+      klientId: klientId || null,
+      erOverride: !!override
     })
     res.json({ ok: true, antall: n })
   })
@@ -31,8 +50,8 @@ export function createWorkshopRouter() {
     res.json({ ok: true, antall: n })
   })
 
-  // ---- admin-data ----
-  router.get('/admin', (req, res) => {
+  // ---- admin-data (passordbeskyttet) ----
+  router.get('/admin', krevAdmin, (req, res) => {
     const responses = readJSON('responses.json', [])
     const answers = readJSON('answers.json', [])
     res.json({
@@ -52,7 +71,7 @@ export function createWorkshopRouter() {
   })
 
   // ---- Steg 2: generer 5 oppgaver fra svarene ----
-  router.post('/generate', async (req, res) => {
+  router.post('/generate', krevAdmin, async (req, res) => {
     const responses = readJSON('responses.json', [])
     if (!responses.length) return res.json({ tasks: RESERVE_TASKS, generert: false, grunn: 'ingen svar' })
     try {
@@ -67,7 +86,7 @@ export function createWorkshopRouter() {
   })
 
   // ---- Avslutt: oppsummering + arkiv ----
-  router.post('/summarize', async (req, res) => {
+  router.post('/summarize', krevAdmin, async (req, res) => {
     const responses = readJSON('responses.json', [])
     const answers = readJSON('answers.json', [])
     if (!responses.length && !answers.length) return res.status(400).json({ feil: 'Ingen data' })
@@ -79,7 +98,7 @@ export function createWorkshopRouter() {
     }
   })
 
-  router.post('/reset', (req, res) => { clearAll(); res.json({ ok: true }) })
+  router.post('/reset', krevAdmin, (req, res) => { clearAll(); res.json({ ok: true }) })
 
   return router
 }

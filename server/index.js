@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { claudeRouter } from './routes/claude.js'
 import { sourcesRouter } from './routes/sources.js'
 import { createWorkshopRouter } from '../workshop-app/server/router.js'
+import { CLAUDE_MODEL, MODEL_CHAIN } from './config/model.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -23,7 +24,7 @@ app.use(express.json())
 app.use('/api/claude', claudeRouter)
 app.use('/api/sources', sourcesRouter)
 
-app.get('/api/health', (_, res) => res.json({ status: 'ok', model: 'claude-sonnet-4-6' }))
+app.get('/api/health', (_, res) => res.json({ status: 'ok', model: CLAUDE_MODEL, modelChain: MODEL_CHAIN }))
 
 // Workshop-app monteres på /workshop_01 (egen under-app, eget datalager)
 app.use('/workshop_01/api', createWorkshopRouter())
@@ -46,4 +47,5 @@ app.listen(PORT, () => {
   } else {
     console.log(`API-nøkkel lastet: ${key.slice(0, 14)}...${key.slice(-4)} (${key.length} tegn)`)
   }
+  console.log(`KI-modell: ${CLAUDE_MODEL}  ·  fallback-kjede: [${MODEL_CHAIN.join(', ')}]`)
 })

@@ -11,7 +11,8 @@
     "build:prod": "vite build && cd workshop-app && npm install && npm run build",
     "start": "node server/index.js",
     "preview": "vite preview",
-    "build:lover-index": "node scripts/build-lover-index.js"
+    "build:lover-index": "node scripts/build-lover-index.js",
+    "check-models": "node scripts/check-models.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

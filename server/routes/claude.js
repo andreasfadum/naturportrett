@@ -6,6 +6,7 @@ import * as artsportrett from '../prompts/artsportrett.js'
 import * as planteportrett from '../prompts/planteportrett.js'
 import * as naturtypeportrett from '../prompts/naturtypeportrett.js'
 import { enrichRelevanteLover } from '../lover/index.js'
+import { CLAUDE_MODEL, MODEL_CHAIN, isModelNotFoundError } from '../config/model.js'
 
 export const claudeRouter = Router()
 
@@ -38,7 +39,7 @@ claudeRouter.post('/', async (req, res) => {
   try {
     const userMessage = biodiversity.buildUserPrompt(address, zoneRadiusM, selectedSpecies)
     const stream = client.messages.stream({
-      model: 'claude-sonnet-4-6',
+      model: CLAUDE_MODEL,
       max_tokens: 3000,
       system: biodiversity.SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userMessage }],
@@ -80,14 +81,16 @@ claudeRouter.post('/portrait', async (req, res) => {
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+  let modelUsed = CLAUDE_MODEL
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
-    const response = await createWithRetry(client, {
-      model: 'claude-sonnet-4-6',
+    const result = await createWithRetry(client, {
       max_tokens: 8000,
       system: promptModule.SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userMessage }],
     })
+    const response = result.response
+    modelUsed = result.modelUsed
 
     const rawText = response.content?.[0]?.text || ''
     const stopReason = response.stop_reason
@@ -118,7 +121,7 @@ claudeRouter.post('/portrait', async (req, res) => {
       parsed.relevanteLoverEnriched = enrichRelevanteLover(parsed.relevanteLover)
     }
 
-    return res.json({ portrait: parsed, model: 'claude-sonnet-4-6', stopReason })
+    return res.json({ portrait: parsed, model: modelUsed, stopReason })
   } catch (err) {
     console.error('Claude portrait-feil:', err.message)
     let userMessage = err.message
@@ -134,26 +137,40 @@ claudeRouter.post('/portrait', async (req, res) => {
 })
 
 /**
- * Kaller Anthropic med automatisk gjenforsøk på forbigående feil (5xx + 429).
- * Anthropic kan returnere 529 "overloaded" eller 503 under høy last — disse
- * er forbigående og lykkes nesten alltid ved nytt forsøk. Andre feil (401,
- * 400 osv.) kastes umiddelbart.
+ * Kaller Anthropic med automatisk gjenforsøk på forbigående feil (5xx + 429)
+ * OG automatisk fallback til neste modell i MODEL_CHAIN ved 404 (modellen
+ * er deprecated/retired). Returnerer { response, modelUsed } slik at kalleren
+ * kan logge hvilken modell som faktisk svarte.
+ *
+ * Forbigående feil (529/503/429): inntil 2 gjenforsøk med backoff per modell.
+ * Permanent 404: gå videre til neste modell i kjeden uten å vente.
+ * Andre feil (401, 400 osv.): kastes umiddelbart.
  */
 async function createWithRetry(client, params, maxRetries = 2) {
   let lastErr
-  for (let attempt = 0; attempt <= maxRetries; attempt++) {
-    try {
-      return await client.messages.create(params)
-    } catch (err) {
-      lastErr = err
-      const transient = err.status >= 500 || err.status === 429
-      if (transient && attempt < maxRetries) {
-        const waitMs = 1500 * (attempt + 1)
-        console.warn(`Forbigående KI-feil (status ${err.status}) — gjenforsøk ${attempt + 1}/${maxRetries} om ${waitMs} ms`)
-        await new Promise(r => setTimeout(r, waitMs))
-        continue
+  for (const model of MODEL_CHAIN) {
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const response = await client.messages.create({ ...params, model })
+        if (model !== MODEL_CHAIN[0]) {
+          console.warn(`KI-fallback: brukte ${model} i stedet for ${MODEL_CHAIN[0]} (sannsynligvis deprecated/retired)`)
+        }
+        return { response, modelUsed: model }
+      } catch (err) {
+        lastErr = err
+        if (isModelNotFoundError(err)) {
+          console.warn(`Modell ${model} ikke funnet (deprecated/retired) — prøver neste i kjeden`)
+          break // hopp til neste modell uten å vente
+        }
+        const transient = err.status >= 500 || err.status === 429
+        if (transient && attempt < maxRetries) {
+          const waitMs = 1500 * (attempt + 1)
+          console.warn(`Forbigående KI-feil (status ${err.status}) på ${model} — gjenforsøk ${attempt + 1}/${maxRetries} om ${waitMs} ms`)
+          await new Promise(r => setTimeout(r, waitMs))
+          continue
+        }
+        throw err
       }
-      throw err
     }
   }
   throw lastErr

@@ -1,3 +1,5 @@
+import { CLAUDE_MODEL } from '../config/model.js'
+
 export const ROLE_INTRO = `Du er en fagrådgiver for naturmangfold i Oslo kommune. Du hjelper arkitekter, eiendomsutviklere og saksbehandlere i Plan- og bygningsetaten med å identifisere biologisk mangfold og naturhensyn i bygge- og reguleringsprosjekter.`
 
 export const REFERENCES = `Faglig grunnlag:
@@ -32,6 +34,6 @@ Bruk feltet "relevanteLover" til å peke på paragrafer som har konkret relevans
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',
   produksjonsmate: 'KI uten faglig kvalitetssikring',
-  kilder: 'iNaturalist, GBIF, Artsdatabanken (Rødlista 2021, Fremmedartslista 2023), Kartverket, Anthropic Claude (claude-sonnet-4-6), strukturert lovbase fra Lovdata',
+  kilder: `iNaturalist, GBIF, Artsdatabanken (Rødlista 2021, Fremmedartslista 2023), Kartverket, Anthropic Claude (${CLAUDE_MODEL}), strukturert lovbase fra Lovdata`,
   referanseprosjekt: 'Naturportrett – prototype for Oslo kommune',
 }

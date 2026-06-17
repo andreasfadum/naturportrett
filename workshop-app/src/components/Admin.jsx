@@ -75,6 +75,13 @@ export default function Admin() {
     a.href = u; a.download = name; a.click(); URL.revokeObjectURL(u)
   }
 
+  function dlJson(name, obj) {
+    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')
+    const b = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' })
+    const u = URL.createObjectURL(b); const a = document.createElement('a')
+    a.href = u; a.download = `${name}-${stamp}.json`; a.click(); URL.revokeObjectURL(u)
+  }
+
   if (!autorisert) return (
     <div className="wrap">
       <div className="card">
@@ -105,6 +112,7 @@ export default function Admin() {
         <div className="row" style={{ marginTop: 10 }}>
           <button className="btn" onClick={generate} disabled={busyG}>{busyG && <span className="spinner" />}Generer workshop-oppgaver</button>
           <button className="btn sec" onClick={load}>Oppdater</button>
+          <button className="btn sec" onClick={() => dlJson('skjemasvar-radata', data.responses)} disabled={!data.responses.length}>Last ned skjemasvar (JSON)</button>
           <button className="btn sec" onClick={logUt}>Lås igjen</button>
         </div>
         {genInfo && <p className="muted">{genInfo}</p>}
@@ -121,6 +129,9 @@ export default function Admin() {
             {data.answers.map((d, i) => <tr key={i}><td>{d.gruppe}</td><td>{(d.besvarelser || []).map(b => String(b.oppgave).split('—')[0].trim()).join(', ')}</td></tr>)}
           </tbody></table>
           : <p className="muted">Ingen workshop-svar ennå.</p>}
+        <div className="row" style={{ marginTop: 10 }}>
+          <button className="btn sec" onClick={() => dlJson('workshop-svar-radata', data.answers)} disabled={!data.answers.length}>Last ned workshop-svar (JSON)</button>
+        </div>
       </div>
 
       <div className="card"><h2>Avslutt og oppsummer</h2>

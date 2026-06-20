@@ -30,7 +30,7 @@ export default function HeatmapPage() {
   const [data, setData] = useState(null)
   const [feil, setFeil] = useState('')
   const [valgtKategori, setValgtKategori] = useState('alle')
-  const [intensitet, setIntensitet] = useState(1)
+  const [intensitet, setIntensitet] = useState(1.5)
 
   useEffect(() => {
     fetch('/heatmap-data.json')
@@ -76,24 +76,33 @@ export default function HeatmapPage() {
 
     if (filtrerteCeller.length === 0) return
 
-    const maksAntall = filtrerteCeller.reduce((m, c) => Math.max(m, c.antall), 1)
-    const punkter = filtrerteCeller.map(c => [
-      c.lat,
-      c.lon,
-      Math.min(1, (c.antall / maksAntall) * intensitet),
-    ])
+    if (typeof L.heatLayer !== 'function') {
+      console.warn('leaflet.heat ikke lastet — heat-laget kan ikke rendres')
+      return
+    }
+
+    // Bruker rå antall som intensitet; leaflet.heat tar `max` som taket.
+    // For å hindre at ekstrem-celler (Akerselva med 100+ obs) suger all
+    // synlighet fra mer moderate, bruker vi en konstant som er nær gjennomsnittet
+    // av de aktive cellene multiplisert med brukerens intensitets-faktor.
+    const sortertEtterAntall = [...filtrerteCeller].sort((a, b) => a.antall - b.antall)
+    const median = sortertEtterAntall[Math.floor(sortertEtterAntall.length / 2)]?.antall || 1
+    const maxVerdi = Math.max(2, median * 2) / intensitet
+
+    const punkter = filtrerteCeller.map(c => [c.lat, c.lon, c.antall])
 
     heatLayerRef.current = L.heatLayer(punkter, {
-      radius: 18,
-      blur: 22,
+      radius: 25,
+      blur: 30,
       maxZoom: 17,
-      max: 1,
+      max: maxVerdi,
+      minOpacity: 0.35,
       gradient: {
-        0.0: 'rgba(67, 248, 182, 0.0)',
-        0.2: 'rgba(67, 248, 182, 0.8)',
-        0.4: 'rgba(249, 198, 107, 0.85)',
-        0.7: 'rgba(255, 130, 116, 0.9)',
-        1.0: 'rgba(42, 40, 89, 1)',
+        0.0: 'rgba(67, 248, 182, 0.6)',
+        0.3: 'rgba(67, 248, 182, 0.9)',
+        0.5: 'rgba(249, 198, 107, 0.95)',
+        0.75: 'rgba(255, 130, 116, 1.0)',
+        1.0: 'rgba(42, 40, 89, 1.0)',
       },
     }).addTo(mapRef.current)
   }, [filtrerteCeller, intensitet, data])

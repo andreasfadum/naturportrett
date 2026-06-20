@@ -31,6 +31,7 @@ export default function HeatmapPage() {
   const [feil, setFeil] = useState('')
   const [valgtKategori, setValgtKategori] = useState('alle')
   const [intensitet, setIntensitet] = useState(1.5)
+  const [zoomNiva, setZoomNiva] = useState(OSLO_ZOOM)
 
   useEffect(() => {
     fetch('/heatmap-data.json')
@@ -53,6 +54,7 @@ export default function HeatmapPage() {
       maxZoom: 19,
       attribution: '© OpenStreetMap-bidragsytere',
     }).addTo(kart)
+    kart.on('zoomend', () => setZoomNiva(kart.getZoom()))
     mapRef.current = kart
     return () => {
       kart.remove()
@@ -91,10 +93,19 @@ export default function HeatmapPage() {
 
     const punkter = filtrerteCeller.map(c => [c.lat, c.lon, c.antall])
 
+    // Dynamisk radius: grid-cellene er ~100m × 100m. På høyt zoom-nivå må
+    // radius i piksler økes for at cellene fortsatt skal overlappe og danne
+    // sammenhengende heatmap. Beregner meter per piksel for nåværende zoom
+    // og skalerer radius til å dekke ~200m (2 × grid-celle) — klamper til
+    // 18-65 piksler for å unngå tap av detalj ved ekstreme zoom-nivåer.
+    const meterPerPiksel = 156543.03392 * Math.cos(OSLO_SENTER[0] * Math.PI / 180) / Math.pow(2, zoomNiva)
+    const dynamiskRadius = Math.max(18, Math.min(65, Math.round(200 / meterPerPiksel)))
+    const dynamiskBlur = Math.round(dynamiskRadius * 1.3)
+
     heatLayerRef.current = L.heatLayer(punkter, {
-      radius: 25,
-      blur: 30,
-      maxZoom: 17,
+      radius: dynamiskRadius,
+      blur: dynamiskBlur,
+      maxZoom: 18,
       max: maxVerdi,
       minOpacity: 0.35,
       gradient: {
@@ -105,7 +116,7 @@ export default function HeatmapPage() {
         1.0: 'rgba(42, 40, 89, 1.0)',
       },
     }).addTo(mapRef.current)
-  }, [filtrerteCeller, intensitet, data])
+  }, [filtrerteCeller, intensitet, data, zoomNiva])
 
   const kategorierMedAntall = useMemo(() => {
     if (!data) return []

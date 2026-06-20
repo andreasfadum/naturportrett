@@ -12,6 +12,7 @@
     "start": "node server/index.js",
     "preview": "vite preview",
     "build:lover-index": "node scripts/build-lover-index.js",
+    "build:heatmap-data": "node scripts/build-heatmap-data.js",
     "check-models": "node scripts/check-models.js"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "express": "^4.21.2",
     "fuse.js": "^7.0.0",
     "leaflet": "^1.9.4",
+    "leaflet.heat": "^0.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

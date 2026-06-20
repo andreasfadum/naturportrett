@@ -1,5 +1,7 @@
 import PortrettMetadata from '../detail-portrait/PortrettMetadata.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
+import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
+import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import AreaMap from './AreaMap.jsx'
 
 export default function NaturportrettView({ portrait, address, species }) {
@@ -7,6 +9,7 @@ export default function NaturportrettView({ portrait, address, species }) {
 
   return (
     <article className="portrait-doc">
+      <InformasjonsbaseBanner />
       {/* Header */}
       <header className="portrait-doc__header">
         <div>
@@ -100,6 +103,8 @@ export default function NaturportrettView({ portrait, address, species }) {
       <LegalReferences items={p.relevanteLoverEnriched} />
 
       <TextSection title="Andre kilder for informasjon om området" body={p.andreKilder} />
+
+      <DataKvalitetSeksjon items={p.datakvalitet} />
 
       <PortrettMetadata referanseprosjekt={p.prosjektnavn || address.adressenavn} />
     </article>

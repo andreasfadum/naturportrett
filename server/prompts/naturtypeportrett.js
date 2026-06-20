@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -51,10 +51,13 @@ Returner et JSON-objekt med følgende struktur:
     "konflikter": "Bruk vs. vern"
   },
   "kommentarer": "Tilleggsinformasjon, særskilte hensyn",
-  ${RELEVANTE_LOVER_FIELD}
+  ${RELEVANTE_LOVER_FIELD},
+  ${DATAKVALITET_FIELD}
 }
 
 ${RELEVANTE_LOVER_INSTRUKS}
+
+${DATAKVALITET_INSTRUKS}
 
 Vær faglig presis og knytt informasjonen tett til Oslos kontekst.`
 

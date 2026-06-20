@@ -56,8 +56,20 @@ Tjenesten lager fire produkttyper:
 | 15. mai 2026 | `5019de8` | Fjernet assistant-prefill (Sonnet 4.6 støtter ikke) |
 | 22. mai 2026 | `eb3fd89` | Fersk redeploy etter Railway-krasj |
 | 22. mai 2026 | `b982bf3` | Auto-retry på forbigående KI-feil |
+| 9. jun 2026 | `9a61d6e` | Strukturert lovgrunnlag (sitat fra Lovdata istedenfor KI-tolkning) |
+| 14. jun 2026 | `c379325` | Sentralisert KI-modellkonfig + auto-fallback ved deprecation |
+| 14. jun 2026 | `3ac8f25` | Workshop-admin: rådata-nedlasting + frossen backup av spørreskjema |
+| 17. jun 2026 | (tagget `v1-presentasjon-2026-06-17`) | **Brukerundersøkelse med 9 deltakere** etter presentasjon for kollegaer |
+| 17. jun 2026 | (denne commit) | **Iterasjon 1** — datakvalitet-indikator + informasjonsbase-banner basert på funn fra brukerundersøkelsen (`svar-radata/analyse-2026-06-17.md` lokalt, ikke i git) |
 
 Presentasjon laget separat i `presentasjon/` (genereres med `python-pptx` via `generate_pptx.py`) — ikke en del av selve appen.
+
+**Rollback-anker:** `v1-presentasjon-2026-06-17` (annotert tag på commit `3ac8f25`) er den versjonen som ble brukt 17. juni. Bruk denne hvis senere iterasjoner svikter:
+
+```sh
+git checkout v1-presentasjon-2026-06-17   # lokalt
+# eller: Railway-konsoll → Redeploy commit 3ac8f25
+```
 
 ---
 

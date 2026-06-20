@@ -5,6 +5,7 @@ import ConservationStatusBadge from './ConservationStatusBadge.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
+import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 
 export default function ArtsportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -126,15 +127,8 @@ export default function ArtsportrettView({ portrait, subject }) {
         </section>
       )}
 
-      {/* Praktiske designtiltak */}
-      {Array.isArray(p.praktiskeDesigntiltak) && p.praktiskeDesigntiltak.length > 0 && (
-        <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Praktiske designtiltak</h2>
-          <ul className="portrait-doc__textblock">
-            {p.praktiskeDesigntiltak.map((t, i) => <li key={i}>{t}</li>)}
-          </ul>
-        </section>
-      )}
+      {/* Praktiske designtiltak — kategorisert (R2-innspill 17. juni) */}
+      <TiltakListe items={p.praktiskeDesigntiltak} />
 
       {/* Kommentarer */}
       {p.kommentarer && (

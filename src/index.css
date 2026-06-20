@@ -1761,3 +1761,112 @@ ul.portrait-doc__textblock {
 .datakvalitet-item__feltarbeid strong {
   color: var(--oslo-morkebla);
 }
+
+/* Praktiske designtiltak — kategorisert som lovstyrt krav vs frivillig (R2-innspill 17. juni) */
+.tiltak-liste {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: tiltak;
+}
+
+.tiltak-kort {
+  border: 1px solid var(--oslo-morkbeige);
+  border-radius: 4px;
+  padding: var(--space-3) var(--space-4);
+  background: white;
+  position: relative;
+  counter-increment: tiltak;
+}
+
+.tiltak-kort::before {
+  content: counter(tiltak);
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--oslo-morkbeige);
+}
+
+.tiltak-kort--legacy {
+  color: var(--oslo-svart);
+}
+
+.tiltak-kort__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tiltak-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.tiltak-badge--lovstyrt {
+  background: var(--oslo-lysgron);
+  color: var(--oslo-morkegron);
+  border-color: var(--oslo-morkegron);
+}
+
+.tiltak-badge--frivillig {
+  background: var(--oslo-lysbeige);
+  color: var(--oslo-svart);
+  border-color: var(--oslo-morkbeige);
+}
+
+.tiltak-badge--ukjent {
+  background: white;
+  color: var(--oslo-svart);
+  border-color: var(--oslo-morkbeige);
+}
+
+.tiltak-fase {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: var(--oslo-morkebla);
+  color: white;
+  letter-spacing: 0.02em;
+}
+
+.tiltak-kort__tiltak {
+  margin: 0 0 var(--space-2);
+  color: var(--oslo-svart);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.tiltak-hjemmel {
+  margin: 0 0 var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--oslo-lysbeige);
+  border-left: 3px solid var(--oslo-morkegron);
+  font-size: 0.9rem;
+  color: var(--oslo-svart);
+}
+
+.tiltak-hjemmel strong {
+  color: var(--oslo-morkebla);
+}
+
+.tiltak-kort__begrunnelse {
+  margin: 0;
+  color: var(--oslo-svart);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+}

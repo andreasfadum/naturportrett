@@ -60,7 +60,8 @@ Tjenesten lager fire produkttyper:
 | 14. jun 2026 | `c379325` | Sentralisert KI-modellkonfig + auto-fallback ved deprecation |
 | 14. jun 2026 | `3ac8f25` | Workshop-admin: rådata-nedlasting + frossen backup av spørreskjema |
 | 17. jun 2026 | (tagget `v1-presentasjon-2026-06-17`) | **Brukerundersøkelse med 9 deltakere** etter presentasjon for kollegaer |
-| 17. jun 2026 | (denne commit) | **Iterasjon 1** — datakvalitet-indikator + informasjonsbase-banner basert på funn fra brukerundersøkelsen (`svar-radata/analyse-2026-06-17.md` lokalt, ikke i git) |
+| 17. jun 2026 | `9db04f7` | **Iterasjon 1** — datakvalitet-indikator + informasjonsbase-banner basert på funn fra brukerundersøkelsen (`svar-radata/analyse-2026-06-17.md` lokalt, ikke i git) |
+| 17. jun 2026 | (denne commit) | **Iterasjon 2** — tiltakskategorisering: praktiske designtiltak merkes som lovstyrt_krav vs frivillig_forbedring med hjemmel + prosjektfase (R2-innspill). Ny TiltakListe-komponent + planteportrett får praktiskeDesigntiltak-felt for første gang |
 
 Presentasjon laget separat i `presentasjon/` (genereres med `python-pptx` via `generate_pptx.py`) — ikke en del av selve appen.
 

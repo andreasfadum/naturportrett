@@ -5,6 +5,7 @@ import ConservationStatusBadge from './ConservationStatusBadge.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
+import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -198,6 +199,8 @@ export default function PlanteportrettView({ portrait, subject }) {
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
+
+      <TiltakListe items={p.praktiskeDesigntiltak} />
 
       <LegalReferences items={p.relevanteLoverEnriched} />
 

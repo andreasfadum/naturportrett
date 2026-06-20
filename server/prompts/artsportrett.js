@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -51,10 +51,7 @@ Returner et JSON-objekt med følgende struktur:
     "voksen": "Levetid, aktivitet, føde, sosial atferd",
     "romligeForhold": "Trekkmønster, leveområde, overvintring"
   },
-  "praktiskeDesigntiltak": [
-    "Konkret designtiltak 1",
-    "Konkret designtiltak 2"
-  ],
+  ${TILTAK_FIELD},
   "kommentarer": "Tilleggsinformasjon: parasitter, bevaring, interaksjoner, rolle i økosystemet",
   ${RELEVANTE_LOVER_FIELD},
   ${DATAKVALITET_FIELD}
@@ -63,6 +60,8 @@ Returner et JSON-objekt med følgende struktur:
 ${RELEVANTE_LOVER_INSTRUKS}
 
 ${DATAKVALITET_INSTRUKS}
+
+${TILTAK_INSTRUKS}
 
 Vær konkret med tall og avstander. Inkluder praktiske mål (f.eks. 'fuglekasse 12×12 cm', 'hekkelokalitet til mat: <100 m').`
 

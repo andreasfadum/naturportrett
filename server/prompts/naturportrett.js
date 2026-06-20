@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -23,6 +23,7 @@ Returner et JSON-objekt med følgende struktur:
   "okologiskeSammenhenger": "Beskrivelse av grønne og blå strukturer, korridorer, nettverk og barrierer. 3-5 setninger.",
   "trusler": "Trusler fra utbygging, forurensing, klimaendringer. Fremtidige muligheter. 3-5 setninger.",
   "spesieltViktigeOmrader": "Områder med høyt biologisk mangfold, økosystemtjenester, viktige økologiske sammenhenger. 2-4 setninger.",
+  ${FORVALTNINGSRAD_FIELD},
   ${RELEVANTE_LOVER_FIELD},
   ${DATAKVALITET_FIELD},
   "andreKilder": "Aktuelle rapporter, kartlegginger og datakilder for området. IKKE list lover her — bruk relevanteLover-feltet."
@@ -31,6 +32,8 @@ Returner et JSON-objekt med følgende struktur:
 ${RELEVANTE_LOVER_INSTRUKS}
 
 ${DATAKVALITET_INSTRUKS}
+
+${FORVALTNINGSRAD_INSTRUKS}
 
 Vær konkret, faglig presis og handlingsrettet. Bruk fagspråk tilpasset arkitekter og reguleringsplanleggere.`
 

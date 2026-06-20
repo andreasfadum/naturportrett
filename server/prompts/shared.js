@@ -53,6 +53,22 @@ export const TILTAK_FIELD = `"praktiskeDesigntiltak": [
     }
   ]`
 
+export const FORVALTNINGSRAD_FIELD = `"forvaltningsrad": [
+    {
+      "rad": "Konkret forvaltningsråd, én setning — start gjerne med verb (Bevar, Etabler, Kartlegg, Restaurer, Unngå, osv.).",
+      "tidshorisont": "umiddelbart | mellom | langsiktig",
+      "begrunnelse": "Én setning som forklarer hvorfor — kobler tilbake til konkret funn i portrettet."
+    }
+  ]`
+
+export const FORVALTNINGSRAD_INSTRUKS = `FORVALTNINGSRÅD (g4-innspill 17. juni — 4 av 8 respondenter prioriterte dette i v1):
+Bruk feltet "forvaltningsrad" til å gi 3–5 konkrete, handlingsrettede råd for dette området. Hvert råd skal:
+- Være handlingsrettet (verb-orientert) — ikke generelt om naturhensyn
+- Ha tidshorisont: "umiddelbart" (denne planfasen / før vedtak), "mellom" (1–3 år / prosjekterings- og byggefasen), "langsiktig" (etablering, vedlikehold, oppfølging utover prosjektslutt)
+- Ha kort begrunnelse som peker på et konkret funn i området (en art, en naturtype, en korridor — ikke generelt om biologisk mangfold)
+Eksempler på god form: "Bevar de tre store hassel-eikene i ravinen" (umiddelbart), "Etabler øko-tak med stedegne arter på alle takflater > 50 m²" (mellom), "Etabler skjøtselsplan for slåtteenger med årlig sen-slått" (langsiktig).
+Dette er rådgiving til arkitekt/utvikler/saksbehandler — IKKE generelle KI-formaninger om bærekraft.`
+
 export const TILTAK_INSTRUKS = `PRAKTISKE DESIGNTILTAK (R2-innspill 17. juni):
 Hvert tiltak skal kategoriseres som "lovstyrt_krav" eller "frivillig_forbedring".
 - "lovstyrt_krav" = noe en saksbehandler kan stille som krav i lovstyrte prosesser. Eksempler: aktsomhetsplikt etter nml § 6, reguleringsbestemmelser etter pbl § 12-7, hensynssoner etter pbl § 11-8, krav til utvalgte naturtyper etter nml § 53.

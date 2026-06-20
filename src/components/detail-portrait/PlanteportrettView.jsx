@@ -3,12 +3,15 @@ import YearCycleTimeline from './YearCycleTimeline.jsx'
 import AttributeChecklist from './AttributeChecklist.jsx'
 import ConservationStatusBadge from './ConservationStatusBadge.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
+import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
+import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
   const p = portrait || {}
 
   return (
     <article className="portrait-doc">
+      <InformasjonsbaseBanner />
       {/* Header */}
       <header className="portrait-doc__header">
         <div>
@@ -197,6 +200,8 @@ export default function PlanteportrettView({ portrait, subject }) {
       )}
 
       <LegalReferences items={p.relevanteLoverEnriched} />
+
+      <DataKvalitetSeksjon items={p.datakvalitet} />
 
       <PortrettMetadata referanseprosjekt={p.folkenavn} />
     </article>

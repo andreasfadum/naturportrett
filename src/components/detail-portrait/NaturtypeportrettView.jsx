@@ -1,12 +1,15 @@
 import PortrettMetadata from './PortrettMetadata.jsx'
 import ConservationStatusBadge from './ConservationStatusBadge.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
+import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
+import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 
 export default function NaturtypeportrettView({ portrait, subject }) {
   const p = portrait || {}
 
   return (
     <article className="portrait-doc">
+      <InformasjonsbaseBanner />
       <header className="portrait-doc__header">
         <div>
           <h1 className="portrait-doc__title">Naturtypeportrett</h1>
@@ -142,6 +145,8 @@ export default function NaturtypeportrettView({ portrait, subject }) {
       )}
 
       <LegalReferences items={p.relevanteLoverEnriched} />
+
+      <DataKvalitetSeksjon items={p.datakvalitet} />
 
       <PortrettMetadata referanseprosjekt={p.navn} />
     </article>

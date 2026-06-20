@@ -31,6 +31,18 @@ export const RELEVANTE_LOVER_FIELD = `"relevanteLover": [
 export const RELEVANTE_LOVER_INSTRUKS = `RELEVANTE LOVER (svært viktig):
 Bruk feltet "relevanteLover" til å peke på paragrafer som har konkret relevans. Kun ID-er — serveren henter ordrett paragraftekst og Lovdata-lenker. Skriv kort i "kortBegrunnelse" HVORFOR de er relevante (ikke HVA de sier). Typisk 1–3 lover med totalt 2–6 paragrafer. Gyldige lov-ID-er: nml, pbl, friluftsloven, forvaltningsloven, sak10. Ikke siter, gjengi eller tolk lovtekst noen andre steder i JSON-svaret.`
 
+export const DATAKVALITET_FIELD = `"datakvalitet": [
+    {
+      "seksjon": "Navn på portrettets seksjon eller temaområde (f.eks. 'Naturtyper', 'Rødlistede arter', 'Økologiske sammenhenger', 'Habitatkrav', 'Årssyklus')",
+      "vurdering": "god | delvis | mangelfull",
+      "kortBegrunnelse": "Én konkret setning som forklarer datagrunnlaget — f.eks. 'iNaturalist-observasjoner gir god dekning av fugler, men ingen systematisk NiN-kartlegging foreligger for området.'",
+      "anbefaltFeltarbeid": "Tom streng hvis vurderingen er 'god'. Hvis 'delvis' eller 'mangelfull': én konkret feltkartleggings-anbefaling — f.eks. 'Vurder befaring våren 2027 for å registrere amfibier i ravinedammene.'"
+    }
+  ]`
+
+export const DATAKVALITET_INSTRUKS = `DATAKVALITET (svært viktig — direkte respons på brukerinnspill 17. juni):
+Bruk feltet "datakvalitet" til å være ÆRLIG om hva datagrunnlaget faktisk støtter. Hver seksjon i portrettet skal vurderes separat. Vær konkret om hva som mangler — ikke generelt "trenger mer kartlegging". Inkluder 3–6 vurderinger som dekker portrettets viktigste tema. Hvis du sier "god" må du kunne peke på konkret datakilde i kortBegrunnelse. Hvis "delvis" eller "mangelfull": anbefaltFeltarbeid skal være konkret og handlingsrettet, ikke en generell oppfordring. Dette feltet er kritisk for at saksbehandlere ikke skal forveksle KI-syntese med kartlagt fakta.`
+
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',
   produksjonsmate: 'KI uten faglig kvalitetssikring',

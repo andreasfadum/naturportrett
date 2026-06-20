@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AppHeader from './components/layout/AppHeader.jsx'
 import AppFooter from './components/layout/AppFooter.jsx'
 import DevBanner from './components/layout/DevBanner.jsx'
@@ -7,8 +7,27 @@ import NaturportrettSection from './components/naturportrett/NaturportrettSectio
 import PortraitTypeSelector from './components/portrait-selector/PortraitTypeSelector.jsx'
 import DetailPortraitSection from './components/detail-portrait/DetailPortraitSection.jsx'
 import StepIndicator from './components/layout/StepIndicator.jsx'
+import HeatmapPage from './pages/HeatmapPage.jsx'
 
 export default function App() {
+  const [pathname, setPathname] = useState(() =>
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  )
+
+  useEffect(() => {
+    const oppdater = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', oppdater)
+    return () => window.removeEventListener('popstate', oppdater)
+  }, [])
+
+  if (pathname.startsWith('/heatmap')) {
+    return <HeatmapPage />
+  }
+
+  return <Hovedflyt />
+}
+
+function Hovedflyt() {
   const [step, setStep] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [speciesForArea, setSpeciesForArea] = useState([])

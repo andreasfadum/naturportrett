@@ -1870,3 +1870,86 @@ ul.portrait-doc__textblock {
   line-height: 1.5;
   font-style: italic;
 }
+
+/* Forvaltningsråd — handlingsrettede råd sortert etter tidshorisont (g4-innspill 17. juni) */
+.forvaltningsrad-liste {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: forvaltningsrad;
+}
+
+.forvaltningsrad-kort {
+  border: 1px solid var(--oslo-morkbeige);
+  border-radius: 4px;
+  padding: var(--space-3) var(--space-4);
+  background: white;
+  position: relative;
+  counter-increment: forvaltningsrad;
+}
+
+.forvaltningsrad-kort::before {
+  content: counter(forvaltningsrad);
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--oslo-morkbeige);
+}
+
+.forvaltningsrad-kort__header {
+  margin-bottom: var(--space-2);
+}
+
+.forvaltningsrad-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.forvaltningsrad-badge--umiddelbart {
+  background: var(--oslo-rod);
+  color: white;
+  border-color: var(--oslo-svart);
+}
+
+.forvaltningsrad-badge--mellom {
+  background: var(--oslo-gul);
+  color: var(--oslo-svart);
+  border-color: var(--oslo-svart);
+}
+
+.forvaltningsrad-badge--langsiktig {
+  background: var(--oslo-lysgron);
+  color: var(--oslo-morkegron);
+  border-color: var(--oslo-morkegron);
+}
+
+.forvaltningsrad-badge--ukjent {
+  background: var(--oslo-lysbeige);
+  color: var(--oslo-svart);
+  border-color: var(--oslo-morkbeige);
+}
+
+.forvaltningsrad-kort__rad {
+  margin: 0 0 var(--space-2);
+  color: var(--oslo-svart);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.forvaltningsrad-kort__begrunnelse {
+  margin: 0;
+  color: var(--oslo-svart);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+}

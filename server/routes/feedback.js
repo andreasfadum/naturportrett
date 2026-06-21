@@ -63,56 +63,37 @@ async function sendFeedbackEmail(innslag) {
   const seksjon = innslag.seksjon ? ` — ${innslag.seksjon}` : ''
   const subject = `${SUBJECT_PREFIX} ${portrettNavn}: ${typeNavn}${seksjon}`
 
-  const kontekstLinjer = []
-  if (innslag.kontekst) {
+  // Bygg markdown-aktig innhold som er rett-fram-kopiérbart inn i Claude.
+  const linjer = []
+  linjer.push(`# Tilbakemelding på Naturportrett`)
+  linjer.push('')
+  linjer.push(`**Mottatt:** ${new Date(innslag.tidspunkt).toLocaleString('nb-NO', { dateStyle: 'long', timeStyle: 'short' })}`)
+  linjer.push(`**Portretttype:** ${portrettNavn}`)
+  linjer.push(`**Innspill-type:** ${typeNavn}`)
+  if (innslag.seksjon) linjer.push(`**Seksjon i portrettet:** ${innslag.seksjon}`)
+  if (innslag.epost) linjer.push(`**Avsender e-post:** ${innslag.epost}`)
+  linjer.push(`**Klient-ID:** ${innslag.klientId || '–'}`)
+  linjer.push('')
+  linjer.push('## Innspill fra bruker')
+  linjer.push('')
+  linjer.push(innslag.fritekst)
+  if (innslag.kontekst && Object.keys(innslag.kontekst).length > 0) {
+    linjer.push('')
+    linjer.push('## Kontekst (adresse / portrett-data)')
+    linjer.push('')
     for (const [k, v] of Object.entries(innslag.kontekst)) {
-      if (v) kontekstLinjer.push(`<li><strong>${escapeHtml(k)}:</strong> ${escapeHtml(String(v))}</li>`)
+      if (v) linjer.push(`- **${k}:** ${v}`)
     }
   }
+  linjer.push('')
+  linjer.push('---')
+  linjer.push('Kilde: Naturportrett — Plan- og bygningsetaten, Oslo kommune')
 
-  const html = `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; color: #1d1d1d;">
-      <h2 style="color: #2A2859; margin-bottom: 4px;">Ny tilbakemelding på Naturportrett</h2>
-      <p style="color: #555; margin-top: 0;">Mottatt ${new Date(innslag.tidspunkt).toLocaleString('nb-NO', { dateStyle: 'long', timeStyle: 'short' })}</p>
+  const tekst = linjer.join('\n')
 
-      <table style="border-collapse: collapse; margin: 16px 0;">
-        <tr><td style="padding: 4px 12px 4px 0; color: #555;">Portrett</td><td style="padding: 4px 0;"><strong>${escapeHtml(portrettNavn)}</strong></td></tr>
-        <tr><td style="padding: 4px 12px 4px 0; color: #555;">Type</td><td style="padding: 4px 0;"><strong>${escapeHtml(typeNavn)}</strong></td></tr>
-        ${innslag.seksjon ? `<tr><td style="padding: 4px 12px 4px 0; color: #555;">Seksjon</td><td style="padding: 4px 0;">${escapeHtml(innslag.seksjon)}</td></tr>` : ''}
-        ${innslag.epost ? `<tr><td style="padding: 4px 12px 4px 0; color: #555;">Avsender e-post</td><td style="padding: 4px 0;"><a href="mailto:${escapeHtml(innslag.epost)}">${escapeHtml(innslag.epost)}</a></td></tr>` : ''}
-      </table>
-
-      <h3 style="color: #2A2859; margin-bottom: 4px;">Innspill</h3>
-      <blockquote style="border-left: 3px solid #2A2859; padding: 8px 12px; background: #f6f3eb; margin: 8px 0; white-space: pre-wrap;">${escapeHtml(innslag.fritekst)}</blockquote>
-
-      ${kontekstLinjer.length > 0 ? `
-        <h3 style="color: #2A2859; margin-bottom: 4px;">Kontekst</h3>
-        <ul style="margin: 4px 0 16px;">${kontekstLinjer.join('')}</ul>
-      ` : ''}
-
-      <hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;" />
-      <p style="font-size: 12px; color: #888;">
-        Sendt fra <a href="https://naturportrett.figurate.studio">naturportrett.figurate.studio</a> (Plan- og bygningsetaten, Oslo kommune).
-        Klient-ID: ${escapeHtml(innslag.klientId || '–')}
-      </p>
-    </div>
-  `.trim()
-
-  const tekst = [
-    `Ny tilbakemelding på Naturportrett`,
-    `Mottatt ${innslag.tidspunkt}`,
-    ``,
-    `Portrett: ${portrettNavn}`,
-    `Type: ${typeNavn}`,
-    innslag.seksjon ? `Seksjon: ${innslag.seksjon}` : null,
-    innslag.epost ? `Avsender e-post: ${innslag.epost}` : null,
-    ``,
-    `Innspill:`,
-    innslag.fritekst,
-    ``,
-    `Klient-ID: ${innslag.klientId || '–'}`,
-    `Kilde: https://naturportrett.figurate.studio`,
-  ].filter(Boolean).join('\n')
+  // HTML er en monospace-rendring av samme tekst — lett å markere med Cmd+A
+  // og lime inn i Claude uten at typografi/blockquote-styling ødelegger.
+  const html = `<pre style="font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; color: #1d1d1d; margin: 0;">${escapeHtml(tekst)}</pre>`
 
   try {
     const opts = {

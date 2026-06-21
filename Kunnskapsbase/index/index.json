@@ -26,10 +26,9 @@
     },
     "pbl": {
       "lovId": "plan-og-bygningsloven",
-      "fil": "plan-og-bygningsloven-stub.json",
-      "tittel": "Plan- og bygningsloven (pbl)",
-      "kortKode": "pbl",
-      "kilde": "manuelt stub — kun § 3-1 er indeksert. Konverter pbl.docx til markdown for full indeks."
+      "fil": "plan-og-bygningsloven.json",
+      "tittel": "Lov om planlegging og byggesaksbehandling (plan- og bygningsloven)",
+      "kortKode": "pbl"
     }
   }
 }

@@ -40,6 +40,12 @@ const LOVER = [
     file: 'byggesaksforskriften-sak10.md',
     endringer: ['byggesaksforskriften-sak10-endring-2025-11-03.md'],
   },
+  {
+    lovId: 'plan-og-bygningsloven',
+    kortKode: 'pbl',
+    tittel: 'Lov om planlegging og byggesaksbehandling (plan- og bygningsloven)',
+    file: 'plan-og-bygningsloven.md',
+  },
 ]
 
 function parseMetadata(md) {
@@ -168,6 +174,16 @@ function parseParagraphs(md, kortKode) {
     // (typisk for friluftsloven: "**§ 1. (Lovens formål)** Formålet er ..."),
     // er det allerede paragraftekst. Bare strip leading punctuation.
     body = body.replace(/^[:.\s]+/, '')
+
+    // pbl-format: bold-spannet er kun "§ N-N." og temaet kommer etter som "***Tema***"
+    // Trekk ut tema og strip det fra sitat-body
+    if (!cur.tema) {
+      const inlineTemaMatch = body.match(/^\*\*\*([^*]+)\*\*\*\s*/)
+      if (inlineTemaMatch) {
+        cur.tema = inlineTemaMatch[1].trim()
+        body = body.slice(inlineTemaMatch[0].length).trim()
+      }
+    }
 
     // Hvis kroppen ER en annen ## seksjon eller --- divider, skjær der
     const cutMarkers = ['\n## ', '\n---\n', '\n> ']
@@ -310,15 +326,6 @@ function main() {
       tittel: data.tittel,
       kortKode: lov.kortKode,
     }
-  }
-
-  // pbl-stub: oppdater hovedindeks med peker (selve filen lages manuelt)
-  indexEntries['pbl'] = {
-    lovId: 'plan-og-bygningsloven',
-    fil: 'plan-og-bygningsloven-stub.json',
-    tittel: 'Plan- og bygningsloven (pbl)',
-    kortKode: 'pbl',
-    kilde: 'manuelt stub — kun § 3-1 er indeksert. Konverter pbl.docx til markdown for full indeks.',
   }
 
   const indexFile = path.join(OUT_DIR, 'index.json')

@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -51,6 +51,7 @@ Returner et JSON-objekt med følgende struktur:
     "konflikter": "Bruk vs. vern"
   },
   "kommentarer": "Tilleggsinformasjon, særskilte hensyn",
+  ${TILTAK_FIELD},
   ${RELEVANTE_LOVER_FIELD},
   ${DATAKVALITET_FIELD}
 }
@@ -58,6 +59,10 @@ Returner et JSON-objekt med følgende struktur:
 ${RELEVANTE_LOVER_INSTRUKS}
 
 ${DATAKVALITET_INSTRUKS}
+
+${TILTAK_INSTRUKS}
+
+For naturtypeportretter skal designtiltakene handle om hvordan ivareta, restaurere eller integrere selve naturtypen i et byggetiltak — ikke om enkeltarter. Eksempler på lovstyrte krav: kantsoneverning mot vassdrag (vannressursloven § 11), hensynssoner i reguleringsplan (pbl § 11-8 / 12-6) for kartlagte verdifulle naturtyper, krav etter forskrift om utvalgte naturtyper (nml § 53) dersom naturtypen er omfattet.
 
 Vær faglig presis og knytt informasjonen tett til Oslos kontekst.`
 

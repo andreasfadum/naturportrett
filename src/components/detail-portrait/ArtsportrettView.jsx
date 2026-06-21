@@ -6,6 +6,7 @@ import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
+import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 
 export default function ArtsportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -149,6 +150,18 @@ export default function ArtsportrettView({ portrait, subject }) {
       )}
 
       <DataKvalitetSeksjon items={p.datakvalitet} />
+
+      <FeedbackKnapp
+        portretttype="artsportrett"
+        kontekst={{
+          subjekt: p.folkenavn && p.vitenskapelig ? `${p.folkenavn} (${p.vitenskapelig})` : (p.folkenavn || p.vitenskapelig || null),
+        }}
+        seksjoner={[
+          'Rødlistestatus', 'Utbredelse', 'Beskrivelse', 'Foretrukne habitater',
+          'Årssyklus', 'Næringskilder', 'Trusler og predatorer',
+          'Praktiske designtiltak', 'Relevant lovgrunnlag', 'Datakvalitet',
+        ]}
+      />
 
       <PortrettMetadata referanseprosjekt={p.folkenavn} />
     </article>

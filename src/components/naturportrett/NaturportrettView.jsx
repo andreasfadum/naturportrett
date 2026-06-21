@@ -3,6 +3,7 @@ import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import ForvaltningsradListe from '../portrait-shared/ForvaltningsradListe.jsx'
+import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import AreaMap from './AreaMap.jsx'
 
 export default function NaturportrettView({ portrait, address, species }) {
@@ -108,6 +109,20 @@ export default function NaturportrettView({ portrait, address, species }) {
       <TextSection title="Andre kilder for informasjon om området" body={p.andreKilder} />
 
       <DataKvalitetSeksjon items={p.datakvalitet} />
+
+      <FeedbackKnapp
+        portretttype="naturportrett"
+        kontekst={{
+          adresse: `${address.adressenavn || ''}${address.nummer ? ' ' + address.nummer : ''}${address.postnummer ? ', ' + address.postnummer : ''}`.trim(),
+          koordinater: address.representasjonspunkt ? [address.representasjonspunkt.lat, address.representasjonspunkt.lon] : null,
+          subjekt: p.prosjektnavn || null,
+        }}
+        seksjoner={[
+          'Naturtyper', 'Arter av høy økologisk verdi', 'Økologiske sammenhenger',
+          'Trusler', 'Spesielt viktige områder', 'Forvaltningsråd',
+          'Relevant lovgrunnlag', 'Datakvalitet',
+        ]}
+      />
 
       <PortrettMetadata referanseprosjekt={p.prosjektnavn || address.adressenavn} />
     </article>

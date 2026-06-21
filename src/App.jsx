@@ -8,6 +8,7 @@ import PortraitTypeSelector from './components/portrait-selector/PortraitTypeSel
 import DetailPortraitSection from './components/detail-portrait/DetailPortraitSection.jsx'
 import StepIndicator from './components/layout/StepIndicator.jsx'
 import HeatmapPage from './pages/HeatmapPage.jsx'
+import FeedbackAdminSide from './components/feedback/FeedbackAdminSide.jsx'
 
 export default function App() {
   const [pathname, setPathname] = useState(() =>
@@ -22,6 +23,10 @@ export default function App() {
 
   if (pathname.startsWith('/heatmap')) {
     return <HeatmapPage />
+  }
+
+  if (pathname.startsWith('/admin/feedback')) {
+    return <FeedbackAdminSide />
   }
 
   return <Hovedflyt />

@@ -212,12 +212,52 @@ function parseParagraphs(md, kortKode) {
       nummer: displayNum,
       displayNavn: `§ ${displayNum}`,
       tema: cur.tema || '',
-      sitat: sitat.replace(/\n{3,}/g, '\n\n').trim(),
+      sitat: cleanSitat(sitat),
       _position: cur.boldStart,
     })
   }
 
   return paragraphs
+}
+
+/**
+ * Renser sitat-tekst fra Lovdata-formatert markdown:
+ * - Fjerner endringshistorikk-tabellrader (`| 0 | Endret ved lover ... |`)
+ * - Fjerner tabell-separatorer (`| --- | --- |`)
+ * - Konverterer nummererte tabellrader (`| 1. | innhold |`) til vanlige
+ *   listepunkter (`1. innhold`) som lar seg lese som ren prosa
+ * - Beholder markdown-lenker `[tekst](url)` slik at UI kan rendre dem som
+ *   klikkbare elementer
+ */
+function cleanSitat(raw) {
+  if (!raw) return ''
+  const linjer = raw.split('\n')
+  const ut = []
+  for (let i = 0; i < linjer.length; i++) {
+    const l = linjer[i]
+    const trimmed = l.trim()
+    // Tabell-separator
+    if (/^\|\s*[-\s|]+\|$/.test(trimmed)) continue
+    // Endringshistorikk-rader (typisk `| 0 | Endret ved lover ... |`)
+    if (/^\|\s*0\s*\|\s*(Endret|Tilføyd|Opphevet|Endra|Endret ved)\b/i.test(trimmed)) continue
+    // Nummerert tabellrad: `| N. | innhold |` eller `| N | innhold |`
+    const numRow = trimmed.match(/^\|\s*([0-9]+)\.?\s*\|\s*(.+?)\s*\|?\s*$/)
+    if (numRow) {
+      const innhold = numRow[2].replace(/\|+$/, '').trim()
+      ut.push(`${numRow[1]}. ${innhold}`)
+      continue
+    }
+    // Generelle tabellrader uten tydelig nummer: forsøk å snu til ren tekst
+    if (/^\|.+\|$/.test(trimmed)) {
+      const inner = trimmed.replace(/^\||\|$/g, '').split('|').map(s => s.trim()).filter(Boolean)
+      if (inner.length > 0) {
+        ut.push(inner.join(' — '))
+        continue
+      }
+    }
+    ut.push(l)
+  }
+  return ut.join('\n').replace(/\n{3,}/g, '\n\n').trim()
 }
 
 function extractInlineTema(inner, numPrefix) {

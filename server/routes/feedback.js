@@ -212,3 +212,49 @@ feedbackRouter.post('/reset', krevAdmin, (req, res) => {
   if (fs.existsSync(fil)) fs.rmSync(fil)
   res.json({ ok: true })
 })
+
+// Diagnose for e-post-routing (passordbeskyttet)
+// Returnerer konfig-status + forsøker faktisk å sende en testmail,
+// slik at vi kan se nøyaktig hvilken feil Resend evt. gir.
+feedbackRouter.post('/diagnose-email', krevAdmin, async (req, res) => {
+  const status = {
+    resend_api_key_satt: Boolean(RESEND_API_KEY),
+    resend_api_key_lengde: RESEND_API_KEY.length,
+    resend_api_key_prefix: RESEND_API_KEY ? RESEND_API_KEY.slice(0, 6) + '...' : null,
+    mottaker_default: FEEDBACK_RECIPIENT_EMAIL,
+    avsender_default: FEEDBACK_FROM_EMAIL,
+    emneprefix: SUBJECT_PREFIX,
+  }
+  if (!resend) {
+    return res.json({ ...status, kanSende: false, grunn: 'RESEND_API_KEY mangler i miljø' })
+  }
+  // Faktisk send-forsøk
+  try {
+    const { data, error } = await resend.emails.send({
+      from: FEEDBACK_FROM_EMAIL,
+      to: FEEDBACK_RECIPIENT_EMAIL,
+      subject: `${SUBJECT_PREFIX} Diagnose-testmail (${new Date().toLocaleString('nb-NO')})`,
+      text: 'Dette er en testmail fra diagnose-endepunktet. Hvis du mottar denne fungerer Resend-routingen riktig.',
+      html: '<p>Dette er en <strong>testmail</strong> fra diagnose-endepunktet. Hvis du mottar denne fungerer Resend-routingen riktig.</p>',
+    })
+    if (error) {
+      return res.json({
+        ...status,
+        kanSende: false,
+        resendFeil: {
+          name: error.name,
+          message: error.message,
+          statusCode: error.statusCode,
+        },
+      })
+    }
+    return res.json({ ...status, kanSende: true, emailId: data?.id })
+  } catch (err) {
+    return res.json({
+      ...status,
+      kanSende: false,
+      exception: err.message || String(err),
+      stack: err.stack ? err.stack.split('\n').slice(0, 3).join(' | ') : null,
+    })
+  }
+})

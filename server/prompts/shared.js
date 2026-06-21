@@ -80,12 +80,16 @@ Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "
 export const EIENDOMSKONTEKST_FIELD = `"eiendomsKontekst": "1-3 setninger som spesifikt beskriver hvordan akkurat denne eiendommen forholder seg til områdedataene i portrettet — f.eks. om den ligger på en grønn korridor, ved kanten av en kartlagt naturtype, sentralt i et fugletrekk, eller om eiendommen i seg selv har lite kjent biologi men området rundt er rikt."`
 
 export const EIENDOMSKONTEKST_INSTRUKS = `EIENDOMSKONTEKST (R6-innspill 17. juni):
-Bruker savnet «forskjellen på hvilke data som kommer fra området og hvilken informasjon som kommer om en eiendom». Resten av portrettet handler om 500m-området rundt adressen. Dette feltet er det eneste som handler om akkurat eiendommen som søkt opp:
-- Hvis eiendommen ligger sentralt i en kartlagt verdifull struktur (korridor, naturtype, trekkrute) — si det konkret
-- Hvis eiendommen i seg selv har lite registrert biologi, men området rundt er rikt — si det
-- Hvis eiendommen ligger i kanten av en spesielt sårbar naturtype — si det
-- IKKE generelle floskler om biologisk mangfold. Vær konkret om relasjonen mellom punkt og område.
-Maks 3 setninger. Skal kunne leses i ett blikk øverst i portrettet.`
+Bruker savnet «forskjellen på hvilke data som kommer fra området og hvilken informasjon som kommer om en eiendom». Resten av portrettet handler om 500m-området rundt adressen. Dette feltet er det eneste som handler om akkurat eiendommen som søkt opp.
+
+Hvis user-prompten inneholder en liste under «Kjente Oslo-grønnstrukturer i nærheten», SKAL du nevne ALLE oppføringene innenfor 500m og prioritere flest mulig innenfor 1000m hvis de er artsrike eller utgjør viktige korridorer. Ikke velg favoritter — saksbehandlere trenger oversikt, ikke ikoniske enkelt-eksempler. Hvis listen f.eks. inneholder både Tøyenparken (200 m) OG Botanisk hage (350 m) skal begge nevnes ved navn, ikke kun en av dem.
+
+Inkluder i tillegg:
+- Om eiendommen ligger sentralt i en kartlagt verdifull struktur (korridor, naturtype, trekkrute) — si det konkret
+- Om eiendommen i seg selv har lite registrert biologi, men området rundt er rikt — si det
+- Om eiendommen ligger i kanten av en spesielt sårbar naturtype — si det
+
+IKKE generelle floskler om biologisk mangfold. Vær konkret om relasjonen mellom punkt og område. 2–5 setninger.`
 
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',

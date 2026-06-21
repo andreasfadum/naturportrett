@@ -40,7 +40,7 @@ ${EIENDOMSKONTEKST_INSTRUKS}
 
 Vær konkret, faglig presis og handlingsrettet. Bruk fagspråk tilpasset arkitekter og reguleringsplanleggere.`
 
-export function buildUserPrompt({ address, coordinates, zoneRadiusM, topSpecies, categoryCounts }) {
+export function buildUserPrompt({ address, coordinates, zoneRadiusM, topSpecies, categoryCounts, narliggendeGronnstrukturer }) {
   const addressStr = [
     address.adressenavn,
     address.nummer ? `${address.nummer}${address.bokstav || ''}` : '',
@@ -61,6 +61,15 @@ export function buildUserPrompt({ address, coordinates, zoneRadiusM, topSpecies,
     .map(([cat, count]) => `${cat}: ${count}`)
     .join(', ')
 
+  const gronnstrukturBlokk = Array.isArray(narliggendeGronnstrukturer) && narliggendeGronnstrukturer.length > 0
+    ? `
+
+## Kjente Oslo-grønnstrukturer i nærheten (sortert etter avstand)
+Denne listen er beregnet på klienten ut fra koordinatene og er en sjekkliste for eiendomsKontekst-feltet. Du skal nevne ALLE som er innenfor 500 m, og du SKAL nevne dem som er innenfor 1000 m hvis de er artsrike eller utgjør viktige korridorer (parker, elver, naturreservater). Ikke hopp over noen — selv om en er mer ikonisk enn en annen.
+
+${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
+    : ''
+
   return `## Prosjektadresse
 ${addressStr}
 Koordinater: ${coordinates.lat?.toFixed(5)}, ${coordinates.lon?.toFixed(5)}
@@ -72,7 +81,7 @@ ${zoneRadiusM} meter radius
 Kategorier funnet: ${categorySummary}
 
 Topp 25 arter etter observasjonsfrekvens:
-${speciesList}
+${speciesList}${gronnstrukturBlokk}
 
 Generer naturportrett-JSON for dette området. Identifiser sannsynlige naturtyper basert på beliggenhet (urban/parknær/sjønær Oslo) og observerte arter.`
 }

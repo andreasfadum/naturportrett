@@ -5,6 +5,7 @@ import InfluenceZoneInfo from '../address/InfluenceZoneInfo.jsx'
 import NaturportrettView from './NaturportrettView.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
+import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
 
 export default function NaturportrettSection({ address, onContinue, onBack }) {
   const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address)
@@ -20,15 +21,18 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
 
   useEffect(() => {
     if (!speciesLoading && species.length > 0 && !portrait && !portraitLoading) {
+      const lat = address.representasjonspunkt?.lat
+      const lon = address.representasjonspunkt?.lon
+      const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
+        ? finnNarliggende(lat, lon, 1500)
+        : []
       generate('naturportrett', {
         address,
-        coordinates: {
-          lat: address.representasjonspunkt?.lat,
-          lon: address.representasjonspunkt?.lon,
-        },
+        coordinates: { lat, lon },
         zoneRadiusM: 500,
         topSpecies: species,
         categoryCounts: speciesByCategory,
+        narliggendeGronnstrukturer,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

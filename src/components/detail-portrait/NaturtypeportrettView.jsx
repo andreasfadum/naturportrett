@@ -4,6 +4,7 @@ import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
+import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 
 export default function NaturtypeportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -150,6 +151,16 @@ export default function NaturtypeportrettView({ portrait, subject }) {
       <LegalReferences items={p.relevanteLoverEnriched} />
 
       <DataKvalitetSeksjon items={p.datakvalitet} />
+
+      <FeedbackKnapp
+        portretttype="naturtypeportrett"
+        kontekst={{ subjekt: p.navn ? `${p.navn}${p.ninKode ? ' (' + p.ninKode + ')' : ''}` : null }}
+        seksjoner={[
+          'Beskrivelse', 'Viktige strukturer', 'Økologiske forhold',
+          'Hjemmehørende arter på grønne tak', 'Trusler', 'Samspill med mennesker',
+          'Praktiske designtiltak', 'Relevant lovgrunnlag', 'Datakvalitet',
+        ]}
+      />
 
       <PortrettMetadata referanseprosjekt={p.navn} />
     </article>

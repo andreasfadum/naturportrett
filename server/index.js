@@ -6,6 +6,7 @@ import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { claudeRouter } from './routes/claude.js'
 import { sourcesRouter } from './routes/sources.js'
+import { feedbackRouter } from './routes/feedback.js'
 import { createWorkshopRouter } from '../workshop-app/server/router.js'
 import { CLAUDE_MODEL, MODEL_CHAIN } from './config/model.js'
 
@@ -23,6 +24,7 @@ app.use(express.json())
 
 app.use('/api/claude', claudeRouter)
 app.use('/api/sources', sourcesRouter)
+app.use('/api/feedback', feedbackRouter)
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok', model: CLAUDE_MODEL, modelChain: MODEL_CHAIN }))
 

@@ -6,6 +6,7 @@ import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
+import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
   const p = portrait || {}
@@ -205,6 +206,18 @@ export default function PlanteportrettView({ portrait, subject }) {
       <LegalReferences items={p.relevanteLoverEnriched} />
 
       <DataKvalitetSeksjon items={p.datakvalitet} />
+
+      <FeedbackKnapp
+        portretttype="planteportrett"
+        kontekst={{
+          subjekt: p.folkenavn && p.vitenskapelig ? `${p.folkenavn} (${p.vitenskapelig})` : (p.folkenavn || p.vitenskapelig || null),
+        }}
+        seksjoner={[
+          'Rødlistestatus', 'Utbredelse', 'Beskrivelse', 'Foretrukne naturtyper',
+          'Habitatkrav', 'Spredning og livssyklus', 'Tilknyttede arter',
+          'Praktiske designtiltak', 'Relevant lovgrunnlag', 'Datakvalitet',
+        ]}
+      />
 
       <PortrettMetadata referanseprosjekt={p.folkenavn} />
     </article>

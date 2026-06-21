@@ -86,12 +86,6 @@ Bruker savnet «forskjellen på hvilke data som kommer fra området og hvilken i
 - Hvis eiendommen ligger i kanten av en spesielt sårbar naturtype — si det
 - IKKE generelle floskler om biologisk mangfold. Vær konkret om relasjonen mellom punkt og område.
 Maks 3 setninger. Skal kunne leses i ett blikk øverst i portrettet.`
-Hvert tiltak skal kategoriseres som "lovstyrt_krav" eller "frivillig_forbedring".
-- "lovstyrt_krav" = noe en saksbehandler kan stille som krav i lovstyrte prosesser. Eksempler: aktsomhetsplikt etter nml § 6, reguleringsbestemmelser etter pbl § 12-7, hensynssoner etter pbl § 11-8, krav til utvalgte naturtyper etter nml § 53.
-- "frivillig_forbedring" = naturforbedrende tiltak uten et konkret lovhjemlet kravgrunnlag.
-Når kategorien er "lovstyrt_krav" SKAL hjemmel-feltet inneholde lov + paragraf, og lov-ID-en skal samsvare med en av lovene du har oppgitt i relevanteLover-feltet — ikke introduser nye lover bare i hjemmel-feltet.
-Fase-feltet angir hvor i et byggeprosjekt tiltaket settes inn (tidligfase, reguleringsplan, utomhusplan, gjennomforing).
-Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "fuglekasse 12×12 cm på sørvegg, 4–6 m over bakken") fremfor abstrakte oppfordringer.`
 
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',

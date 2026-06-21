@@ -7,12 +7,18 @@ import { fileURLToPath } from 'url'
 import { claudeRouter } from './routes/claude.js'
 import { sourcesRouter } from './routes/sources.js'
 import { feedbackRouter } from './routes/feedback.js'
+import { usageRouter } from './routes/usage.js'
 import { createWorkshopRouter } from '../workshop-app/server/router.js'
 import { CLAUDE_MODEL, MODEL_CHAIN } from './config/model.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
+
+// Railway/Vercel-proxy: nødvendig for at req.ip skal returnere klientens
+// faktiske IP istedenfor proxyens. Brukes til IP-baserte sessions i
+// usage-tracking.
+app.set('trust proxy', true)
 
 const allowedOrigins = [
   'http://localhost:5173',
@@ -25,6 +31,7 @@ app.use(express.json())
 app.use('/api/claude', claudeRouter)
 app.use('/api/sources', sourcesRouter)
 app.use('/api/feedback', feedbackRouter)
+app.use('/api/usage', usageRouter)
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok', model: CLAUDE_MODEL, modelChain: MODEL_CHAIN }))
 

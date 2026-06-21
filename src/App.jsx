@@ -9,6 +9,7 @@ import DetailPortraitSection from './components/detail-portrait/DetailPortraitSe
 import StepIndicator from './components/layout/StepIndicator.jsx'
 import HeatmapPage from './pages/HeatmapPage.jsx'
 import FeedbackAdminSide from './components/feedback/FeedbackAdminSide.jsx'
+import UsageAdminSide from './components/admin/UsageAdminSide.jsx'
 
 export default function App() {
   const [pathname, setPathname] = useState(() =>
@@ -27,6 +28,10 @@ export default function App() {
 
   if (pathname.startsWith('/admin/feedback')) {
     return <FeedbackAdminSide />
+  }
+
+  if (pathname.startsWith('/admin/usage')) {
+    return <UsageAdminSide />
   }
 
   return <Hovedflyt />

@@ -7,6 +7,11 @@ import * as planteportrett from '../prompts/planteportrett.js'
 import * as naturtypeportrett from '../prompts/naturtypeportrett.js'
 import { enrichRelevanteLover } from '../lover/index.js'
 import { CLAUDE_MODEL, MODEL_CHAIN, isModelNotFoundError } from '../config/model.js'
+import { logUsage } from '../usage/index.js'
+
+function klientIp(req) {
+  return req.ip || req.socket?.remoteAddress || null
+}
 
 export const claudeRouter = Router()
 
@@ -49,6 +54,19 @@ claudeRouter.post('/', async (req, res) => {
       if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
         res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`)
       }
+    }
+
+    // Hent usage etter at streamen er ferdig (Anthropic SDK gir finalMessage)
+    try {
+      const finalMessage = await stream.finalMessage()
+      logUsage({
+        ip: klientIp(req),
+        kontekst: 'vurdering',
+        modell: finalMessage?.model || CLAUDE_MODEL,
+        usage: finalMessage?.usage,
+      })
+    } catch (logErr) {
+      console.warn('[usage] Kunne ikke hente finalMessage for vurdering:', logErr.message)
     }
 
     res.write('data: [DONE]\n\n')
@@ -120,6 +138,13 @@ claudeRouter.post('/portrait', async (req, res) => {
     if (Array.isArray(parsed.relevanteLover)) {
       parsed.relevanteLoverEnriched = enrichRelevanteLover(parsed.relevanteLover)
     }
+
+    logUsage({
+      ip: klientIp(req),
+      kontekst: `portrait:${portraitType}`,
+      modell: modelUsed,
+      usage: response.usage,
+    })
 
     return res.json({ portrait: parsed, model: modelUsed, stopReason })
   } catch (err) {

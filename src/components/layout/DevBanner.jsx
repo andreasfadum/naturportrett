@@ -1,6 +1,6 @@
 export default function DevBanner() {
   return (
-    <div style={{
+    <div className="dev-banner" style={{
       backgroundColor: '#2C2C2C',
       color: '#F9C66B',
       textAlign: 'center',

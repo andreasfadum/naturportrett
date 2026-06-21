@@ -1,4 +1,4 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS, EIENDOMSKONTEKST_FIELD, EIENDOMSKONTEKST_INSTRUKS } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
@@ -13,6 +13,7 @@ Returner et JSON-objekt med følgende struktur:
 {
   "prosjektnavn": "Kort, beskrivende navn (typisk adresse)",
   "lokasjon": "Postnummer + bydel/poststed",
+  ${EIENDOMSKONTEKST_FIELD},
   "antallVerdifulleNaturomrader": "Tall + kort beskrivelse, f.eks. '3 verdifulle naturområder, hvorav 1 med høy lokal verdi'",
   "naturtyper": [
     { "navn": "Naturtypens navn", "ninKode": "NiN-kode hvis kjent", "rodlisteStatus": "LC|NT|VU|EN|CR eller 'ikke vurdert'", "beskrivelse": "1-2 setninger" }
@@ -34,6 +35,8 @@ ${RELEVANTE_LOVER_INSTRUKS}
 ${DATAKVALITET_INSTRUKS}
 
 ${FORVALTNINGSRAD_INSTRUKS}
+
+${EIENDOMSKONTEKST_INSTRUKS}
 
 Vær konkret, faglig presis og handlingsrettet. Bruk fagspråk tilpasset arkitekter og reguleringsplanleggere.`
 

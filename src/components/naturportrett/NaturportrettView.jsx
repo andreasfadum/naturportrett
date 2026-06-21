@@ -32,9 +32,20 @@ export default function NaturportrettView({ portrait, address, species }) {
         </div>
       </section>
 
+      {/* Slik knytter dette seg til eiendommen — R6-innspill 17. juni */}
+      {p.eiendomsKontekst && (
+        <section className="eiendomskontekst">
+          <h2 className="eiendomskontekst__tittel">Slik knytter dette seg til eiendommen</h2>
+          <p className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</p>
+          <p className="eiendomskontekst__forklaring">
+            Resten av portrettet beskriver naturverdier innenfor 500 m fra adressen — ikke alt vi viser ligger på selve tomten.
+          </p>
+        </section>
+      )}
+
       {/* Oversiktskart */}
       <section className="portrait-doc__section">
-        <h2 className="portrait-doc__h2">Oversiktskart</h2>
+        <h2 className="portrait-doc__h2">Oversiktskart — 500 m influenssone</h2>
         <AreaMap
           lat={address.representasjonspunkt?.lat}
           lon={address.representasjonspunkt?.lon}
@@ -46,7 +57,7 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Naturtyper */}
       {Array.isArray(p.naturtyper) && p.naturtyper.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Naturtyper i området og rødlistestatus</h2>
+          <h2 className="portrait-doc__h2">Naturtyper i området (innenfor 500 m)</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>
@@ -73,7 +84,7 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Arter */}
       {Array.isArray(p.arterAvHoyOkologiskVerdi) && p.arterAvHoyOkologiskVerdi.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Registrerte arter av høy økologisk verdi</h2>
+          <h2 className="portrait-doc__h2">Registrerte arter av høy økologisk verdi (innenfor 500 m)</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>

@@ -77,6 +77,22 @@ Når kategorien er "lovstyrt_krav" SKAL hjemmel-feltet inneholde lov + paragraf,
 Fase-feltet angir hvor i et byggeprosjekt tiltaket settes inn (tidligfase, reguleringsplan, utomhusplan, gjennomforing).
 Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "fuglekasse 12×12 cm på sørvegg, 4–6 m over bakken") fremfor abstrakte oppfordringer.`
 
+export const EIENDOMSKONTEKST_FIELD = `"eiendomsKontekst": "1-3 setninger som spesifikt beskriver hvordan akkurat denne eiendommen forholder seg til områdedataene i portrettet — f.eks. om den ligger på en grønn korridor, ved kanten av en kartlagt naturtype, sentralt i et fugletrekk, eller om eiendommen i seg selv har lite kjent biologi men området rundt er rikt."`
+
+export const EIENDOMSKONTEKST_INSTRUKS = `EIENDOMSKONTEKST (R6-innspill 17. juni):
+Bruker savnet «forskjellen på hvilke data som kommer fra området og hvilken informasjon som kommer om en eiendom». Resten av portrettet handler om 500m-området rundt adressen. Dette feltet er det eneste som handler om akkurat eiendommen som søkt opp:
+- Hvis eiendommen ligger sentralt i en kartlagt verdifull struktur (korridor, naturtype, trekkrute) — si det konkret
+- Hvis eiendommen i seg selv har lite registrert biologi, men området rundt er rikt — si det
+- Hvis eiendommen ligger i kanten av en spesielt sårbar naturtype — si det
+- IKKE generelle floskler om biologisk mangfold. Vær konkret om relasjonen mellom punkt og område.
+Maks 3 setninger. Skal kunne leses i ett blikk øverst i portrettet.`
+Hvert tiltak skal kategoriseres som "lovstyrt_krav" eller "frivillig_forbedring".
+- "lovstyrt_krav" = noe en saksbehandler kan stille som krav i lovstyrte prosesser. Eksempler: aktsomhetsplikt etter nml § 6, reguleringsbestemmelser etter pbl § 12-7, hensynssoner etter pbl § 11-8, krav til utvalgte naturtyper etter nml § 53.
+- "frivillig_forbedring" = naturforbedrende tiltak uten et konkret lovhjemlet kravgrunnlag.
+Når kategorien er "lovstyrt_krav" SKAL hjemmel-feltet inneholde lov + paragraf, og lov-ID-en skal samsvare med en av lovene du har oppgitt i relevanteLover-feltet — ikke introduser nye lover bare i hjemmel-feltet.
+Fase-feltet angir hvor i et byggeprosjekt tiltaket settes inn (tidligfase, reguleringsplan, utomhusplan, gjennomforing).
+Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "fuglekasse 12×12 cm på sørvegg, 4–6 m over bakken") fremfor abstrakte oppfordringer.`
+
 export const PORTRAIT_METADATA = {
   produsent: 'Plan- og bygningsetaten, Oslo kommune',
   produksjonsmate: 'KI uten faglig kvalitetssikring',

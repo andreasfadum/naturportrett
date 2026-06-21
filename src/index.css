@@ -1322,6 +1322,16 @@ ul.portrait-doc__textblock {
   white-space: pre-wrap;
 }
 
+.legal-paragraph__inline-link {
+  color: var(--oslo-morkebla);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.legal-paragraph__inline-link:hover {
+  text-decoration: underline;
+}
+
 .legal-paragraph__changed {
   margin-top: var(--space-2);
   font-size: 0.8rem;

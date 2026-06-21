@@ -2405,3 +2405,36 @@ ul.portrait-doc__textblock {
   font-size: 0.9rem;
   margin: 0;
 }
+
+/* Eiendomskontekst — adresserer R6 (iterasjon 7): skill eiendom fra område */
+.eiendomskontekst {
+  background: linear-gradient(135deg, var(--oslo-lysbeige) 0%, white 100%);
+  border: 1px solid var(--oslo-morkbeige);
+  border-left: 6px solid var(--oslo-morkebla);
+  border-radius: 4px;
+  padding: var(--space-4) var(--space-5);
+  margin: var(--space-4) 0;
+}
+
+.eiendomskontekst__tittel {
+  color: var(--oslo-morkebla);
+  margin: 0 0 var(--space-2);
+  font-size: 1.15rem;
+}
+
+.eiendomskontekst__brodtekst {
+  margin: 0 0 var(--space-3);
+  color: var(--oslo-svart);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  font-weight: 500;
+}
+
+.eiendomskontekst__forklaring {
+  margin: 0;
+  color: var(--oslo-svart);
+  opacity: 0.75;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  font-style: italic;
+}

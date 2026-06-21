@@ -1591,47 +1591,118 @@ ul.portrait-doc__textblock {
    PRINT STYLING — for PDF generation via window.print()
    ============================================================ */
 
+@page {
+  size: A4;
+  margin: 15mm 15mm 18mm 15mm;
+}
+
 @media print {
+  /* Skjul interaktive elementer + chrome */
   .no-print,
-  .dev-banner,
   .app-header,
   .app-footer,
-  .step-indicator {
+  .step-indicator,
+  .feedback-section,
+  .feedback-trigger,
+  .portrait-nav {
     display: none !important;
   }
 
-  body {
+  /* Resett layout-stacken slik at portrettet starter på side 1.
+     .app-container er flex column med min-height:100vh i skjerm-modus
+     — det forskyver innholdet til side 2 i print. */
+  html, body {
     background: white;
+    margin: 0;
+    padding: 0;
   }
 
   .app-container {
+    display: block;
+    min-height: auto;
     background: white;
     box-shadow: none;
   }
 
   .main-content {
+    flex: none;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+    width: auto;
+  }
+
+  .portrait-screen {
+    margin: 0;
+    padding: 0;
+  }
+
+  .portrait-doc {
     padding: 0;
     margin: 0;
     max-width: none;
   }
 
-  .portrait-doc {
-    padding: 0;
-    max-width: none;
-    page-break-inside: avoid;
+  /* Dev-banner beholdes i PDF, men ryddet til papir-format */
+  .dev-banner {
+    background: white !important;
+    color: var(--oslo-morkebla) !important;
+    border: 1px solid var(--oslo-morkebla);
+    padding: 6pt 10pt !important;
+    margin-bottom: 12pt;
+    font-size: 9pt !important;
+    letter-spacing: normal !important;
   }
 
+  /* Typografi optimert for A4-trykk */
+  body {
+    font-size: 10.5pt;
+    line-height: 1.4;
+    color: black;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .portrait-doc__h1,
+  h1 {
+    font-size: 18pt;
+    margin-top: 0;
+    page-break-after: avoid;
+  }
+
+  .portrait-doc__h2,
+  h2 {
+    font-size: 13pt;
+    margin-top: 12pt;
+    page-break-after: avoid;
+  }
+
+  .portrait-doc__h3,
+  h3 {
+    font-size: 11pt;
+    page-break-after: avoid;
+  }
+
+  /* Smartere sideskift — hold meningsfulle blokker samlet */
   .portrait-doc__section,
   .portrait-doc__two-col,
-  .portrait-doc__three-col {
+  .portrait-doc__three-col,
+  .legal-paragraph,
+  .legal-block,
+  .area-map-wrap,
+  .eiendomskontekst,
+  table {
     page-break-inside: avoid;
+    break-inside: avoid;
   }
 
-  .portrait-doc__metadata {
-    page-break-before: auto;
+  /* Unngå at en overskrift blir alene nederst på en side */
+  h2 + *,
+  h3 + * {
+    page-break-before: avoid;
   }
 
-  /* Force black text on white for crisp print */
+  /* Force black text på hvit bakgrunn for kontrast (bevart fra før) */
   .portrait-doc * {
     color: var(--oslo-svart) !important;
   }
@@ -1655,13 +1726,9 @@ ul.portrait-doc__textblock {
     print-color-adjust: exact;
   }
 
-  /* Sørg for at kartet rendrer i PDF */
-  .area-map-wrap {
-    page-break-inside: avoid;
-  }
-
+  /* Kart i PDF */
   .area-map {
-    height: 320px;
+    height: 280px;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

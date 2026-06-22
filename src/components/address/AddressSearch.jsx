@@ -3,8 +3,10 @@ import { useAddressSearch } from '../../hooks/useAddressSearch.js'
 import AddressSuggestions from './AddressSuggestions.jsx'
 import InfluenceZoneInfo from './InfluenceZoneInfo.jsx'
 import { formatFullAddress } from '../../utils/norwegianText.js'
+import { useT } from '../../i18n/index.jsx'
 
 export default function AddressSearch({ onAddressSelected }) {
+  const t = useT()
   const { query, setQuery, results, isLoading, error } = useAddressSearch()
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [confirmed, setConfirmed] = useState(null)
@@ -57,45 +59,38 @@ export default function AddressSearch({ onAddressSelected }) {
           marginBottom: 'var(--space-3)',
           color: 'var(--oslo-morkegron)',
         }}>
-          Om tjenesten
+          {t('om-tjenesten.tittel')}
         </h2>
-        <p style={{ marginTop: 0 }}>Tjenesten er utviklet av Oslo kommune.</p>
-        <p>
-          Tjenesten oppretter natur- og artsportretter som kan brukes i design og
-          formgiving av grønne ute-/takarealer.
-        </p>
+        <p style={{ marginTop: 0 }}>{t('om-tjenesten.utviklet-av')}</p>
+        <p>{t('om-tjenesten.bruk')}</p>
         <p style={{ marginBottom: 'var(--space-2)' }}>
-          Tjenesten henter og sammenstiller informasjon fra følgende kilder:
+          {t('om-tjenesten.kilder-intro')}
         </p>
         <ul style={{ marginTop: 0, paddingLeft: 'var(--space-5)' }}>
-          <li>Kartverket (norske adresser)</li>
-          <li>iNaturalist (artsobservasjoner, foto og norske navn)</li>
-          <li>GBIF — Global Biodiversity Information Facility (artsdata, foto)</li>
-          <li>Artsdatabanken (Rødlista 2021, Fremmedartslista 2023)</li>
-          <li>Naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven og SAK10 — paragrafer siteres ordrett fra Lovdata, ikke tolket</li>
-          <li>Oslo kommunes Naturmangfoldstrategi 2030</li>
+          <li>{t('om-tjenesten.kilde.gbif')}</li>
+          <li>{t('om-tjenesten.kilde.inaturalist')}</li>
+          <li>{t('om-tjenesten.kilde.artsdatabanken')}</li>
+          <li>{t('om-tjenesten.kilde.kartverket')}</li>
+          <li>{t('om-tjenesten.kilde.lover')}</li>
+          <li>{t('om-tjenesten.kilde.naturstrategi')}</li>
         </ul>
-        <p>
-          Sammenstillingene er basert på fastsatte instrukser og bruk av kunstig
-          intelligens.
-        </p>
+        <p>{t('om-tjenesten.metode')}</p>
         <p style={{ marginBottom: 0 }}>
-          <strong>Portrettene av natur og arter må kvalitetssikres av fagkyndige.</strong>
+          <strong>{t('om-tjenesten.disclaimer')}</strong>
         </p>
       </section>
 
       <h1 className="address-search__heading">
-        Finn natur og arter i nærområdet
+        {t('adresse.overskrift')}
       </h1>
       <p className="address-search__description">
-        Skriv inn adressen til eiendommen du arbeider med.
-        Systemet finner alle registrerte arter innenfor 500&nbsp;meters influensområde.
+        {t('adresse.beskrivelse')}
       </p>
 
       <form onSubmit={handleSubmit}>
         <div className="address-search__field">
           <label htmlFor="address-input" className="address-search__label">
-            Adresse i Oslo
+            {t('adresse.label')}
           </label>
           <div className="address-search__input-wrap" style={{ position: 'relative' }}>
             <img
@@ -108,7 +103,7 @@ export default function AddressSearch({ onAddressSelected }) {
               ref={inputRef}
               type="text"
               className="address-search__input"
-              placeholder="Eks. Storgata 10 eller Karl Johans gate"
+              placeholder={t('adresse.placeholder')}
               value={query}
               onChange={handleInputChange}
               onBlur={handleBlur}
@@ -135,7 +130,7 @@ export default function AddressSearch({ onAddressSelected }) {
             <div style={{ marginTop: 'var(--space-6)' }}>
               <button type="submit" className="btn btn--primary">
                 <img src="/icons/Sok stor.svg" alt="" className="btn__icon" style={{ filter: 'invert(1)' }} />
-                Søk etter arter
+                {t('adresse.knapp-sok')}
               </button>
             </div>
           </>

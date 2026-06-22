@@ -40,8 +40,8 @@ export const oversettelser = {
 
   // --- Adressesøk ---
   'adresse.placeholder': {
-    no: 'Skriv adresse',
-    en: 'Enter address',
+    no: 'Eks. Storgata 10 eller Karl Johans gate',
+    en: 'E.g. Storgata 10 or Karl Johans gate',
   },
   'adresse.label': {
     no: 'Adresse',
@@ -58,6 +58,68 @@ export const oversettelser = {
   'adresse.søker': {
     no: 'Søker …',
     en: 'Searching …',
+  },
+  'adresse.knapp-sok': {
+    no: 'Søk etter arter',
+    en: 'Search for species',
+  },
+  'adresse.overskrift': {
+    no: 'Finn natur og arter i nærområdet',
+    en: 'Find nature and species in the area',
+  },
+  'adresse.beskrivelse': {
+    no: 'Skriv inn adressen til eiendommen du arbeider med. Systemet finner alle registrerte arter innenfor 500 meters influensområde.',
+    en: 'Enter the address of the property you are working on. The system retrieves all registered species within a 500-metre influence zone.',
+  },
+
+  // --- "Om tjenesten"-boks ---
+  'om-tjenesten.tittel': {
+    no: 'Om tjenesten',
+    en: 'About the service',
+  },
+  'om-tjenesten.utviklet-av': {
+    no: 'Tjenesten er utviklet av Oslo kommune.',
+    en: 'The service is developed by the City of Oslo.',
+  },
+  'om-tjenesten.bruk': {
+    no: 'Tjenesten oppretter natur- og artsportretter som kan brukes i design og formgiving av grønne ute-/takarealer.',
+    en: 'The service generates nature and species portraits intended to inform the design of green outdoor areas and roofs.',
+  },
+  'om-tjenesten.kilder-intro': {
+    no: 'Tjenesten henter og sammenstiller informasjon fra følgende kilder:',
+    en: 'The service retrieves and synthesises information from the following sources:',
+  },
+  'om-tjenesten.kilde.gbif': {
+    no: 'GBIF — Global Biodiversity Information Facility (primær artsdata)',
+    en: 'GBIF — Global Biodiversity Information Facility (primary species data)',
+  },
+  'om-tjenesten.kilde.inaturalist': {
+    no: 'iNaturalist (artsobservasjoner, foto og norske navn)',
+    en: 'iNaturalist (species observations, photos and Norwegian common names)',
+  },
+  'om-tjenesten.kilde.artsdatabanken': {
+    no: 'Artsdatabanken (Rødlista 2021, Fremmedartslista 2023)',
+    en: 'Norwegian Biodiversity Information Centre (Red List 2021, Alien Species List 2023)',
+  },
+  'om-tjenesten.kilde.kartverket': {
+    no: 'Kartverket (norske adresser)',
+    en: 'Norwegian Mapping Authority (Norwegian addresses)',
+  },
+  'om-tjenesten.kilde.lover': {
+    no: 'Naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven og SAK10 — paragrafer siteres ordrett fra Lovdata, ikke tolket',
+    en: 'Norwegian Nature Diversity Act, Planning and Building Act, Outdoor Recreation Act, Public Administration Act, and the Building Regulations (SAK10) — paragraphs are quoted verbatim from Lovdata, not interpreted',
+  },
+  'om-tjenesten.kilde.naturstrategi': {
+    no: 'Oslo kommunes Naturmangfoldstrategi 2030',
+    en: 'The City of Oslo Biodiversity Strategy 2030',
+  },
+  'om-tjenesten.metode': {
+    no: 'Sammenstillingene er basert på fastsatte instrukser og bruk av kunstig intelligens.',
+    en: 'The syntheses are produced from fixed prompts using artificial intelligence.',
+  },
+  'om-tjenesten.disclaimer': {
+    no: 'Portrettene av natur og arter må kvalitetssikres av fagkyndige.',
+    en: 'The nature and species portraits must be quality-assured by domain experts.',
   },
 
   // --- Generelle knapper ---
@@ -107,9 +169,29 @@ export const oversettelser = {
     no: 'Naturportrett',
     en: 'Nature portrait',
   },
+  'steg.portrettype': {
+    no: 'Portrettype',
+    en: 'Portrait type',
+  },
   'steg.detaljportrett': {
     no: 'Detaljportrett',
     en: 'Detailed portrait',
+  },
+  'steg.artsportrett': {
+    no: 'Artsportrett',
+    en: 'Species portrait',
+  },
+  'steg.planteportrett': {
+    no: 'Planteportrett',
+    en: 'Plant portrait',
+  },
+  'steg.naturtypeportrett': {
+    no: 'Naturtypeportrett',
+    en: 'Habitat portrait',
+  },
+  'steg.fremdrift-aria': {
+    no: 'Fremdrift',
+    en: 'Progress',
   },
 
   // --- Naturportrett (oversikt) ---
@@ -258,6 +340,10 @@ export const oversettelser = {
   'footer.heatmap-lenke': {
     no: 'Heatmap over arts-registreringer i Oslo →',
     en: 'Heatmap of species registrations in Oslo →',
+  },
+  'footer.heatmap-tilbake': {
+    no: '← Tilbake til Naturportrett',
+    en: '← Back to Naturportrett',
   },
   'footer.dev-banner': {
     no: 'Testversjon under utvikling — sist oppdatert {dato}',

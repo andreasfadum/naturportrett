@@ -1,26 +1,29 @@
-const STEPS = [
-  { num: 1, label: 'Adresse' },
-  { num: 2, label: 'Naturportrett' },
-  { num: 3, label: 'Portrettype' },
-  { num: 4, label: 'Detaljportrett' },
+import { useT } from '../../i18n/index.jsx'
+
+const STEP_KEYS = [
+  { num: 1, key: 'steg.adresse' },
+  { num: 2, key: 'steg.naturportrett' },
+  { num: 3, key: 'steg.portrettype' },
+  { num: 4, key: 'steg.detaljportrett' },
 ]
 
-const PORTRAIT_LABELS = {
-  artsportrett: 'Artsportrett',
-  planteportrett: 'Planteportrett',
-  naturtypeportrett: 'Naturtypeportrett',
+const PORTRAIT_STEG_KEY = {
+  artsportrett: 'steg.artsportrett',
+  planteportrett: 'steg.planteportrett',
+  naturtypeportrett: 'steg.naturtypeportrett',
 }
 
 export default function StepIndicator({ currentStep, portraitType }) {
-  const steps = STEPS.map(s => {
-    if (s.num === 4 && portraitType && PORTRAIT_LABELS[portraitType]) {
-      return { ...s, label: PORTRAIT_LABELS[portraitType] }
+  const t = useT()
+  const steps = STEP_KEYS.map(s => {
+    if (s.num === 4 && portraitType && PORTRAIT_STEG_KEY[portraitType]) {
+      return { ...s, label: t(PORTRAIT_STEG_KEY[portraitType]) }
     }
-    return s
+    return { ...s, label: t(s.key) }
   })
 
   return (
-    <nav className="step-indicator no-print" aria-label="Fremdrift">
+    <nav className="step-indicator no-print" aria-label={t('steg.fremdrift-aria')}>
       {steps.map((step, i) => {
         const isDone = step.num < currentStep
         const isActive = step.num === currentStep

@@ -1,10 +1,13 @@
 import { normalizeNorwegian } from '../utils/norwegianText.js'
 
 const BASE_URL = 'https://ws.geonorge.no/adresser/v1'
-const OSLO_KOMMUNE = '0301'
 
 /**
- * Søker etter adresser i Oslo via Kartverket API.
+ * Søker etter adresser via Kartverket API. Dekker hele Norge — verktøyet
+ * gir likevel rikest kontekst (kuratert grønnstrukturliste, lokale
+ * vurderinger) for Oslo, men kan brukes for adresser i andre kommuner
+ * basert på de samme åpne datakildene (GBIF, iNaturalist, lovbase).
+ *
  * @param {string} query  Adressetekst (kan inneholde skrivefeil)
  * @returns {Promise<Array>} Liste med adressetreff
  */
@@ -15,7 +18,6 @@ export async function searchAddresses(query) {
 
   const params = new URLSearchParams({
     sok: normalized,
-    kommunenummer: OSLO_KOMMUNE,
     fuzzy: 'true',
     treffPerSide: '8',
     side: '0',

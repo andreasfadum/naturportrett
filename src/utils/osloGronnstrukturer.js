@@ -79,8 +79,29 @@ function avstandMeter(lat1, lon1, lat2, lon2) {
 }
 
 /**
+ * Grov bounding-boks for Oslo kommune. Brukes som filter for å avgjøre
+ * om grønnstruktur-listen er meningsfull for en gitt adresse — listen
+ * er Oslo-spesifikk og skal IKKE eksponeres for adresser utenfor byen
+ * (det ville gitt KI feil sjekkliste å lene seg på).
+ */
+const OSLO_BBOX = {
+  latMin: 59.79,
+  latMax: 60.13,
+  lonMin: 10.49,
+  lonMax: 10.95,
+}
+
+export function erIOslo(lat, lon) {
+  if (typeof lat !== 'number' || typeof lon !== 'number') return false
+  return lat >= OSLO_BBOX.latMin && lat <= OSLO_BBOX.latMax
+      && lon >= OSLO_BBOX.lonMin && lon <= OSLO_BBOX.lonMax
+}
+
+/**
  * Returnerer en liste over grønnstrukturer innenfor `radiusM` fra (lat, lon),
  * sortert etter avstand stigende. Hver oppføring får et `avstandM`-felt.
+ * Returnerer tom liste hvis adressen ligger utenfor Oslo — vi har ikke
+ * kuraterte data for andre kommuner.
  *
  * @param {number} lat
  * @param {number} lon
@@ -88,7 +109,7 @@ function avstandMeter(lat1, lon1, lat2, lon2) {
  * @returns {Array<{navn:string,type:string,lat:number,lon:number,avstandM:number}>}
  */
 export function finnNarliggende(lat, lon, radiusM = 1500) {
-  if (typeof lat !== 'number' || typeof lon !== 'number') return []
+  if (!erIOslo(lat, lon)) return []
   const truffet = []
   for (const sted of OSLO_GRONNSTRUKTURER) {
     const avstand = avstandMeter(lat, lon, sted.lat, sted.lon)

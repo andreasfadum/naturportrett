@@ -198,6 +198,51 @@ img {
   font-weight: 400;
 }
 
+.app-header__textwrap { flex: 0 0 auto; }
+.app-header__spacer { flex: 1 1 auto; }
+
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 3px;
+}
+
+.lang-switcher__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lang-switcher__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+
+.lang-switcher__btn--aktiv {
+  background: white;
+  color: var(--oslo-morkebla);
+}
+
+.lang-switcher__btn--aktiv:hover {
+  background: white;
+  color: var(--oslo-morkebla);
+}
+
+.lang-switcher__flag { font-size: 1rem; line-height: 1; }
+.lang-switcher__kode { font-feature-settings: "tnum"; }
+
 /* ================================
    Footer
 ================================ */

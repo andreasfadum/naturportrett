@@ -124,7 +124,7 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - Funksjonelle React-komponenter og hooks (ingen klassekomponenter)
 - All bruker-tekst går via `useT()`-hook (NO + EN). Aldri hardkod synlige strenger.
 - Engelske variabel- og funksjonsnavn i kode. KI-feltnavn i JSON er norske (`folkenavn`, `vitenskapelig`, `eiendomsKontekst` osv.) — disse mappes til oversettelser i UI.
-- Lov-sitater forblir på norsk selv når UI er engelsk (Lovdata er norsk kilde)
+- **Språkstyring av KI-output:** når brukeren har valgt engelsk skal ALL KI-generert fritekst være på flytende profesjonell engelsk. Eneste unntak: (1) JSON-feltnavn (norske), (2) verbatim lovsitater fra Lovdata (norske), (3) norske stedsnavn (Tøyenparken, Akerselva osv.), (4) latinske artsnavn. Norske artsnavn-fellesnavn vises i parentes ETTER det engelske: `"Canada Goose (Kanadagås)"`. Språk-instruksen plasseres FØRST i system-prompten med `# CRITICAL — OUTPUT LANGUAGE` — ellers drukner den i den norske basis-prompten og KI fortsetter å skrive norsk. Repeter regelen som påminnelse på slutten av prompten.
 - Ingen TypeScript ennå (planlagt i v2)
 - CSS custom properties fra `--oslo-*` paletten, ikke hardkodede farger
 - Datakvalitet-tersklene (0.65 / 0.35) er én sannhetskilde i `speciesAggregator.js` og brukes konsekvent i UI

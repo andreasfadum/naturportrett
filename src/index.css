@@ -243,6 +243,71 @@ img {
 .lang-switcher__flag { font-size: 1rem; line-height: 1; }
 .lang-switcher__kode { font-feature-settings: "tnum"; }
 
+/* Hele Norge-bryter ved siden av adresselabel */
+.address-search__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.hele-norge-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--oslo-svart);
+  user-select: none;
+}
+
+.hele-norge-toggle__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hele-norge-toggle__track {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  background: var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 999px;
+  transition: background-color 0.18s ease;
+}
+
+.hele-norge-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.18s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.hele-norge-toggle__input:checked + .hele-norge-toggle__track {
+  background: var(--oslo-morkebla);
+}
+
+.hele-norge-toggle__input:checked + .hele-norge-toggle__track .hele-norge-toggle__thumb {
+  transform: translateX(16px);
+}
+
+.hele-norge-toggle__input:focus-visible + .hele-norge-toggle__track {
+  outline: 2px solid var(--oslo-morkebla);
+  outline-offset: 2px;
+}
+
+.hele-norge-toggle__text {
+  font-weight: 500;
+}
+
 /* ================================
    Footer
 ================================ */

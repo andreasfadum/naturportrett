@@ -5,7 +5,7 @@ import Fuse from 'fuse.js'
 const DEBOUNCE_MS = 300
 const MIN_CHARS = 2
 
-export function useAddressSearch() {
+export function useAddressSearch({ heleNorge = false } = {}) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -24,7 +24,7 @@ export function useAddressSearch() {
       setIsLoading(true)
       setError(null)
       try {
-        const hits = await searchAddresses(query)
+        const hits = await searchAddresses(query, { heleNorge })
 
         // Fuse.js re-rangering for bedre relevans
         if (hits.length > 1) {
@@ -48,7 +48,7 @@ export function useAddressSearch() {
     }, DEBOUNCE_MS)
 
     return () => clearTimeout(timerRef.current)
-  }, [query])
+  }, [query, heleNorge])
 
   return { query, setQuery, results, isLoading, error }
 }

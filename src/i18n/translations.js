@@ -71,6 +71,14 @@ export const oversettelser = {
     no: 'Skriv inn adressen til eiendommen du arbeider med. Systemet finner alle registrerte arter innenfor 500 meters influensområde.',
     en: 'Enter the address of the property you are working on. The system retrieves all registered species within a 500-metre influence zone.',
   },
+  'adresse.hele-norge': {
+    no: 'Hele Norge',
+    en: 'Whole of Norway',
+  },
+  'adresse.hele-norge.hjelp': {
+    no: 'Som standard søker vi kun i Oslo. Skru på for å søke i hele Norge.',
+    en: 'By default we search Oslo only. Switch on to search anywhere in Norway.',
+  },
 
   // --- "Om tjenesten"-boks ---
   'om-tjenesten.tittel': {

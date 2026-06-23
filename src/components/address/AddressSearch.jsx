@@ -1,16 +1,25 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useAddressSearch } from '../../hooks/useAddressSearch.js'
 import AddressSuggestions from './AddressSuggestions.jsx'
 import InfluenceZoneInfo from './InfluenceZoneInfo.jsx'
 import { formatFullAddress } from '../../utils/norwegianText.js'
 import { useT } from '../../i18n/index.jsx'
 
+const LS_HELE_NORGE = 'naturportrett.adressesok.heleNorge'
+
 export default function AddressSearch({ onAddressSelected }) {
   const t = useT()
-  const { query, setQuery, results, isLoading, error } = useAddressSearch()
+  const [heleNorge, setHeleNorge] = useState(() => {
+    try { return window.localStorage.getItem(LS_HELE_NORGE) === '1' } catch { return false }
+  })
+  const { query, setQuery, results, isLoading, error } = useAddressSearch({ heleNorge })
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [confirmed, setConfirmed] = useState(null)
   const inputRef = useRef(null)
+
+  useEffect(() => {
+    try { window.localStorage.setItem(LS_HELE_NORGE, heleNorge ? '1' : '0') } catch { /* noop */ }
+  }, [heleNorge])
 
   function handleInputChange(e) {
     setQuery(e.target.value)
@@ -89,9 +98,27 @@ export default function AddressSearch({ onAddressSelected }) {
 
       <form onSubmit={handleSubmit}>
         <div className="address-search__field">
-          <label htmlFor="address-input" className="address-search__label">
-            {t('adresse.label')}
-          </label>
+          <div className="address-search__label-row">
+            <label htmlFor="address-input" className="address-search__label">
+              {t('adresse.label')}
+            </label>
+            <label className="hele-norge-toggle" title={t('adresse.hele-norge.hjelp')}>
+              <input
+                type="checkbox"
+                className="hele-norge-toggle__input"
+                checked={heleNorge}
+                onChange={e => {
+                  setHeleNorge(e.target.checked)
+                  setConfirmed(null)
+                  setQuery(query)
+                }}
+              />
+              <span className="hele-norge-toggle__track" aria-hidden="true">
+                <span className="hele-norge-toggle__thumb" />
+              </span>
+              <span className="hele-norge-toggle__text">{t('adresse.hele-norge')}</span>
+            </label>
+          </div>
           <div className="address-search__input-wrap" style={{ position: 'relative' }}>
             <img
               src="/icons/Lokasjon.svg"

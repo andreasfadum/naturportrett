@@ -197,6 +197,7 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
       kontekst: `portrait:${portraitType}`,
       modell: modelUsed,
       usage,
+      zoneRadiusM: typeof payload?.zoneRadiusM === 'number' ? payload.zoneRadiusM : null,
     })
 
     sendEvent('portrait', { portrait: parsed, model: modelUsed, stopReason })

@@ -2501,30 +2501,17 @@ ul.portrait-doc__textblock {
   }
 }
 
-/* === Mobil-tilpasning av hele portrettet ===
+/* === Mobil-tilpasning ===
    Brukere er primært på desktop, men prototypen må kunne leses på
-   mobiltelefon uten kollisjoner eller horizontal scroll. Hovedfokus:
-   tabeller, padding og scroll-håndtering. */
+   mobiltelefon UTEN horisontal scroll. Tabeller som ikke har blitt
+   konvertert via ResponsiveTable får mindre font + tight word-wrap;
+   ResponsiveTable rendrer card-layout på mobil og er primær løsning. */
 @media (max-width: 720px) {
-  /* Tabeller får horisontal scroll med tydelig indikator
-     (skygge til høyre antyder mer innhold) */
-  .portrait-doc__table {
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    background:
-      linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-      linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.08) 70%) 100% 0,
-      linear-gradient(to right, white, white) 0 0,
-      linear-gradient(to right, white, white) 100% 0;
-    background-repeat: no-repeat;
-    background-size: 30px 100%, 30px 100%, 0 0, 0 0;
-    background-attachment: local, local, scroll, scroll;
-  }
-  .portrait-doc__table th,
-  .portrait-doc__table td {
-    min-width: 110px;
-    font-size: 0.82rem;
+  /* Generell: ingen elementer skal kunne pushe layout horisontalt */
+  html, body { overflow-x: hidden; }
+  .portrait-doc, .portrait-screen, .main-content {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   /* Mindre padding på portrettets seksjoner */
@@ -2537,12 +2524,18 @@ ul.portrait-doc__textblock {
     min-width: 0;
   }
 
-  /* Næringskilde-tabeller stacker allerede vertikalt (.naering-grid),
-     men cellene trenger mindre min-width på mobil */
-  .naering-blokk .portrait-doc__table th,
-  .naering-blokk .portrait-doc__table td {
-    min-width: 90px;
+  /* Tabeller (de som ikke har blitt erstattet av ResponsiveTable) får
+     redusert font + word-break + table-layout fixed */
+  .portrait-doc__table {
+    table-layout: fixed;
+    width: 100%;
+  }
+  .portrait-doc__table th,
+  .portrait-doc__table td {
     font-size: 0.78rem;
+    padding: 4px 6px;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   /* Inline-faktbokser stacker vertikalt */
@@ -2552,6 +2545,66 @@ ul.portrait-doc__textblock {
   .eiendomskontekst, .info-base-banner {
     padding: var(--space-3) var(--space-4);
   }
+}
+
+/* === ResponsiveTable card-layout (kun på mobil) ===
+   Hvert kort er én rad fra tabellen, med labels over verdier. */
+.responsive-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.responsive-card {
+  border: 1px solid var(--oslo-svart);
+  border-radius: 4px;
+  padding: var(--space-3);
+  background: white;
+}
+
+.responsive-card__rad {
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.responsive-card__rad:last-child { border-bottom: none; }
+
+.responsive-card__label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--oslo-morkebla);
+  margin-bottom: 2px;
+}
+
+.responsive-card__verdi {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--oslo-svart);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* === ExpandableText "Vis mer"-knapp === */
+.expandable-text__knapp {
+  background: none;
+  border: none;
+  color: var(--oslo-morkebla);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  text-decoration: underline;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.expandable-text__knapp:hover { text-decoration: none; }
+
+/* === Kart vist under loading ("se kartet mens KI jobber") === */
+.portrait-loading__map {
+  margin-top: var(--space-5);
+  max-width: 100%;
 }
 
 /* Informasjonsbase-banner — fremtredende disclaimer på toppen av hvert portrett */

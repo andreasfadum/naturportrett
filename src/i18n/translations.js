@@ -485,6 +485,8 @@ export const oversettelser = {
   'lov.endret': { no: 'Endret:', en: 'Changed:' },
   'lov.vis-sitat': { no: 'Vis lovtekst', en: 'Show legal text' },
   'lov.skjul-sitat': { no: 'Skjul lovtekst', en: 'Hide legal text' },
+  'expandable.vis-mer': { no: 'Vis mer', en: 'Show more' },
+  'expandable.vis-mindre': { no: 'Vis mindre', en: 'Show less' },
 
   // --- AreaMap-legend ---
   'kart.mangler-koordinater': {

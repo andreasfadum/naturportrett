@@ -144,6 +144,41 @@ export default function UsageAdminSide() {
               <ForbrukKort tittel="Siste 7 dager" stats={data.syvDager} />
               <ForbrukKort tittel="Totalt" stats={data.totalt} />
 
+              {data.perRadius && Object.keys(data.perRadius).length > 0 && (
+                <section style={{ marginTop: 'var(--space-6)' }}>
+                  <h2>Per influenssone-radius (kun naturportrett)</h2>
+                  <p style={{ fontSize: '0.85rem', opacity: 0.7 }}>
+                    Viser om token-forbruk og kostnad øker med større influenssone. Binnet på 100 m.
+                  </p>
+                  <table className="portrait-doc__table" style={{ marginTop: 'var(--space-3)' }}>
+                    <thead>
+                      <tr>
+                        <th>Radius</th>
+                        <th>Antall kall</th>
+                        <th>Snitt input-tokens</th>
+                        <th>Snitt output-tokens</th>
+                        <th>Snitt USD/kall</th>
+                        <th>Total USD</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(data.perRadius)
+                        .sort((a, b) => parseInt(a[0], 10) - parseInt(b[0], 10))
+                        .map(([radius, d]) => (
+                          <tr key={radius}>
+                            <td>{radius} m</td>
+                            <td>{d.antallKall}</td>
+                            <td>{fmtTokens(d.snittInputTokens)}</td>
+                            <td>{fmtTokens(d.snittOutputTokens)}</td>
+                            <td>{fmtUsd(d.snittUsd)}</td>
+                            <td>{fmtUsd(d.usd)}</td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </section>
+              )}
+
               {Object.keys(data.perDag).length > 0 && (
                 <section style={{ marginTop: 'var(--space-6)' }}>
                   <h2>Per dag (siste 14 dager)</h2>

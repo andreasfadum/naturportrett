@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import SpeciesCard from '../species/SpeciesCard.jsx'
 import SpeciesFilter from '../species/SpeciesFilter.jsx'
@@ -30,15 +30,40 @@ const TYPE_CONFIG = {
   },
 }
 
+// Tersklene matcher beregnPriorityScore() i speciesAggregator.js og
+// DatakvalitetCelle i NaturportrettView.jsx — én sannhetskilde for "høy/mid/lav".
+function kvalitetsNivaa(score) {
+  if (typeof score !== 'number') return 'ukjent'
+  if (score >= 0.65) return 'hoy'
+  if (score >= 0.35) return 'mid'
+  return 'lav'
+}
+
+function statusKategori(sp) {
+  if (!sp.conservationStatus) return 'ingen'
+  return sp.conservationStatus.type === 'redlist' ? 'rodliste' : 'svarteliste'
+}
+
 export default function DetailPortraitSection({ portraitType, address, species, onBack, onRestart }) {
   const t = useT()
   const { sprak } = useSprak()
   const cfg = TYPE_CONFIG[portraitType]
   const [pickedSubject, setPickedSubject] = useState(null)
   const [filter, setFilter] = useState('alle')
+  const [statusFilter, setStatusFilter] = useState('alle')
+  const [kvalitetFilter, setKvalitetFilter] = useState('alle')
+  const [bekreftEmne, setBekreftEmne] = useState(null) // species/naturtype som venter på bekreftelse
   const { portrait, isLoading, error, generate, reset } = usePortraitGeneration()
 
   const tittel = t(cfg.tittelKey)
+
+  // Esc lukker modal
+  useEffect(() => {
+    if (!bekreftEmne) return
+    function onKey(e) { if (e.key === 'Escape') setBekreftEmne(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [bekreftEmne])
 
   const filtered = useMemo(() => {
     if (!cfg.filter) return []
@@ -46,14 +71,30 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   }, [species, cfg.filter])
 
   const visible = useMemo(() => {
-    if (filter === 'alle') return filtered
-    if (filter === 'annet') {
-      return filtered.filter(sp => !['Fugl', 'Plante', 'Pattedyr', 'Insekt', 'Sopp'].includes(sp.category))
-    }
-    return filtered.filter(sp => sp.category === filter)
-  }, [filtered, filter])
+    let liste = filtered
 
-  // Naturtyper kan vi foreslå statisk for prototypen
+    // Eksisterende kategori-filter (kun for artsportrett)
+    if (filter !== 'alle') {
+      if (filter === 'annet') {
+        liste = liste.filter(sp => !['Fugl', 'Plante', 'Pattedyr', 'Insekt', 'Sopp'].includes(sp.category))
+      } else {
+        liste = liste.filter(sp => sp.category === filter)
+      }
+    }
+
+    // Status-filter (kombinerer med kategori — alle må gi treff)
+    if (statusFilter !== 'alle') {
+      liste = liste.filter(sp => statusKategori(sp) === statusFilter)
+    }
+
+    // Datakvalitet-filter
+    if (kvalitetFilter !== 'alle') {
+      liste = liste.filter(sp => kvalitetsNivaa(sp.priorityScore) === kvalitetFilter)
+    }
+
+    return liste
+  }, [filtered, filter, statusFilter, kvalitetFilter])
+
   const naturtypeForslag = useMemo(() => {
     if (portraitType !== 'naturtypeportrett') return []
     return [
@@ -67,13 +108,25 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   }, [portraitType])
 
   function handlePickSpecies(sp) {
-    setPickedSubject(sp)
-    generate(portraitType, { species: sp, address, lang: sprak })
+    // Åpne bekreftelses-modal i stedet for å generere umiddelbart
+    setBekreftEmne({ type: 'species', payload: sp, navn: sp.norwegianName, vitenskapelig: sp.scientificNameDisplay || sp.scientificName })
   }
 
   function handlePickNaturtype(nt) {
-    setPickedSubject(nt)
-    generate('naturtypeportrett', { naturtype: nt, address, observedSpecies: species.slice(0, 15), lang: sprak })
+    setBekreftEmne({ type: 'naturtype', payload: nt, navn: nt.navn, vitenskapelig: nt.ninKode })
+  }
+
+  function bekreftOgGener() {
+    if (!bekreftEmne) return
+    const valgt = bekreftEmne
+    setBekreftEmne(null)
+    if (valgt.type === 'species') {
+      setPickedSubject(valgt.payload)
+      generate(portraitType, { species: valgt.payload, address, lang: sprak })
+    } else {
+      setPickedSubject(valgt.payload)
+      generate('naturtypeportrett', { naturtype: valgt.payload, address, observedSpecies: species.slice(0, 15), lang: sprak })
+    }
   }
 
   function handleBackToSubjectPicker() {
@@ -155,12 +208,22 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   }
 
   // Subject picker
+  const erSpeciesType = portraitType !== 'naturtypeportrett'
+
   return (
     <div>
       <h1 className="portrait-page-title">{tittel}</h1>
-      <p style={{ color: '#555', marginBottom: 'var(--space-6)' }}>
+      <p style={{ color: '#555', marginBottom: 'var(--space-4)' }}>
         {t('detalj.velg-instruksjon', { velg: t(cfg.pickLabelKey) })}
       </p>
+
+      {/* Forklaring av rødliste/svarteliste-forkortelser — vises før bildegalleriet */}
+      {erSpeciesType && filtered.length > 0 && (
+        <details className="forkort-forklaring">
+          <summary className="forkort-forklaring__tittel">{t('detalj.forkort.tittel')}</summary>
+          <p className="forkort-forklaring__tekst">{t('detalj.forkort.tekst')}</p>
+        </details>
+      )}
 
       {portraitType === 'naturtypeportrett' ? (
         <div className="naturtype-grid">
@@ -185,16 +248,47 @@ export default function DetailPortraitSection({ portraitType, address, species, 
               {portraitType === 'artsportrett' && (
                 <SpeciesFilter activeFilter={filter} onFilterChange={setFilter} />
               )}
-              <div className="species-grid">
-                {visible.map(sp => (
-                  <SpeciesCard
-                    key={sp.id}
-                    species={sp}
-                    isSelected={false}
-                    onToggle={handlePickSpecies}
-                  />
-                ))}
+
+              {/* Status- og datakvalitet-filter */}
+              <div className="picker-filters">
+                <FilterGruppe
+                  label={t('detalj.filter.status.label')}
+                  valg={[
+                    { v: 'alle', label: t('detalj.filter.status.alle') },
+                    { v: 'rodliste', label: t('detalj.filter.status.rodliste') },
+                    { v: 'svarteliste', label: t('detalj.filter.status.svarteliste') },
+                    { v: 'ingen', label: t('detalj.filter.status.ingen') },
+                  ]}
+                  aktiv={statusFilter}
+                  onChange={setStatusFilter}
+                />
+                <FilterGruppe
+                  label={t('detalj.filter.kvalitet.label')}
+                  valg={[
+                    { v: 'alle', label: t('detalj.filter.kvalitet.alle') },
+                    { v: 'hoy', label: t('detalj.filter.kvalitet.hoy') },
+                    { v: 'mid', label: t('detalj.filter.kvalitet.mid') },
+                    { v: 'lav', label: t('detalj.filter.kvalitet.lav') },
+                  ]}
+                  aktiv={kvalitetFilter}
+                  onChange={setKvalitetFilter}
+                />
               </div>
+
+              {visible.length === 0 ? (
+                <p style={{ color: '#666' }}>{t('detalj.filter.ingen-treff')}</p>
+              ) : (
+                <div className="species-grid">
+                  {visible.map(sp => (
+                    <SpeciesCard
+                      key={sp.id}
+                      species={sp}
+                      isSelected={false}
+                      onToggle={handlePickSpecies}
+                    />
+                  ))}
+                </div>
+              )}
             </>
           )}
         </>
@@ -204,6 +298,58 @@ export default function DetailPortraitSection({ portraitType, address, species, 
         <button type="button" className="btn btn--secondary" onClick={onBack}>
           {t('detalj.knapp.tilbake')}
         </button>
+      </div>
+
+      {/* Bekreftelses-modal */}
+      {bekreftEmne && (
+        <div className="bekreft-overlay" onClick={e => { if (e.target === e.currentTarget) setBekreftEmne(null) }}>
+          <div className="bekreft-modal" role="dialog" aria-modal="true">
+            <button
+              type="button"
+              className="bekreft-modal__lukk"
+              onClick={() => setBekreftEmne(null)}
+              aria-label={t('bekreft.aria.lukk')}
+            >
+              ×
+            </button>
+            <h2 className="bekreft-modal__tittel">
+              {t('bekreft.tittel', { portretttype: tittel.toLowerCase() })}
+            </h2>
+            <p className="bekreft-modal__navn">
+              <strong>{bekreftEmne.navn}</strong>
+              {bekreftEmne.vitenskapelig && <em> — {bekreftEmne.vitenskapelig}</em>}
+            </p>
+            <p className="bekreft-modal__intro">{t('bekreft.intro')}</p>
+            <div className="bekreft-modal__knapper">
+              <button type="button" className="btn btn--secondary" onClick={() => setBekreftEmne(null)}>
+                {t('knapp.avbryt')}
+              </button>
+              <button type="button" className="btn btn--primary" onClick={bekreftOgGener} autoFocus>
+                {t('bekreft.gener')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function FilterGruppe({ label, valg, aktiv, onChange }) {
+  return (
+    <div className="picker-filter-gruppe">
+      <span className="picker-filter-gruppe__label">{label}:</span>
+      <div className="picker-filter-gruppe__valg">
+        {valg.map(v => (
+          <button
+            key={v.v}
+            type="button"
+            className={`picker-filter-pill${aktiv === v.v ? ' picker-filter-pill--aktiv' : ''}`}
+            onClick={() => onChange(v.v)}
+          >
+            {v.label}
+          </button>
+        ))}
       </div>
     </div>
   )

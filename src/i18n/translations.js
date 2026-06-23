@@ -569,6 +569,41 @@ export const oversettelser = {
   'detalj.feil-label': { no: 'Feil:', en: 'Error:' },
   'detalj.nin-prefix': { no: 'NiN:', en: 'NiN:' },
 
+  // --- Subject-picker filter + forklaringer ---
+  'detalj.filter.status.label': { no: 'Verne-status', en: 'Conservation status' },
+  'detalj.filter.status.alle': { no: 'Alle', en: 'All' },
+  'detalj.filter.status.rodliste': { no: 'Rødlistet', en: 'Red-listed' },
+  'detalj.filter.status.svarteliste': { no: 'Svartelistet', en: 'Invasive (alien)' },
+  'detalj.filter.status.ingen': { no: 'Ikke vurdert', en: 'Not assessed' },
+  'detalj.filter.kvalitet.label': { no: 'Datakvalitet', en: 'Data quality' },
+  'detalj.filter.kvalitet.alle': { no: 'Alle', en: 'All' },
+  'detalj.filter.kvalitet.hoy': { no: 'Høy', en: 'High' },
+  'detalj.filter.kvalitet.mid': { no: 'Middels', en: 'Medium' },
+  'detalj.filter.kvalitet.lav': { no: 'Lav', en: 'Low' },
+  'detalj.filter.ingen-treff': {
+    no: 'Ingen arter matcher valgte filtre. Slipp opp ett av filtrene eller velg en annen kategori.',
+    en: 'No species match the selected filters. Loosen one of the filters or pick another category.',
+  },
+
+  // --- Forkortelse-forklaring ---
+  'detalj.forkort.tittel': { no: 'Forklaring av forkortelser', en: 'Code abbreviations' },
+  'detalj.forkort.tekst': {
+    no: 'Rødliste (Norge 2021): LC = Livskraftig · NT = Nær truet · VU = Sårbar · EN = Sterkt truet · CR = Kritisk truet. Fremmedartsliste (2023): SE = Svært høy økologisk risiko · HI = Høy risiko · PH = Potensielt høy risiko · LO = Lav risiko · NK = Ingen kjent risiko · NR = Ikke risikovurdert.',
+    en: 'Red List (Norway 2021): LC = Least Concern · NT = Near Threatened · VU = Vulnerable · EN = Endangered · CR = Critically Endangered. Alien Species List (2023): SE = Severe ecological impact · HI = High impact · PH = Potentially high impact · LO = Low impact · NK = No known impact · NR = Not risk-assessed.',
+  },
+
+  // --- Bekreftelses-modal ---
+  'bekreft.tittel': {
+    no: 'Generér {portretttype}?',
+    en: 'Generate {portretttype}?',
+  },
+  'bekreft.intro': {
+    no: 'Portrettet bygges fra åpne datakilder og KI-syntese. Det tar ca. 20 sekunder.',
+    en: 'The portrait is built from open data sources and AI synthesis. It takes about 20 seconds.',
+  },
+  'bekreft.gener': { no: 'Generér portrett', en: 'Generate portrait' },
+  'bekreft.aria.lukk': { no: 'Lukk', en: 'Close' },
+
   // --- Felles delseksjonsoverskrifter for Arts-/Plante-/Naturtypeportrett ---
   'portrett.karakteristikker': { no: 'Karakteristikker', en: 'Characteristics' },
   'portrett.artsfamilie': { no: 'Artsfamilie', en: 'Species family' },

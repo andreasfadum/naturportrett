@@ -174,9 +174,23 @@ img {
   gap: var(--space-4);
 }
 
+.app-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .app-header__logo {
   height: 40px;
   width: auto;
+}
+
+.app-header__kommune {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--oslo-hvit);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .app-header__divider {

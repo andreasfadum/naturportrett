@@ -43,7 +43,13 @@ function mapINaturalistObservation(obs) {
     kingdom: taxon.kingdom || '',
     photoUrl: photo ? photo.medium_url || photo.url : null,
     photoSquareUrl: photo ? photo.square_url || photo.url : null,
-    observationCount: obs.quality_grade === 'research' ? (obs.faves_count || 0) + 1 : 0,
+    // Hver iNaturalist-rad = én observasjon; aggregator teller opp pr art
+    observationCount: 1,
+    // Siste-observert-dato — brukes som recency-signal i prioritet-sortering
+    lastObservedDate: obs.observed_on || (obs.created_at ? obs.created_at.slice(0, 10) : null),
+    // iNaturalist research-grade = peer-verifisert ID. Vi filtrerer på research-grade
+    // allerede i query, så alle treff her er research-grade.
+    qualityGrade: obs.quality_grade || 'research',
     taxonId: taxon.id,
   }
 }

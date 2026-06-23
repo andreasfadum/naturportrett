@@ -73,7 +73,13 @@ export default function NaturportrettSection({ address, zoneRadiusM = 500, onCon
         )}
 
         {portrait && !isLoading && (
-          <NaturportrettView portrait={portrait} address={address} species={species} zoneRadiusM={zoneRadiusM} />
+          <NaturportrettView
+            portrait={portrait}
+            address={address}
+            species={species}
+            speciesByCategory={speciesByCategory}
+            zoneRadiusM={zoneRadiusM}
+          />
         )}
       </div>
 

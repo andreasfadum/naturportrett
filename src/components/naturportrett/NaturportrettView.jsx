@@ -7,9 +7,18 @@ import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import AreaMap from './AreaMap.jsx'
 import { useT } from '../../i18n/index.jsx'
 
-export default function NaturportrettView({ portrait, address, species }) {
+function formatRadius(meter) {
+  if (meter >= 1000) {
+    const km = meter / 1000
+    return Number.isInteger(km) ? `${km} km` : `${km.toFixed(1)} km`
+  }
+  return `${meter} m`
+}
+
+export default function NaturportrettView({ portrait, address, species, zoneRadiusM = 500 }) {
   const p = portrait || {}
   const t = useT()
+  const radiusTekst = formatRadius(zoneRadiusM)
 
   return (
     <article className="portrait-doc">
@@ -40,18 +49,18 @@ export default function NaturportrettView({ portrait, address, species }) {
           <h2 className="eiendomskontekst__tittel">{t('naturportrett.eiendomskontekst.tittel')}</h2>
           <p className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</p>
           <p className="eiendomskontekst__forklaring">
-            {t('naturportrett.eiendomskontekst.forklaring')}
+            {t('naturportrett.eiendomskontekst.forklaring', { radius: radiusTekst })}
           </p>
         </section>
       )}
 
       {/* Oversiktskart */}
       <section className="portrait-doc__section">
-        <h2 className="portrait-doc__h2">{t('naturportrett.oversiktskart')}</h2>
+        <h2 className="portrait-doc__h2">{t('naturportrett.oversiktskart', { radius: radiusTekst })}</h2>
         <AreaMap
           lat={address.representasjonspunkt?.lat}
           lon={address.representasjonspunkt?.lon}
-          radiusM={500}
+          radiusM={zoneRadiusM}
           label={p.prosjektnavn || address.adressenavn}
         />
       </section>
@@ -59,7 +68,7 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Naturtyper */}
       {Array.isArray(p.naturtyper) && p.naturtyper.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">{t('naturportrett.naturtyper')}</h2>
+          <h2 className="portrait-doc__h2">{t('naturportrett.naturtyper', { radius: radiusTekst })}</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>
@@ -86,7 +95,7 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Arter */}
       {Array.isArray(p.arterAvHoyOkologiskVerdi) && p.arterAvHoyOkologiskVerdi.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">{t('naturportrett.arter-hoy-verdi')}</h2>
+          <h2 className="portrait-doc__h2">{t('naturportrett.arter-hoy-verdi', { radius: radiusTekst })}</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>

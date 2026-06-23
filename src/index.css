@@ -308,6 +308,71 @@ img {
   font-weight: 500;
 }
 
+/* Slider for influensområde-radius */
+.address-search__radius {
+  margin-bottom: var(--space-4);
+}
+
+.address-search__radius-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--oslo-morkebla);
+  margin-bottom: 8px;
+  font-feature-settings: "tnum";
+}
+
+.address-search__radius-slider {
+  width: 100%;
+  max-width: 420px;
+  height: 6px;
+  background: var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 999px;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.address-search__radius-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--oslo-morkebla);
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.address-search__radius-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.1);
+}
+
+.address-search__radius-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--oslo-morkebla);
+  border: none;
+  border-radius: 50%;
+  cursor: grab;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.address-search__radius-slider:focus-visible {
+  outline: 2px solid var(--oslo-morkebla);
+  outline-offset: 4px;
+}
+
+.address-search__radius-hjelp {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: var(--oslo-svart);
+  opacity: 0.7;
+}
+
 /* ================================
    Footer
 ================================ */

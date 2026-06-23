@@ -79,6 +79,14 @@ export const oversettelser = {
     no: 'Som standard søker vi kun i Oslo. Skru på for å søke i hele Norge.',
     en: 'By default we search Oslo only. Switch on to search anywhere in Norway.',
   },
+  'adresse.influensradius.label': {
+    no: 'Influensområde: {radius}',
+    en: 'Influence zone: {radius}',
+  },
+  'adresse.influensradius.hjelp': {
+    no: 'Hvor langt fra adressen vi henter arts- og naturdata. Standard 500 m.',
+    en: 'How far from the address we retrieve species and nature data. Default 500 m.',
+  },
 
   // --- "Om tjenesten"-boks ---
   'om-tjenesten.tittel': {
@@ -215,29 +223,29 @@ export const oversettelser = {
     no: 'Slik knytter dette seg til eiendommen',
     en: 'How this relates to the property',
   },
-  'naturportrett.eiendomskontekst.forklaring': {
-    no: 'Resten av portrettet beskriver naturverdier innenfor 500 m fra adressen — ikke alt vi viser ligger på selve tomten.',
-    en: 'The rest of the portrait describes nature values within 500 m of the address — not everything shown is on the parcel itself.',
-  },
   'naturportrett.oversiktskart': {
-    no: 'Oversiktskart — 500 m influenssone',
-    en: 'Overview map — 500 m influence zone',
+    no: 'Oversiktskart — {radius} influenssone',
+    en: 'Overview map — {radius} influence zone',
   },
   'naturportrett.naturtyper': {
-    no: 'Naturtyper i området (innenfor 500 m)',
-    en: 'Habitat types in the area (within 500 m)',
+    no: 'Naturtyper i området (innenfor {radius})',
+    en: 'Habitat types in the area (within {radius})',
   },
   'naturportrett.arter-hoy-verdi': {
-    no: 'Registrerte arter av høy økologisk verdi (innenfor 500 m)',
-    en: 'Registered species of high ecological value (within 500 m)',
+    no: 'Registrerte arter av høy økologisk verdi (innenfor {radius})',
+    en: 'Registered species of high ecological value (within {radius})',
+  },
+  'naturportrett.eiendomskontekst.forklaring': {
+    no: 'Resten av portrettet beskriver naturverdier innenfor {radius} fra adressen — ikke alt vi viser ligger på selve tomten.',
+    en: 'The rest of the portrait describes nature values within {radius} of the address — not everything shown is on the parcel itself.',
   },
   'naturportrett.kart.legend.adresse': {
     no: 'Prosjektadresse',
     en: 'Project address',
   },
   'naturportrett.kart.legend.sone': {
-    no: '500 m influenssone',
-    en: '500 m influence zone',
+    no: '{radius} influenssone',
+    en: '{radius} influence zone',
   },
 
   // --- Tabellhoder (gjenbrukes) ---

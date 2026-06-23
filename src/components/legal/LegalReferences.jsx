@@ -39,10 +39,39 @@ function renderSitat(tekst) {
   })
 }
 
+import { useEffect } from 'react'
 import { useT } from '../../i18n/index.jsx'
 
 export default function LegalReferences({ items }) {
   const t = useT()
+
+  // Åpne alle <details> ved print så sitater er med i PDF-eksport.
+  // Lukker dem igjen etter print så bruker kommer tilbake til samme tilstand.
+  useEffect(() => {
+    function snapshotOgAapne() {
+      const detailsList = document.querySelectorAll('.legal-paragraph__details')
+      const tilstand = []
+      detailsList.forEach(d => {
+        tilstand.push(d.open)
+        d.open = true
+      })
+      window.__legalDetailsTilstand = tilstand
+    }
+    function tilbakestill() {
+      const tilstand = window.__legalDetailsTilstand
+      if (!tilstand) return
+      const detailsList = document.querySelectorAll('.legal-paragraph__details')
+      detailsList.forEach((d, i) => { d.open = !!tilstand[i] })
+      delete window.__legalDetailsTilstand
+    }
+    window.addEventListener('beforeprint', snapshotOgAapne)
+    window.addEventListener('afterprint', tilbakestill)
+    return () => {
+      window.removeEventListener('beforeprint', snapshotOgAapne)
+      window.removeEventListener('afterprint', tilbakestill)
+    }
+  }, [])
+
   if (!Array.isArray(items) || items.length === 0) return null
 
   return (
@@ -79,7 +108,13 @@ export default function LegalReferences({ items }) {
                 <div className="legal-paragraph__chapter">{p.kapittel}</div>
               )}
               {p.sitat && (
-                <blockquote className="legal-paragraph__quote">{renderSitat(p.sitat)}</blockquote>
+                <details className="legal-paragraph__details">
+                  <summary className="legal-paragraph__summary">
+                    <span className="legal-paragraph__summary-vis">{t('lov.vis-sitat')}</span>
+                    <span className="legal-paragraph__summary-skjul">{t('lov.skjul-sitat')}</span>
+                  </summary>
+                  <blockquote className="legal-paragraph__quote">{renderSitat(p.sitat)}</blockquote>
+                </details>
               )}
               {p.endretAv && (
                 <div className="legal-paragraph__changed">{t('lov.endret')} {p.endretAv}</div>

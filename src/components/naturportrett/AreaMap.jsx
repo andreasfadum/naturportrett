@@ -134,30 +134,30 @@ export default function AreaMap({ lat, lon, radiusM = 500, label }) {
 
     if (naerliggendeCeller.length === 0) return
 
-    // Skala intensitet til median × 2 for å unngå at ekstreme celler suger
-    // synlighet (samme strategi som HeatmapPage). På mobil senker vi
-    // taket ytterligere så cellene blir mer fargemettede, og øker
-    // radius+blur slik at punkter overlapper synlig også når man er
-    // zoomet inn på eiendommen.
+    // Skala intensitet til median for å unngå at ekstreme celler suger
+    // synlighet. Når brukeren har valgt liten influenssone (f.eks. 200 m)
+    // er kartet sterkt zoomet inn og heat-cellene blir for små med
+    // konservative verdier. Vi øker radius+blur+minOpacity både på
+    // desktop og mobil slik at effekten er tydelig synlig uansett zoom.
     const erMobil = typeof window !== 'undefined' && window.innerWidth < 720
     const sortert = [...naerliggendeCeller].sort((a, b) => a.antall - b.antall)
     const median = sortert[Math.floor(sortert.length / 2)]?.antall || 1
     const maxVerdi = erMobil
-      ? Math.max(1.5, median * 1.2)
-      : Math.max(2, median * 2)
+      ? Math.max(1.2, median * 1.1)
+      : Math.max(1.5, median * 1.3)
 
     const punkter = naerliggendeCeller.map(c => [c.lat, c.lon, c.antall])
 
     heatLayerRef.current = L.heatLayer(punkter, {
-      radius: erMobil ? 40 : 22,
-      blur: erMobil ? 50 : 28,
+      radius: erMobil ? 45 : 35,
+      blur: erMobil ? 55 : 45,
       maxZoom: 18,
       max: maxVerdi,
-      minOpacity: erMobil ? 0.55 : 0.35,
+      minOpacity: erMobil ? 0.6 : 0.55,
       gradient: {
-        0.0: 'rgba(67, 248, 182, 0.6)',
-        0.3: 'rgba(67, 248, 182, 0.9)',
-        0.5: 'rgba(249, 198, 107, 0.95)',
+        0.0: 'rgba(67, 248, 182, 0.7)',
+        0.3: 'rgba(67, 248, 182, 1.0)',
+        0.5: 'rgba(249, 198, 107, 1.0)',
         0.75: 'rgba(255, 130, 116, 1.0)',
         1.0: 'rgba(42, 40, 89, 1.0)',
       },

@@ -177,7 +177,9 @@ export default function NaturportrettView({ portrait, address, species = [], spe
             </div>
           )}
 
-          <table className="portrait-doc__table">
+          {/* "arts-tabell--skjul-siste-pa-mobil" gjør at datakvalitet-
+              kolonnen forsvinner på mobil (kun) via CSS. Beholdes på desktop. */}
+          <table className="portrait-doc__table arts-tabell--skjul-siste-pa-mobil">
             <thead>
               <tr>
                 <th>{t('tabell.norsk-navn')}</th>

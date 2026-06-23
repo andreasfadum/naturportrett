@@ -32,6 +32,7 @@ export async function fetchSpeciesFromINaturalist(lat, lon, radiusKm = 0.5) {
 function mapINaturalistObservation(obs) {
   const taxon = obs.taxon || {}
   const photo = taxon.default_photo || (obs.photos && obs.photos[0])
+  const baseUrl = photo ? (photo.medium_url || photo.url) : null
 
   return {
     source: 'inaturalist',
@@ -41,14 +42,24 @@ function mapINaturalistObservation(obs) {
     scientificNameDisplay: taxon.name || '',
     iconicTaxonName: taxon.iconic_taxon_name || '',
     kingdom: taxon.kingdom || '',
-    photoUrl: photo ? photo.medium_url || photo.url : null,
-    photoSquareUrl: photo ? photo.square_url || photo.url : null,
+    // Beholder eksisterende felt for bakoverkompatibilitet
+    photoUrl: baseUrl,
+    photoSquareUrl: photo ? (photo.square_url || baseUrl) : null,
+    // Nye felter — hentes direkte hvis tilgjengelig, eller utledes ved å bytte
+    // ut "medium" i URL-en (iNaturalist-konvensjon: alle størrelser bor på samme
+    // base-URL kun med ulik størrelsessuffiks).
+    photoMediumUrl: photo
+      ? (photo.medium_url || (baseUrl ? baseUrl.replace(/(square|small|large|original)\.(jpe?g|png)/i, 'medium.$2') : null))
+      : null,
+    photoLargeUrl: photo
+      ? (photo.large_url || (baseUrl ? baseUrl.replace(/(square|small|medium|original)\.(jpe?g|png)/i, 'large.$2') : null))
+      : null,
+    photoOriginalUrl: photo
+      ? (photo.original_url || (baseUrl ? baseUrl.replace(/(square|small|medium|large)\.(jpe?g|png)/i, 'original.$2') : null))
+      : null,
     // Hver iNaturalist-rad = én observasjon; aggregator teller opp pr art
     observationCount: 1,
-    // Siste-observert-dato — brukes som recency-signal i prioritet-sortering
     lastObservedDate: obs.observed_on || (obs.created_at ? obs.created_at.slice(0, 10) : null),
-    // iNaturalist research-grade = peer-verifisert ID. Vi filtrerer på research-grade
-    // allerede i query, så alle treff her er research-grade.
     qualityGrade: obs.quality_grade || 'research',
     taxonId: taxon.id,
   }

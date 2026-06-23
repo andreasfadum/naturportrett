@@ -116,10 +116,10 @@ export default function AddressSearch({ onAddressSelected, radiusM = 500, onRadi
             max="2000"
             step="100"
             value={radiusM}
-            onChange={e => {
-              onRadiusChange(parseInt(e.target.value, 10))
-              setConfirmed(null)
-            }}
+            // Justering av slider skal IKKE skjule søkeknappen — adressen
+            // forblir bekreftet, og brukeren kan trykke "Søk etter arter" rett
+            // etter justert radius.
+            onChange={e => onRadiusChange(parseInt(e.target.value, 10))}
             className="address-search__radius-slider"
             aria-describedby="radius-hjelp"
           />

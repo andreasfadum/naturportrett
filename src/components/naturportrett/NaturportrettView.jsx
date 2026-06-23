@@ -5,9 +5,11 @@ import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import ForvaltningsradListe from '../portrait-shared/ForvaltningsradListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import AreaMap from './AreaMap.jsx'
+import { useT } from '../../i18n/index.jsx'
 
 export default function NaturportrettView({ portrait, address, species }) {
   const p = portrait || {}
+  const t = useT()
 
   return (
     <article className="portrait-doc">
@@ -15,7 +17,7 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Header */}
       <header className="portrait-doc__header">
         <div>
-          <h1 className="portrait-doc__title">Naturportrett</h1>
+          <h1 className="portrait-doc__title">{t('naturportrett.tittel')}</h1>
         </div>
         <div className="portrait-doc__header-right">
           <div className="portrait-doc__date">{__BUILD_DATE__}</div>
@@ -26,26 +28,26 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Prosjektområde */}
       <section className="portrait-doc__section">
         <div className="portrait-doc__fact-grid">
-          <FactBox label="Prosjektnavn" value={p.prosjektnavn} />
-          <FactBox label="Lokasjon" value={p.lokasjon} />
-          <FactBox label="Antall verdifulle naturområder" value={p.antallVerdifulleNaturomrader} />
+          <FactBox label={t('fact.prosjektnavn')} value={p.prosjektnavn} />
+          <FactBox label={t('fact.lokasjon')} value={p.lokasjon} />
+          <FactBox label={t('fact.antall-verdifulle')} value={p.antallVerdifulleNaturomrader} />
         </div>
       </section>
 
       {/* Slik knytter dette seg til eiendommen — R6-innspill 17. juni */}
       {p.eiendomsKontekst && (
         <section className="eiendomskontekst">
-          <h2 className="eiendomskontekst__tittel">Slik knytter dette seg til eiendommen</h2>
+          <h2 className="eiendomskontekst__tittel">{t('naturportrett.eiendomskontekst.tittel')}</h2>
           <p className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</p>
           <p className="eiendomskontekst__forklaring">
-            Resten av portrettet beskriver naturverdier innenfor 500 m fra adressen — ikke alt vi viser ligger på selve tomten.
+            {t('naturportrett.eiendomskontekst.forklaring')}
           </p>
         </section>
       )}
 
       {/* Oversiktskart */}
       <section className="portrait-doc__section">
-        <h2 className="portrait-doc__h2">Oversiktskart — 500 m influenssone</h2>
+        <h2 className="portrait-doc__h2">{t('naturportrett.oversiktskart')}</h2>
         <AreaMap
           lat={address.representasjonspunkt?.lat}
           lon={address.representasjonspunkt?.lon}
@@ -57,14 +59,14 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Naturtyper */}
       {Array.isArray(p.naturtyper) && p.naturtyper.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Naturtyper i området (innenfor 500 m)</h2>
+          <h2 className="portrait-doc__h2">{t('naturportrett.naturtyper')}</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>
-                <th>Naturtype</th>
-                <th>NiN-kode</th>
-                <th>Rødliste</th>
-                <th>Beskrivelse</th>
+                <th>{t('tabell.naturtype')}</th>
+                <th>{t('tabell.nin-kode')}</th>
+                <th>{t('tabell.rodliste')}</th>
+                <th>{t('tabell.beskrivelse')}</th>
               </tr>
             </thead>
             <tbody>
@@ -84,14 +86,14 @@ export default function NaturportrettView({ portrait, address, species }) {
       {/* Arter */}
       {Array.isArray(p.arterAvHoyOkologiskVerdi) && p.arterAvHoyOkologiskVerdi.length > 0 && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Registrerte arter av høy økologisk verdi (innenfor 500 m)</h2>
+          <h2 className="portrait-doc__h2">{t('naturportrett.arter-hoy-verdi')}</h2>
           <table className="portrait-doc__table">
             <thead>
               <tr>
-                <th>Norsk navn</th>
-                <th>Vitenskapelig</th>
-                <th>Kategori</th>
-                <th>Status</th>
+                <th>{t('tabell.norsk-navn')}</th>
+                <th>{t('tabell.vitenskapelig')}</th>
+                <th>{t('tabell.kategori')}</th>
+                <th>{t('tabell.status')}</th>
               </tr>
             </thead>
             <tbody>
@@ -109,15 +111,15 @@ export default function NaturportrettView({ portrait, address, species }) {
       )}
 
       {/* Tekstseksjoner */}
-      <TextSection title="Økologiske sammenhenger og barrierer" body={p.okologiskeSammenhenger} />
-      <TextSection title="Trusler og fremtidig potensiale" body={p.trusler} />
-      <TextSection title="Spesielt viktige områder" body={p.spesieltViktigeOmrader} />
+      <TextSection title={t('seksjon.okologiske-sammenhenger')} body={p.okologiskeSammenhenger} />
+      <TextSection title={t('seksjon.trusler')} body={p.trusler} />
+      <TextSection title={t('seksjon.spesielt-viktige')} body={p.spesieltViktigeOmrader} />
 
       <ForvaltningsradListe items={p.forvaltningsrad} />
 
       <LegalReferences items={p.relevanteLoverEnriched} />
 
-      <TextSection title="Andre kilder for informasjon om området" body={p.andreKilder} />
+      <TextSection title={t('seksjon.andre-kilder')} body={p.andreKilder} />
 
       <DataKvalitetSeksjon items={p.datakvalitet} />
 
@@ -129,9 +131,14 @@ export default function NaturportrettView({ portrait, address, species }) {
           subjekt: p.prosjektnavn || null,
         }}
         seksjoner={[
-          'Naturtyper', 'Arter av høy økologisk verdi', 'Økologiske sammenhenger',
-          'Trusler', 'Spesielt viktige områder', 'Forvaltningsråd',
-          'Relevant lovgrunnlag', 'Datakvalitet',
+          t('seksjon.naturtyper-feedback'),
+          t('seksjon.arter-feedback'),
+          t('seksjon.okologiske-feedback'),
+          t('seksjon.trusler-feedback'),
+          t('seksjon.spesielt-feedback'),
+          t('seksjon.forvaltning-feedback'),
+          t('seksjon.lovgrunnlag-feedback'),
+          t('seksjon.datakvalitet-feedback'),
         ]}
       />
 

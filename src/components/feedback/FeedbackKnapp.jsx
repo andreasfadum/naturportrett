@@ -1,12 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
+import { useT } from '../../i18n/index.jsx'
 
-const TYPE_VALG = [
-  { value: 'feil_innhold', label: 'Feil i innholdet (rett feil)' },
-  { value: 'manglende_info', label: 'Noe mangler' },
-  { value: 'hallusinasjon', label: 'KI har funnet på noe' },
-  { value: 'tekstforslag', label: 'Forslag til formulering' },
-  { value: 'annet', label: 'Annet' },
+const TYPE_NOKLER = [
+  { value: 'feil_innhold', key: 'feedback.type.feil_innhold' },
+  { value: 'manglende_info', key: 'feedback.type.manglende_info' },
+  { value: 'hallusinasjon', key: 'feedback.type.hallusinasjon' },
+  { value: 'tekstforslag', key: 'feedback.type.tekstforslag' },
+  { value: 'annet', key: 'feedback.type.annet' },
 ]
+
+const PORTRETT_MODAL_KEY = {
+  naturportrett: 'feedback.modal.naturportrettet',
+  artsportrett: 'feedback.modal.artsportrettet',
+  planteportrett: 'feedback.modal.planteportrettet',
+  naturtypeportrett: 'feedback.modal.naturtypeportrettet',
+}
 
 const KLIENT_NOKKEL = 'naturportrett_klient_id'
 
@@ -20,6 +28,7 @@ function hentEllerLagKlientId() {
 }
 
 export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }) {
+  const t = useT()
   const [apen, setApen] = useState(false)
   const [type, setType] = useState('feil_innhold')
   const [seksjon, setSeksjon] = useState('')
@@ -55,7 +64,7 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
     e.preventDefault()
     setFeilmelding('')
     if (!fritekst.trim() || fritekst.trim().length < 3) {
-      setFeilmelding('Skriv en kort beskrivelse')
+      setFeilmelding(t('feedback.kort-beskrivelse-paakrevd'))
       return
     }
     setSender(true)
@@ -75,7 +84,7 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
       })
       if (!respons.ok) {
         const data = await respons.json().catch(() => ({}))
-        setFeilmelding(data.feil || `Server svarte ${respons.status}`)
+        setFeilmelding(data.feil || `${t('feedback.send-feil-generisk')} (${respons.status})`)
         return
       }
       setVellykket(true)
@@ -84,25 +93,25 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
         nullstill()
       }, 2200)
     } catch (err) {
-      setFeilmelding('Kunne ikke sende — prøv igjen om litt.')
+      setFeilmelding(t('feedback.send-feil-generisk'))
     } finally {
       setSender(false)
     }
   }
 
+  const portrettModalNavn = t(PORTRETT_MODAL_KEY[portretttype] || 'feedback.modal.portrettet')
+
   return (
     <>
       <section className="feedback-trigger">
-        <h2 className="portrait-doc__h2">Si fra om feil eller mangler</h2>
-        <p className="portrait-doc__textblock">
-          Portrettet er KI-generert og kan ha feil, mangler eller upresise formuleringer. Ditt innspill brukes til å forbedre verktøyet.
-        </p>
+        <h2 className="portrait-doc__h2">{t('feedback.tittel')}</h2>
+        <p className="portrait-doc__textblock">{t('feedback.intro')}</p>
         <button
           type="button"
           className="btn-feedback"
           onClick={() => setApen(true)}
         >
-          Rapportér feil eller foreslå forbedring
+          {t('feedback.knapp')}
         </button>
       </section>
 
@@ -111,14 +120,14 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
           className="feedback-modal__overlay"
           onClick={e => { if (e.target === e.currentTarget) setApen(false) }}
         >
-          <div className="feedback-modal" role="dialog" aria-label="Send inn tilbakemelding">
+          <div className="feedback-modal" role="dialog" aria-label={t('feedback.aria.send-tilbakemelding')}>
             <header className="feedback-modal__header">
-              <h2>Tilbakemelding på {portretttypeLabel(portretttype)}</h2>
+              <h2>{t('feedback.modal.tittel')} — {portrettModalNavn}</h2>
               <button
                 type="button"
                 className="feedback-modal__lukk"
                 onClick={() => setApen(false)}
-                aria-label="Lukk"
+                aria-label={t('feedback.lukk')}
               >
                 ×
               </button>
@@ -126,33 +135,33 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
 
             {vellykket ? (
               <div className="feedback-modal__suksess">
-                <strong>Takk!</strong>
-                <p>Tilbakemeldingen er registrert. Den brukes til å forbedre verktøyet.</p>
+                <strong>{t('feedback.takk')}</strong>
+                <p>{t('feedback.bekreftelse')}</p>
               </div>
             ) : (
               <form onSubmit={sendInn} className="feedback-modal__form">
                 <div className="feedback-felt">
-                  <label htmlFor="feedback-type">Hva slags innspill?</label>
+                  <label htmlFor="feedback-type">{t('feedback.type.label')}</label>
                   <select
                     id="feedback-type"
                     value={type}
                     onChange={e => setType(e.target.value)}
                   >
-                    {TYPE_VALG.map(t => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
+                    {TYPE_NOKLER.map(tv => (
+                      <option key={tv.value} value={tv.value}>{t(tv.key)}</option>
                     ))}
                   </select>
                 </div>
 
                 {seksjoner.length > 0 && (
                   <div className="feedback-felt">
-                    <label htmlFor="feedback-seksjon">Hvilken seksjon? (valgfri)</label>
+                    <label htmlFor="feedback-seksjon">{t('feedback.seksjon.label')}</label>
                     <select
                       id="feedback-seksjon"
                       value={seksjon}
                       onChange={e => setSeksjon(e.target.value)}
                     >
-                      <option value="">— gjelder hele portrettet —</option>
+                      <option value="">{t('feedback.gjelder-hele')}</option>
                       {seksjoner.map(s => (
                         <option key={s} value={s}>{s}</option>
                       ))}
@@ -161,26 +170,26 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
                 )}
 
                 <div className="feedback-felt">
-                  <label htmlFor="feedback-fritekst">Beskriv hva som er feil eller mangler</label>
+                  <label htmlFor="feedback-fritekst">{t('feedback.fritekst.label')}</label>
                   <textarea
                     id="feedback-fritekst"
                     ref={textareaRef}
                     value={fritekst}
                     onChange={e => setFritekst(e.target.value)}
                     rows="5"
-                    placeholder="F.eks. «Naturtype-listen mangler edelløvskog som faktisk finnes i ravinen sør for tomten.»"
+                    placeholder={t('feedback.fritekst.placeholder')}
                     required
                   />
                 </div>
 
                 <div className="feedback-felt">
-                  <label htmlFor="feedback-epost">E-post (valgfri — hvis du vil høre fra oss)</label>
+                  <label htmlFor="feedback-epost">{t('feedback.epost.label')}</label>
                   <input
                     id="feedback-epost"
                     type="email"
                     value={epost}
                     onChange={e => setEpost(e.target.value)}
-                    placeholder="navn@etat.oslo.kommune.no"
+                    placeholder={t('feedback.epost.placeholder')}
                   />
                 </div>
 
@@ -190,10 +199,10 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
 
                 <div className="feedback-modal__knapper">
                   <button type="button" className="btn-feedback btn-feedback--sek" onClick={() => setApen(false)}>
-                    Avbryt
+                    {t('knapp.avbryt')}
                   </button>
                   <button type="submit" className="btn-feedback" disabled={sender}>
-                    {sender ? 'Sender…' : 'Send inn'}
+                    {sender ? t('feedback.sender') : t('knapp.send')}
                   </button>
                 </div>
               </form>
@@ -203,14 +212,4 @@ export default function FeedbackKnapp({ portretttype, kontekst, seksjoner = [] }
       )}
     </>
   )
-}
-
-function portretttypeLabel(t) {
-  switch (t) {
-    case 'naturportrett': return 'naturportrettet'
-    case 'artsportrett': return 'artsportrettet'
-    case 'planteportrett': return 'planteportrettet'
-    case 'naturtypeportrett': return 'naturtypeportrettet'
-    default: return 'portrettet'
-  }
 }

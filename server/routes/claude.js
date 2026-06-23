@@ -102,9 +102,24 @@ claudeRouter.post('/portrait', async (req, res) => {
   let modelUsed = CLAUDE_MODEL
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
+    const lang = payload?.lang === 'en' ? 'en' : 'no'
+    const systemPrompt = lang === 'en'
+      ? `${promptModule.SYSTEM_PROMPT}
+
+# OUTPUT LANGUAGE
+All free-text fields in the JSON output (prosjektnavn, lokasjon, eiendomsKontekst, beskrivelse, tema, kortBegrunnelse, kategori, status, rad, begrunnelse, tiltak-tekster, forvaltningsråd-tekster, datakvalitets-vurderinger, andreKilder, trusler, osv.) MUST be written in fluent, professional English.
+
+The following remain in their original form:
+- JSON field names (the keys themselves are Norwegian and must not change)
+- Quoted text from Norwegian legal paragraphs (sitat-feltet under relevanteLover) — the verbatim Norwegian text is preserved by the server-side enricher anyway
+- Norwegian common names (norskeNavn / artens navn) — keep the Norwegian name and add the English common name in parentheses when it is well-established
+- Scientific names — always Latin
+
+Write in clear, professional English suitable for case officers, architects and planners.`
+      : promptModule.SYSTEM_PROMPT
     const result = await createWithRetry(client, {
       max_tokens: 8000,
-      system: promptModule.SYSTEM_PROMPT,
+      system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
     })
     const response = result.response

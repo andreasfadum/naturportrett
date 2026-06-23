@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { useT } from '../../i18n/index.jsx'
 
 export default function AreaMap({ lat, lon, radiusM = 500, label }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
+  const t = useT()
 
   useEffect(() => {
     if (!containerRef.current || !lat || !lon) return
@@ -61,7 +63,7 @@ export default function AreaMap({ lat, lon, radiusM = 500, label }) {
   if (!lat || !lon) {
     return (
       <div className="portrait-doc__map-placeholder">
-        Mangler koordinater for visning av kart.
+        {t('kart.mangler-koordinater')}
       </div>
     )
   }
@@ -70,8 +72,8 @@ export default function AreaMap({ lat, lon, radiusM = 500, label }) {
     <div className="area-map-wrap">
       <div ref={containerRef} className="area-map" />
       <div className="area-map__legend">
-        <span className="area-map__legend-dot" /> Prosjektadresse
-        <span className="area-map__legend-circle" /> 500 m influenssone
+        <span className="area-map__legend-dot" /> {t('naturportrett.kart.legend.adresse')}
+        <span className="area-map__legend-circle" /> {t('naturportrett.kart.legend.sone')}
       </div>
     </div>
   )

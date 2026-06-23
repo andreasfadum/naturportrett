@@ -7,17 +7,18 @@ import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.js
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
+import { useT } from '../../i18n/index.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
   const p = portrait || {}
+  const t = useT()
 
   return (
     <article className="portrait-doc">
       <InformasjonsbaseBanner />
-      {/* Header */}
       <header className="portrait-doc__header">
         <div>
-          <h1 className="portrait-doc__title">Planteportrett</h1>
+          <h1 className="portrait-doc__title">{t('detalj.planteportrett.tittel')}</h1>
         </div>
         <div className="portrait-doc__header-right">
           <div className="portrait-doc__date">{__BUILD_DATE__}</div>
@@ -25,15 +26,14 @@ export default function PlanteportrettView({ portrait, subject }) {
         </div>
       </header>
 
-      {/* Toppblokk */}
       <section className="portrait-doc__hero">
         <div className="portrait-doc__hero-left">
           <div className="portrait-doc__name-box">{p.folkenavn}</div>
           <div className="portrait-doc__sciname-box"><em>{p.vitenskapelig}</em></div>
-          <div className="portrait-doc__h3" style={{ marginTop: 'var(--space-5)' }}>Karakteristikker</div>
-          {p.artsfamilie && <FactBox label="Artsfamilie" value={p.artsfamilie} />}
-          {p.utbredelse && <FactBox label="Utbredelse" value={p.utbredelse} />}
-          {p.lokaliteterVedProsjektomrade && <FactBox label="Lokaliteter ved prosjektområde" value={p.lokaliteterVedProsjektomrade} />}
+          <div className="portrait-doc__h3" style={{ marginTop: 'var(--space-5)' }}>{t('portrett.karakteristikker')}</div>
+          {p.artsfamilie && <FactBox label={t('portrett.artsfamilie')} value={p.artsfamilie} />}
+          {p.utbredelse && <FactBox label={t('portrett.utbredelse')} value={p.utbredelse} />}
+          {p.lokaliteterVedProsjektomrade && <FactBox label={t('portrett.lokaliteter-prosjekt')} value={p.lokaliteterVedProsjektomrade} />}
         </div>
         <div className="portrait-doc__hero-middle">
           <ConservationStatusBadge status={p.rodlisteStatus} />
@@ -45,76 +45,72 @@ export default function PlanteportrettView({ portrait, subject }) {
         </div>
       </section>
 
-      {/* Beskrivelse + Foretrukne naturtyper */}
       <section className="portrait-doc__two-col">
         <div>
-          <h2 className="portrait-doc__h2">Beskrivelse</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.beskrivelse')}</h2>
           <table className="portrait-doc__table">
             <tbody>
-              {p.beskrivelse?.plantetype && <tr><th>Plantetype</th><td>{p.beskrivelse.plantetype}</td></tr>}
-              {p.beskrivelse?.storrelse && <tr><th>Størrelse</th><td>{p.beskrivelse.storrelse}</td></tr>}
-              {p.beskrivelse?.farger && <tr><th>Farger</th><td>{p.beskrivelse.farger}</td></tr>}
-              {p.beskrivelse?.vekstform && <tr><th>Vekstform</th><td>{p.beskrivelse.vekstform}</td></tr>}
+              {p.beskrivelse?.plantetype && <tr><th>{t('portrett.plantetype')}</th><td>{p.beskrivelse.plantetype}</td></tr>}
+              {p.beskrivelse?.storrelse && <tr><th>{t('portrett.storrelse')}</th><td>{p.beskrivelse.storrelse}</td></tr>}
+              {p.beskrivelse?.farger && <tr><th>{t('portrett.farger')}</th><td>{p.beskrivelse.farger}</td></tr>}
+              {p.beskrivelse?.vekstform && <tr><th>{t('portrett.vekstform')}</th><td>{p.beskrivelse.vekstform}</td></tr>}
             </tbody>
           </table>
         </div>
         <div>
-          <h2 className="portrait-doc__h2">Foretrukne naturtyper</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.foretrukne-naturtyper')}</h2>
           <div className="portrait-doc__textblock">{p.foretrukneNaturtyper}</div>
         </div>
       </section>
 
-      {/* Blomstringstid */}
       {Array.isArray(p.blomstringstid) && (
         <section className="portrait-doc__section">
           <YearCycleTimeline
-            title="Blomstringstid"
-            rows={[{ label: 'Blomstring', activeMonths: p.blomstringstid }]}
+            title={t('portrett.blomstringstid')}
+            rows={[{ label: t('portrett.blomstring'), activeMonths: p.blomstringstid }]}
           />
         </section>
       )}
 
-      {/* Habitatkrav + Spredning/livssyklus */}
       <section className="portrait-doc__two-col">
         {p.habitatkrav && (
           <div>
-            <h2 className="portrait-doc__h2">Habitatkrav</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.habitatkrav')}</h2>
             <table className="portrait-doc__table">
-              <thead><tr><th>Krav</th><th>Detaljer</th></tr></thead>
+              <thead><tr><th>{t('portrett.krav')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
               <tbody>
-                {p.habitatkrav.fuktighet && <tr><th>Fuktighet</th><td>{p.habitatkrav.fuktighet}</td></tr>}
-                {p.habitatkrav.klimasone && <tr><th>Klimasone</th><td>{p.habitatkrav.klimasone}</td></tr>}
-                {p.habitatkrav.hardforhet && <tr><th>Hardførhet</th><td>{p.habitatkrav.hardforhet}</td></tr>}
-                {p.habitatkrav.lysforhold && <tr><th>Lysforhold</th><td>{p.habitatkrav.lysforhold}</td></tr>}
-                {p.habitatkrav.vindtoleranse && <tr><th>Vindtoleranse</th><td>{p.habitatkrav.vindtoleranse}</td></tr>}
-                {p.habitatkrav.jordtype && <tr><th>Jordtype og dybde</th><td>{p.habitatkrav.jordtype}</td></tr>}
-                {p.habitatkrav.ph && <tr><th>pH</th><td>{p.habitatkrav.ph}</td></tr>}
+                {p.habitatkrav.fuktighet && <tr><th>{t('portrett.fuktighet')}</th><td>{p.habitatkrav.fuktighet}</td></tr>}
+                {p.habitatkrav.klimasone && <tr><th>{t('portrett.klimasone')}</th><td>{p.habitatkrav.klimasone}</td></tr>}
+                {p.habitatkrav.hardforhet && <tr><th>{t('portrett.hardforhet')}</th><td>{p.habitatkrav.hardforhet}</td></tr>}
+                {p.habitatkrav.lysforhold && <tr><th>{t('portrett.lysforhold')}</th><td>{p.habitatkrav.lysforhold}</td></tr>}
+                {p.habitatkrav.vindtoleranse && <tr><th>{t('portrett.vindtoleranse')}</th><td>{p.habitatkrav.vindtoleranse}</td></tr>}
+                {p.habitatkrav.jordtype && <tr><th>{t('portrett.jord')}</th><td>{p.habitatkrav.jordtype}</td></tr>}
+                {p.habitatkrav.ph && <tr><th>{t('portrett.ph')}</th><td>{p.habitatkrav.ph}</td></tr>}
               </tbody>
             </table>
           </div>
         )}
         {p.spredningOgLivssyklus && (
           <div>
-            <h2 className="portrait-doc__h2">Spredning og livssyklus</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.spredning')}</h2>
             <table className="portrait-doc__table">
               <tbody>
-                {p.spredningOgLivssyklus.frospredning && <tr><th>Frøspredning</th><td>{p.spredningOgLivssyklus.frospredning}</td></tr>}
-                {p.spredningOgLivssyklus.etableringsvilkar && <tr><th>Etableringsvilkår</th><td>{p.spredningOgLivssyklus.etableringsvilkar}</td></tr>}
-                {p.spredningOgLivssyklus.levetid && <tr><th>Levetid</th><td>{p.spredningOgLivssyklus.levetid}</td></tr>}
-                {p.spredningOgLivssyklus.overvintringsevne && <tr><th>Overvintringsevne</th><td>{p.spredningOgLivssyklus.overvintringsevne}</td></tr>}
+                {p.spredningOgLivssyklus.frospredning && <tr><th>{t('portrett.frospredning')}</th><td>{p.spredningOgLivssyklus.frospredning}</td></tr>}
+                {p.spredningOgLivssyklus.etableringsvilkar && <tr><th>{t('portrett.etablering')}</th><td>{p.spredningOgLivssyklus.etableringsvilkar}</td></tr>}
+                {p.spredningOgLivssyklus.levetid && <tr><th>{t('portrett.levetid')}</th><td>{p.spredningOgLivssyklus.levetid}</td></tr>}
+                {p.spredningOgLivssyklus.overvintringsevne && <tr><th>{t('portrett.overvintringsevne')}</th><td>{p.spredningOgLivssyklus.overvintringsevne}</td></tr>}
               </tbody>
             </table>
           </div>
         )}
       </section>
 
-      {/* Tilknyttede arter + Trusler */}
       <section className="portrait-doc__two-col">
         {Array.isArray(p.tilknyttedeArter) && p.tilknyttedeArter.length > 0 && (
           <div>
-            <h2 className="portrait-doc__h2">Tilknyttede arter</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.tilknyttede-arter')}</h2>
             <table className="portrait-doc__table portrait-doc__table--small">
-              <thead><tr><th>Arter</th><th>Detaljer</th></tr></thead>
+              <thead><tr><th>{t('portrett.arter')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
               <tbody>
                 {p.tilknyttedeArter.map((r, i) => <tr key={i}><td>{r.art}</td><td>{r.detaljer}</td></tr>)}
               </tbody>
@@ -123,19 +119,18 @@ export default function PlanteportrettView({ portrait, subject }) {
         )}
         {p.trussler && (
           <div>
-            <h2 className="portrait-doc__h2">Trusler</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.trusler')}</h2>
             <div className="portrait-doc__textblock">{p.trussler}</div>
           </div>
         )}
       </section>
 
-      {/* Pollinator + Samspill */}
       <section className="portrait-doc__two-col">
         {p.pollinatorVerdi && (
           <div>
-            <h2 className="portrait-doc__h2">Pollinator-verdi</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.pollinator-verdi')}</h2>
             <table className="portrait-doc__table">
-              <thead><tr><th>Kvalitet</th><th>Detaljer</th></tr></thead>
+              <thead><tr><th>{t('portrett.kvalitet')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
               <tbody>
                 <tr>
                   <td><strong>{p.pollinatorVerdi.kvalitet}</strong></td>
@@ -147,56 +142,50 @@ export default function PlanteportrettView({ portrait, subject }) {
         )}
         {p.samspillMedMennesker && (
           <div>
-            <h2 className="portrait-doc__h2">Samspill med mennesker</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.samspill-mennesker')}</h2>
             <div className="portrait-doc__textblock">{p.samspillMedMennesker}</div>
           </div>
         )}
       </section>
 
-      {/* Attributter */}
       {p.attributter && (
         <section className="portrait-doc__section">
           <AttributeChecklist items={[
-            { label: 'Nøkkelart', value: p.attributter.nokkelart },
-            { label: 'Art av høy økologisk verdi', value: p.attributter.hoyOkologiskVerdi },
-            { label: 'Ansvarsart', value: p.attributter.ansvarsart },
-            { label: 'Art av nasjonal forvaltningsinteresse', value: p.attributter.nasjonalForvaltningsinteresse },
-            { label: 'Hjemmehørende i norsk natur', value: p.attributter.hjemmehorende },
-            { label: 'Finnes i norsk produksjon', value: p.attributter.finnesINorskProduksjon },
-            { label: 'Matplante for dyr (bær/frø/frukt/nøtter)', value: p.attributter.matplanteForDyr },
-            { label: 'Finnes i norsk natur', value: p.attributter.finnesINorskNatur },
+            { label: t('portrett.nokkelart'), value: p.attributter.nokkelart },
+            { label: t('portrett.hoy-okologisk-verdi'), value: p.attributter.hoyOkologiskVerdi },
+            { label: t('portrett.ansvarsart'), value: p.attributter.ansvarsart },
+            { label: t('portrett.nasjonal-forvaltning'), value: p.attributter.nasjonalForvaltningsinteresse },
           ]} />
         </section>
       )}
 
-      {/* Erfaring + samplanting */}
       {p.erfaringsgrunnlagINorge && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Erfaringsgrunnlag i Norge</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.erfaringsgrunnlag')}</h2>
           <div className="portrait-doc__textblock">{p.erfaringsgrunnlagINorge}</div>
         </section>
       )}
       {p.anbefaltSamplanting && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Anbefalt samplanting</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.samplanting')}</h2>
           <div className="portrait-doc__textblock">{p.anbefaltSamplanting}</div>
         </section>
       )}
       {p.vedlikeholdsbehov && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Vedlikeholdsbehov</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.vedlikehold')}</h2>
           <div className="portrait-doc__textblock">{p.vedlikeholdsbehov}</div>
         </section>
       )}
       {p.saerskilteHensyn && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Særskilte hensyn</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.saerskilte-hensyn')}</h2>
           <div className="portrait-doc__textblock">{p.saerskilteHensyn}</div>
         </section>
       )}
       {p.kommentarer && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Kommentarer</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.kommentarer')}</h2>
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
@@ -213,9 +202,16 @@ export default function PlanteportrettView({ portrait, subject }) {
           subjekt: p.folkenavn && p.vitenskapelig ? `${p.folkenavn} (${p.vitenskapelig})` : (p.folkenavn || p.vitenskapelig || null),
         }}
         seksjoner={[
-          'Rødlistestatus', 'Utbredelse', 'Beskrivelse', 'Foretrukne naturtyper',
-          'Habitatkrav', 'Spredning og livssyklus', 'Tilknyttede arter',
-          'Praktiske designtiltak', 'Relevant lovgrunnlag', 'Datakvalitet',
+          t('rodliste.tittel'),
+          t('portrett.utbredelse'),
+          t('portrett.beskrivelse'),
+          t('portrett.foretrukne-naturtyper'),
+          t('portrett.habitatkrav'),
+          t('portrett.spredning'),
+          t('portrett.tilknyttede-arter'),
+          t('tiltak.tittel'),
+          t('lov.tittel'),
+          t('datakvalitet.tittel'),
         ]}
       />
 

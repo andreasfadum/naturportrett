@@ -1,31 +1,32 @@
+import { useT } from '../../i18n/index.jsx'
+
 export default function PortraitTypeSelector({ onSelect, onBack }) {
+  const t = useT()
   const options = [
     {
       type: 'naturtypeportrett',
-      tittel: 'Naturtypeportrett',
-      beskrivelse: 'Detaljert portrett av en konkret naturtype i området — vegetasjon, økologiske forhold, trusler, tidsaspekter og samspill med mennesker.',
+      tittel: t('velger.naturtype.tittel'),
+      beskrivelse: t('velger.naturtype.beskrivelse'),
       ikon: '🌳',
     },
     {
       type: 'artsportrett',
-      tittel: 'Artsportrett',
-      beskrivelse: 'Detaljert portrett av en konkret dyreart (fugl, pattedyr, insekt) — beskrivelse, årssyklus, næringskilder, atferd og praktiske designtiltak.',
+      tittel: t('velger.arts.tittel'),
+      beskrivelse: t('velger.arts.beskrivelse'),
       ikon: '🦜',
     },
     {
       type: 'planteportrett',
-      tittel: 'Planteportrett',
-      beskrivelse: 'Detaljert portrett av en konkret plante — habitatkrav, blomstringstid, pollinator-verdi, samplanting og erfaringsgrunnlag i Norge.',
+      tittel: t('velger.plante.tittel'),
+      beskrivelse: t('velger.plante.beskrivelse'),
       ikon: '🌿',
     },
   ]
 
   return (
     <div className="portrait-type-selector">
-      <h1 className="portrait-page-title">Velg portrettype</h1>
-      <p style={{ color: '#555', marginBottom: 'var(--space-6)' }}>
-        Et naturportrett kan utdypes med tre typer detaljportretter. Velg hva du ønsker å fordype deg i.
-      </p>
+      <h1 className="portrait-page-title">{t('velger.tittel')}</h1>
+      <p style={{ color: '#555', marginBottom: 'var(--space-6)' }}>{t('velger.intro')}</p>
 
       <div className="portrait-type-grid">
         {options.map(opt => (
@@ -44,7 +45,7 @@ export default function PortraitTypeSelector({ onSelect, onBack }) {
 
       <div style={{ marginTop: 'var(--space-8)' }}>
         <button type="button" className="btn btn--secondary" onClick={onBack}>
-          ← Tilbake til naturportrett
+          {t('velger.tilbake')}
         </button>
       </div>
     </div>

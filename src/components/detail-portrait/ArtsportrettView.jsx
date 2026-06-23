@@ -7,17 +7,18 @@ import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.js
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
+import { useT } from '../../i18n/index.jsx'
 
 export default function ArtsportrettView({ portrait, subject }) {
   const p = portrait || {}
+  const t = useT()
 
   return (
     <article className="portrait-doc">
       <InformasjonsbaseBanner />
-      {/* Header */}
       <header className="portrait-doc__header">
         <div>
-          <h1 className="portrait-doc__title">Artsportrett</h1>
+          <h1 className="portrait-doc__title">{t('detalj.artsportrett.tittel')}</h1>
         </div>
         <div className="portrait-doc__header-right">
           <div className="portrait-doc__date">{__BUILD_DATE__}</div>
@@ -25,14 +26,13 @@ export default function ArtsportrettView({ portrait, subject }) {
         </div>
       </header>
 
-      {/* Toppblokk: navn + bilde + status */}
       <section className="portrait-doc__hero">
         <div className="portrait-doc__hero-left">
           <div className="portrait-doc__name-box">{p.folkenavn}</div>
           <div className="portrait-doc__sciname-box"><em>{p.vitenskapelig}</em></div>
-          <div className="portrait-doc__h3" style={{ marginTop: 'var(--space-5)' }}>Karakteristikker</div>
-          {p.artsfamilie && <FactBox label="Artsfamilie" value={p.artsfamilie} />}
-          {p.utbredelse && <FactBox label="Utbredelse" value={p.utbredelse} />}
+          <div className="portrait-doc__h3" style={{ marginTop: 'var(--space-5)' }}>{t('portrett.karakteristikker')}</div>
+          {p.artsfamilie && <FactBox label={t('portrett.artsfamilie')} value={p.artsfamilie} />}
+          {p.utbredelse && <FactBox label={t('portrett.utbredelse')} value={p.utbredelse} />}
         </div>
         <div className="portrait-doc__hero-middle">
           <ConservationStatusBadge status={p.rodlisteStatus} />
@@ -44,107 +44,98 @@ export default function ArtsportrettView({ portrait, subject }) {
         </div>
       </section>
 
-      {/* Beskrivelse + Foretrukne habitater */}
       <section className="portrait-doc__two-col">
         <div>
-          <h2 className="portrait-doc__h2">Beskrivelse</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.beskrivelse')}</h2>
           <table className="portrait-doc__table">
             <tbody>
-              {p.beskrivelse?.storrelse && <tr><th>Størrelse</th><td>{p.beskrivelse.storrelse}</td></tr>}
-              {p.beskrivelse?.farger && <tr><th>Farger</th><td>{p.beskrivelse.farger}</td></tr>}
-              {p.beskrivelse?.hannkjonn && <tr><th>Hannkjønn</th><td>{p.beskrivelse.hannkjonn}</td></tr>}
-              {p.beskrivelse?.hunnkjonn && <tr><th>Hunnkjønn</th><td>{p.beskrivelse.hunnkjonn}</td></tr>}
+              {p.beskrivelse?.storrelse && <tr><th>{t('portrett.storrelse')}</th><td>{p.beskrivelse.storrelse}</td></tr>}
+              {p.beskrivelse?.farger && <tr><th>{t('portrett.farger')}</th><td>{p.beskrivelse.farger}</td></tr>}
+              {p.beskrivelse?.hannkjonn && <tr><th>{t('portrett.hannkjonn')}</th><td>{p.beskrivelse.hannkjonn}</td></tr>}
+              {p.beskrivelse?.hunnkjonn && <tr><th>{t('portrett.hunnkjonn')}</th><td>{p.beskrivelse.hunnkjonn}</td></tr>}
             </tbody>
           </table>
         </div>
         <div>
-          <h2 className="portrait-doc__h2">Foretrukne habitater</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.foretrukne-habitater')}</h2>
           <div className="portrait-doc__textblock">{p.foretrukneHabitater}</div>
         </div>
       </section>
 
-      {/* Årssyklus */}
       {p.arssyklus && (
         <section className="portrait-doc__section">
           <YearCycleTimeline
-            title="Årssyklus"
+            title={t('portrett.aarssyklus')}
             rows={[
-              { label: 'Avl og oppvekst', activeMonths: p.arssyklus.avlOgOppvekst || [] },
-              { label: 'Voksen', activeMonths: p.arssyklus.voksen || [] },
-              { label: 'Overvintring', activeMonths: p.arssyklus.overvintring || [] },
+              { label: t('portrett.avl-oppvekst'), activeMonths: p.arssyklus.avlOgOppvekst || [] },
+              { label: t('portrett.voksen'), activeMonths: p.arssyklus.voksen || [] },
+              { label: t('portrett.overvintring'), activeMonths: p.arssyklus.overvintring || [] },
             ]}
           />
         </section>
       )}
 
-      {/* Næringskilder */}
       <section className="portrait-doc__three-col">
-        <DetailTable title="Plantebaserte næringskilder" rows={p.plantebaserteNaeringskilder} colA="Art/plantetype" colB="Detaljer" keyA="art" keyB="detaljer" />
-        <DetailTable title="Habitatstøttende planter" rows={p.habitatStottendePlanter} colA="Art/plantetype" colB="Detaljer" keyA="art" keyB="detaljer" />
-        <DetailTable title="Dyrebaserte næringskilder" rows={p.dyrebasertNaeringskilder} colA="Art/dyretype" colB="Detaljer" keyA="art" keyB="detaljer" />
+        <DetailTable title={t('portrett.plantebaserte')} rows={p.plantebaserteNaeringskilder} colA={t('portrett.art-plantetype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
+        <DetailTable title={t('portrett.habitatstottende-planter')} rows={p.habitatStottendePlanter} colA={t('portrett.art-plantetype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
+        <DetailTable title={t('portrett.dyrebaserte')} rows={p.dyrebasertNaeringskilder} colA={t('portrett.art-dyretype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
       </section>
 
-      {/* Trusler + Samspill */}
       <section className="portrait-doc__two-col">
         {p.trusslerOgPredatorer && (
           <div>
-            <h2 className="portrait-doc__h2">Trusler og predatorer</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.trusler-predatorer')}</h2>
             <div className="portrait-doc__textblock">{p.trusslerOgPredatorer}</div>
           </div>
         )}
         {p.samspillMedMennesker && (
           <div>
-            <h2 className="portrait-doc__h2">Samspill med mennesker</h2>
+            <h2 className="portrait-doc__h2">{t('portrett.samspill-mennesker')}</h2>
             <div className="portrait-doc__textblock">{p.samspillMedMennesker}</div>
           </div>
         )}
       </section>
 
-      {/* Attributter */}
       {p.attributter && (
         <section className="portrait-doc__section">
           <AttributeChecklist items={[
-            { label: 'Nøkkelart', value: p.attributter.nokkelart },
-            { label: 'Art av høy økologisk verdi', value: p.attributter.hoyOkologiskVerdi },
-            { label: 'Ansvarsart', value: p.attributter.ansvarsart },
-            { label: 'Art av nasjonal forvaltningsinteresse', value: p.attributter.nasjonalForvaltningsinteresse },
+            { label: t('portrett.nokkelart'), value: p.attributter.nokkelart },
+            { label: t('portrett.hoy-okologisk-verdi'), value: p.attributter.hoyOkologiskVerdi },
+            { label: t('portrett.ansvarsart'), value: p.attributter.ansvarsart },
+            { label: t('portrett.nasjonal-forvaltning'), value: p.attributter.nasjonalForvaltningsinteresse },
           ]} />
         </section>
       )}
 
-      {/* Atferdsprofil */}
       {p.atferdsprofil && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Atferdsprofil</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.atferdsprofil')}</h2>
           {p.atferdsprofil.parringsatferd && (
-            <SubSection title="Parringsatferd, avl og oppvekst" body={p.atferdsprofil.parringsatferd} />
+            <SubSection title={t('portrett.parringsatferd')} body={p.atferdsprofil.parringsatferd} />
           )}
           {p.atferdsprofil.voksen && (
-            <SubSection title="Voksen" body={p.atferdsprofil.voksen} />
+            <SubSection title={t('portrett.voksen')} body={p.atferdsprofil.voksen} />
           )}
           {p.atferdsprofil.romligeForhold && (
-            <SubSection title="Romlige forhold og overvintring" body={p.atferdsprofil.romligeForhold} />
+            <SubSection title={t('portrett.romlige-overvintring')} body={p.atferdsprofil.romligeForhold} />
           )}
         </section>
       )}
 
-      {/* Praktiske designtiltak — kategorisert (R2-innspill 17. juni) */}
       <TiltakListe items={p.praktiskeDesigntiltak} />
 
-      {/* Kommentarer */}
       {p.kommentarer && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Kommentarer</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.kommentarer')}</h2>
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
 
       <LegalReferences items={p.relevanteLoverEnriched} />
 
-      {/* Lenke */}
       {p.lenkeBildeEllerLyd && (
         <section className="portrait-doc__section">
-          <h2 className="portrait-doc__h2">Lenke til bilde/lyd</h2>
+          <h2 className="portrait-doc__h2">{t('portrett.lenke-mediafil')}</h2>
           <div className="portrait-doc__textblock"><a href={p.lenkeBildeEllerLyd}>{p.lenkeBildeEllerLyd}</a></div>
         </section>
       )}
@@ -157,9 +148,16 @@ export default function ArtsportrettView({ portrait, subject }) {
           subjekt: p.folkenavn && p.vitenskapelig ? `${p.folkenavn} (${p.vitenskapelig})` : (p.folkenavn || p.vitenskapelig || null),
         }}
         seksjoner={[
-          'Rødlistestatus', 'Utbredelse', 'Beskrivelse', 'Foretrukne habitater',
-          'Årssyklus', 'Næringskilder', 'Trusler og predatorer',
-          'Praktiske designtiltak', 'Relevant lovgrunnlag', 'Datakvalitet',
+          t('rodliste.tittel'),
+          t('portrett.utbredelse'),
+          t('portrett.beskrivelse'),
+          t('portrett.foretrukne-habitater'),
+          t('portrett.aarssyklus'),
+          t('portrett.plantebaserte'),
+          t('portrett.trusler-predatorer'),
+          t('tiltak.tittel'),
+          t('lov.tittel'),
+          t('datakvalitet.tittel'),
         ]}
       />
 

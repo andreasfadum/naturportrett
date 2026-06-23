@@ -7,18 +7,38 @@ import PlanteportrettView from './PlanteportrettView.jsx'
 import NaturtypeportrettView from './NaturtypeportrettView.jsx'
 import PdfDownloadButton from './PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
+import { useT, useSprak } from '../../i18n/index.jsx'
 
-const TYPE_LABELS = {
-  artsportrett: { tittel: 'Artsportrett', filter: ['Fugl', 'Pattedyr', 'Insekt', 'Sopp', 'Annet'], pickLabel: 'Velg en art', emptyMsg: 'Ingen dyrearter i resultatene for denne adressen.' },
-  planteportrett: { tittel: 'Planteportrett', filter: ['Plante'], pickLabel: 'Velg en plante', emptyMsg: 'Ingen planter i resultatene for denne adressen.' },
-  naturtypeportrett: { tittel: 'Naturtypeportrett', filter: null, pickLabel: 'Velg en naturtype', emptyMsg: 'Ingen naturtyper foreslått ennå.' },
+const TYPE_CONFIG = {
+  artsportrett: {
+    tittelKey: 'detalj.artsportrett.tittel',
+    pickLabelKey: 'detalj.artsportrett.velg',
+    emptyMsgKey: 'detalj.artsportrett.tom',
+    filter: ['Fugl', 'Pattedyr', 'Insekt', 'Sopp', 'Annet'],
+  },
+  planteportrett: {
+    tittelKey: 'detalj.planteportrett.tittel',
+    pickLabelKey: 'detalj.planteportrett.velg',
+    emptyMsgKey: 'detalj.planteportrett.tom',
+    filter: ['Plante'],
+  },
+  naturtypeportrett: {
+    tittelKey: 'detalj.naturtypeportrett.tittel',
+    pickLabelKey: 'detalj.naturtypeportrett.velg',
+    emptyMsgKey: 'detalj.naturtypeportrett.tom',
+    filter: null,
+  },
 }
 
 export default function DetailPortraitSection({ portraitType, address, species, onBack, onRestart }) {
-  const cfg = TYPE_LABELS[portraitType]
+  const t = useT()
+  const { sprak } = useSprak()
+  const cfg = TYPE_CONFIG[portraitType]
   const [pickedSubject, setPickedSubject] = useState(null)
   const [filter, setFilter] = useState('alle')
   const { portrait, isLoading, error, generate, reset } = usePortraitGeneration()
+
+  const tittel = t(cfg.tittelKey)
 
   const filtered = useMemo(() => {
     if (!cfg.filter) return []
@@ -48,12 +68,12 @@ export default function DetailPortraitSection({ portraitType, address, species, 
 
   function handlePickSpecies(sp) {
     setPickedSubject(sp)
-    generate(portraitType, { species: sp, address })
+    generate(portraitType, { species: sp, address, lang: sprak })
   }
 
   function handlePickNaturtype(nt) {
     setPickedSubject(nt)
-    generate('naturtypeportrett', { naturtype: nt, address, observedSpecies: species.slice(0, 15) })
+    generate('naturtypeportrett', { naturtype: nt, address, observedSpecies: species.slice(0, 15), lang: sprak })
   }
 
   function handleBackToSubjectPicker() {
@@ -77,14 +97,14 @@ export default function DetailPortraitSection({ portraitType, address, species, 
           flexWrap: 'wrap',
         }}>
           <button type="button" className="btn btn--secondary" onClick={handleBackToSubjectPicker}>
-            ← Velg annet subjekt
+            {t('detalj.knapp.velg-annet')}
           </button>
           <PdfDownloadButton />
           <button type="button" className="btn btn--secondary" onClick={onBack}>
-            Velg annen portrettype
+            {t('detalj.knapp.annen-type')}
           </button>
           <button type="button" className="btn btn--primary" onClick={onRestart}>
-            Ny adresse
+            {t('detalj.knapp.ny-adresse')}
           </button>
         </div>
       </div>
@@ -95,19 +115,19 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   if (isLoading) {
     return (
       <div className="portrait-loading">
-        <h1 className="portrait-page-title">{cfg.tittel}</h1>
+        <h1 className="portrait-page-title">{tittel}</h1>
         <p style={{ color: '#666', marginBottom: 'var(--space-3)' }}>
-          Lager {cfg.tittel.toLowerCase()} for <strong>{pickedSubject.norwegianName || pickedSubject.navn}</strong>
+          {t('detalj.lager-for', { tittel: tittel.toLowerCase() })} <strong>{pickedSubject.norwegianName || pickedSubject.navn}</strong>
         </p>
         <ProgressBar
           isActive={isLoading}
           expectedDurationMs={20000}
           stages={[
-            'Henter informasjon…',
-            'Beskriver egenskaper og levevis…',
-            'Skriver portrettet…',
-            'Setter sammen sluttresultatet…',
-            'Gjør portrettet klart for visning…',
+            t('detalj.last.steg1'),
+            t('detalj.last.steg2'),
+            t('detalj.last.steg3'),
+            t('detalj.last.steg4'),
+            t('detalj.last.steg5'),
           ]}
         />
       </div>
@@ -119,7 +139,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     return (
       <div>
         <div className="recommendation-error">
-          <strong>Feil:</strong> {error}
+          <strong>{t('detalj.feil-label')}</strong> {error}
           <br />
           <button
             type="button"
@@ -127,7 +147,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
             style={{ marginTop: 'var(--space-3)' }}
             onClick={handleBackToSubjectPicker}
           >
-            Prøv et annet subjekt
+            {t('detalj.knapp.prov-annet')}
           </button>
         </div>
       </div>
@@ -137,8 +157,10 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   // Subject picker
   return (
     <div>
-      <h1 className="portrait-page-title">{cfg.tittel}</h1>
-      <p style={{ color: '#555', marginBottom: 'var(--space-6)' }}>{cfg.pickLabel} for å generere et detaljert portrett.</p>
+      <h1 className="portrait-page-title">{tittel}</h1>
+      <p style={{ color: '#555', marginBottom: 'var(--space-6)' }}>
+        {t('detalj.velg-instruksjon', { velg: t(cfg.pickLabelKey) })}
+      </p>
 
       {portraitType === 'naturtypeportrett' ? (
         <div className="naturtype-grid">
@@ -150,14 +172,14 @@ export default function DetailPortraitSection({ portraitType, address, species, 
               onClick={() => handlePickNaturtype(nt)}
             >
               <div className="naturtype-card__title">{nt.navn}</div>
-              <div className="naturtype-card__nin">NiN: {nt.ninKode}</div>
+              <div className="naturtype-card__nin">{t('detalj.nin-prefix')} {nt.ninKode}</div>
             </button>
           ))}
         </div>
       ) : (
         <>
           {filtered.length === 0 ? (
-            <p style={{ color: '#666' }}>{cfg.emptyMsg}</p>
+            <p style={{ color: '#666' }}>{t(cfg.emptyMsgKey)}</p>
           ) : (
             <>
               {portraitType === 'artsportrett' && (
@@ -180,7 +202,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
 
       <div style={{ marginTop: 'var(--space-8)' }}>
         <button type="button" className="btn btn--secondary" onClick={onBack}>
-          ← Tilbake
+          {t('detalj.knapp.tilbake')}
         </button>
       </div>
     </div>

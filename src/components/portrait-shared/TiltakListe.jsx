@@ -1,6 +1,8 @@
-const KATEGORI_LABEL = {
-  lovstyrt_krav: 'Lovstyrt krav',
-  frivillig_forbedring: 'Frivillig forbedring',
+import { useT } from '../../i18n/index.jsx'
+
+const KATEGORI_KEY = {
+  lovstyrt_krav: 'tiltak.lovstyrt',
+  frivillig_forbedring: 'tiltak.frivillig',
 }
 
 const KATEGORI_KLASSE = {
@@ -8,22 +10,21 @@ const KATEGORI_KLASSE = {
   frivillig_forbedring: 'tiltak-badge--frivillig',
 }
 
-const FASE_LABEL = {
-  tidligfase: 'Tidligfase',
-  reguleringsplan: 'Reguleringsplan',
-  utomhusplan: 'Utomhusplan',
-  gjennomforing: 'Gjennomføring',
+const FASE_KEY = {
+  tidligfase: 'tiltak.fase.tidligfase',
+  reguleringsplan: 'tiltak.fase.reguleringsplan',
+  utomhusplan: 'tiltak.fase.utomhusplan',
+  gjennomforing: 'tiltak.fase.gjennomforing',
 }
 
 export default function TiltakListe({ items }) {
+  const t = useT()
   if (!Array.isArray(items) || items.length === 0) return null
 
   return (
     <section className="portrait-doc__section">
-      <h2 className="portrait-doc__h2">Praktiske designtiltak</h2>
-      <p className="portrait-doc__textblock">
-        Hvert tiltak er merket som <strong>lovstyrt krav</strong> — noe en saksbehandler kan stille som krav i lovstyrte prosesser — eller <strong>frivillig forbedring</strong> uten konkret hjemmelsgrunnlag. Hjemmel-feltet peker tilbake til paragrafene under «Relevant lovgrunnlag».
-      </p>
+      <h2 className="portrait-doc__h2">{t('tiltak.tittel')}</h2>
+      <p className="portrait-doc__textblock">{t('tiltak.intro')}</p>
       <ol className="tiltak-liste">
         {items.map((item, i) => {
           if (typeof item === 'string') {
@@ -42,16 +43,16 @@ export default function TiltakListe({ items }) {
             <li key={i} className="tiltak-kort">
               <div className="tiltak-kort__header">
                 <span className={`tiltak-badge ${KATEGORI_KLASSE[kategori] || 'tiltak-badge--ukjent'}`}>
-                  {KATEGORI_LABEL[kategori] || 'Ukategorisert'}
+                  {KATEGORI_KEY[kategori] ? t(KATEGORI_KEY[kategori]) : t('tiltak.ukategorisert')}
                 </span>
                 {fase && (
-                  <span className="tiltak-fase">{FASE_LABEL[fase] || fase}</span>
+                  <span className="tiltak-fase">{FASE_KEY[fase] ? t(FASE_KEY[fase]) : fase}</span>
                 )}
               </div>
               <p className="tiltak-kort__tiltak">{item.tiltak}</p>
               {erLovstyrt && item.hjemmel && (
                 <p className="tiltak-hjemmel">
-                  <strong>Hjemmel:</strong> {item.hjemmel}
+                  <strong>{t('tiltak.hjemmel')}</strong> {item.hjemmel}
                 </p>
               )}
               {item.begrunnelse && (

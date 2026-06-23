@@ -1,8 +1,11 @@
+import { useT } from '../../i18n/index.jsx'
+
 export default function ConservationStatusBadge({ status }) {
+  const t = useT()
   if (!status?.kode) {
     return (
       <div className="portrait-doc__status-box">
-        <div className="portrait-doc__status-label">Rødliste status</div>
+        <div className="portrait-doc__status-label">{t('rodliste.tittel')}</div>
         <div className="portrait-doc__status-code is-lc">–</div>
       </div>
     )
@@ -18,7 +21,7 @@ export default function ConservationStatusBadge({ status }) {
 
   return (
     <div className="portrait-doc__status-box">
-      <div className="portrait-doc__status-label">Rødliste status</div>
+      <div className="portrait-doc__status-label">{t('rodliste.tittel')}</div>
       <div className={`portrait-doc__status-code ${cssClass}`}>{code}</div>
       {status.label && <div className="portrait-doc__status-text">{status.label}</div>}
     </div>

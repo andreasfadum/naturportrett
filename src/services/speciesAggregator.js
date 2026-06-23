@@ -54,14 +54,16 @@ function aggregate(observations) {
 }
 
 function mergeObservations(primary, secondary) {
+  // Foretrekk iNaturalist-bilder for ALLE oppløsninger (de har en konsistent
+  // medium/large/original-kjede; GBIF gir kun én oppløsning)
+  const inat = primary.source === 'inaturalist' ? primary : secondary.source === 'inaturalist' ? secondary : null
+  const other = inat === primary ? secondary : primary
   return {
     ...primary,
-    // Foretrekk iNaturalist-foto (har riktig kvadratformat)
-    photoSquareUrl: primary.source === 'inaturalist'
-      ? primary.photoSquareUrl || secondary.photoSquareUrl
-      : secondary.source === 'inaturalist'
-      ? secondary.photoSquareUrl || primary.photoSquareUrl
-      : primary.photoSquareUrl || secondary.photoSquareUrl,
+    photoSquareUrl: inat?.photoSquareUrl || other?.photoSquareUrl || primary.photoSquareUrl || secondary.photoSquareUrl,
+    photoMediumUrl: inat?.photoMediumUrl || other?.photoMediumUrl || primary.photoMediumUrl || secondary.photoMediumUrl,
+    photoLargeUrl: inat?.photoLargeUrl || other?.photoLargeUrl || primary.photoLargeUrl || secondary.photoLargeUrl,
+    photoOriginalUrl: inat?.photoOriginalUrl || other?.photoOriginalUrl || primary.photoOriginalUrl || secondary.photoOriginalUrl,
     // Foretrekk norsk navn fra iNaturalist
     norwegianName: (primary.source === 'inaturalist' && primary.norwegianName !== 'Ukjent art')
       ? primary.norwegianName

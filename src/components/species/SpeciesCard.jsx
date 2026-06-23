@@ -20,11 +20,11 @@ export default function SpeciesCard({ species, isSelected, onToggle }) {
         </svg>
       </div>
 
-      {/* Bilde */}
-      {species.photoSquareUrl ? (
+      {/* Bilde — foretrekk medium (~500px), faller tilbake til square (75px) */}
+      {(species.photoMediumUrl || species.photoSquareUrl) ? (
         <img
           className="species-card__photo"
-          src={species.photoSquareUrl}
+          src={species.photoMediumUrl || species.photoSquareUrl}
           alt={species.norwegianName}
           loading="lazy"
           onError={e => {

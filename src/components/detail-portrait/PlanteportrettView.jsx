@@ -39,8 +39,12 @@ export default function PlanteportrettView({ portrait, subject }) {
           <ConservationStatusBadge status={p.rodlisteStatus} />
         </div>
         <div className="portrait-doc__hero-right">
-          {subject?.photoSquareUrl && (
-            <img src={subject.photoSquareUrl} alt={p.folkenavn} className="portrait-doc__hero-photo" />
+          {(subject?.photoLargeUrl || subject?.photoMediumUrl || subject?.photoSquareUrl) && (
+            <img
+              src={subject.photoLargeUrl || subject.photoMediumUrl || subject.photoSquareUrl}
+              alt={p.folkenavn}
+              className="portrait-doc__hero-photo"
+            />
           )}
         </div>
       </section>

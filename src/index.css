@@ -413,6 +413,74 @@ img {
   font-feature-settings: "tnum";
 }
 
+/* Kategori-filter — vises over arts-tabellen når mange arter */
+.arter-kategori-filter {
+  margin: 0 0 var(--space-3);
+}
+
+.arter-kategori-filter__intro {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  color: var(--oslo-svart);
+  opacity: 0.75;
+}
+
+.arter-kategori-filter__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.arter-kategori-pill {
+  background: white;
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  color: var(--oslo-svart);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  font-feature-settings: "tnum";
+}
+
+.arter-kategori-pill:hover {
+  border-color: var(--oslo-morkebla);
+}
+
+.arter-kategori-pill--aktiv,
+.arter-kategori-pill--aktiv:hover {
+  background: var(--oslo-morkebla);
+  border-color: var(--oslo-morkebla);
+  color: white;
+}
+
+/* Datakvalitet-celle med fargepoint + dato */
+.dk-celle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+  font-feature-settings: "tnum";
+  white-space: nowrap;
+}
+
+.dk-celle__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dk-celle--hoy .dk-celle__dot { background: #1a8a3f; }
+.dk-celle--mid .dk-celle__dot { background: #e0a823; }
+.dk-celle--lav .dk-celle__dot { background: #b62a2a; }
+.dk-celle--ukjent .dk-celle__dot {
+  background: transparent;
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+}
+
+.dk-celle__tekst { color: var(--oslo-svart); }
+
 /* ================================
    Footer
 ================================ */

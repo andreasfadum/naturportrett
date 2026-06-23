@@ -525,12 +525,23 @@ export const oversettelser = {
 
   // --- Arts-oppsummering under arts-tabellen ---
   'arter.oppsummering.kort': {
-    no: 'Viser de {antallVist} artene med høyest datakvalitet (nyligste observasjoner, peer-verifiserte registreringer) av totalt {antallTotalt} registrerte arter i området.',
-    en: 'Showing the top {antallVist} species ranked by data quality (most recent observations, peer-verified records) of {antallTotalt} registered species in the area.',
+    no: 'Av {antallTotalt} registrerte arter i området ble de {antallTilKI} med høyest datakvalitet (nyligste observasjoner, peer-verifiserte registreringer) sendt til KI-syntese. KI vurderte {antallIPortrett} av dem til å ha høy økologisk verdi for prosjektet.',
+    en: 'Of {antallTotalt} registered species in the area, the {antallTilKI} with the highest data quality (most recent observations, peer-verified records) were sent to AI synthesis. The AI judged {antallIPortrett} of these to have high ecological value for the project.',
   },
   'arter.oppsummering.fordeling': {
-    no: 'Fordeling totalt:',
+    no: 'Fordeling alle arter:',
     en: 'Distribution across all species:',
+  },
+  'arter.tabell.datakvalitet': { no: 'Datakvalitet', en: 'Data quality' },
+  'arter.datakvalitet.hoy': { no: 'Høy', en: 'High' },
+  'arter.datakvalitet.middels': { no: 'Middels', en: 'Medium' },
+  'arter.datakvalitet.lav': { no: 'Lav', en: 'Low' },
+  'arter.datakvalitet.ukjent': { no: 'Ukjent', en: 'Unknown' },
+  'arter.datakvalitet.ingen-dato': { no: 'Ingen dato', en: 'No date' },
+  'arter.kategori.alle': { no: 'Alle', en: 'All' },
+  'arter.kategori.intro': {
+    no: 'Filtrer på artskategori — tabellen viser mange arter:',
+    en: 'Filter by species category — the table has many entries:',
   },
 
   // --- DetailPortraitSection (subjekt-velger og loading) ---

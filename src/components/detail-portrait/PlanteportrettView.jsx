@@ -8,6 +8,7 @@ import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import SymbioseSeksjon from '../portrait-shared/SymbioseSeksjon.jsx'
+import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
 import { useT } from '../../i18n/index.jsx'
 
 export default function PlanteportrettView({ portrait, subject }) {
@@ -53,7 +54,7 @@ export default function PlanteportrettView({ portrait, subject }) {
       <section className="portrait-doc__two-col">
         <div>
           <h2 className="portrait-doc__h2">{t('portrett.beskrivelse')}</h2>
-          <table className="portrait-doc__table">
+          <table className="portrait-doc__table portrait-doc__table--label-value">
             <tbody>
               {p.beskrivelse?.plantetype && <tr><th>{t('portrett.plantetype')}</th><td>{p.beskrivelse.plantetype}</td></tr>}
               {p.beskrivelse?.storrelse && <tr><th>{t('portrett.storrelse')}</th><td>{p.beskrivelse.storrelse}</td></tr>}
@@ -81,8 +82,7 @@ export default function PlanteportrettView({ portrait, subject }) {
         {p.habitatkrav && (
           <div>
             <h2 className="portrait-doc__h2">{t('portrett.habitatkrav')}</h2>
-            <table className="portrait-doc__table">
-              <thead><tr><th>{t('portrett.krav')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
+            <table className="portrait-doc__table portrait-doc__table--label-value">
               <tbody>
                 {p.habitatkrav.fuktighet && <tr><th>{t('portrett.fuktighet')}</th><td>{p.habitatkrav.fuktighet}</td></tr>}
                 {p.habitatkrav.klimasone && <tr><th>{t('portrett.klimasone')}</th><td>{p.habitatkrav.klimasone}</td></tr>}
@@ -98,7 +98,7 @@ export default function PlanteportrettView({ portrait, subject }) {
         {p.spredningOgLivssyklus && (
           <div>
             <h2 className="portrait-doc__h2">{t('portrett.spredning')}</h2>
-            <table className="portrait-doc__table">
+            <table className="portrait-doc__table portrait-doc__table--label-value">
               <tbody>
                 {p.spredningOgLivssyklus.frospredning && <tr><th>{t('portrett.frospredning')}</th><td>{p.spredningOgLivssyklus.frospredning}</td></tr>}
                 {p.spredningOgLivssyklus.etableringsvilkar && <tr><th>{t('portrett.etablering')}</th><td>{p.spredningOgLivssyklus.etableringsvilkar}</td></tr>}
@@ -114,12 +114,11 @@ export default function PlanteportrettView({ portrait, subject }) {
         {Array.isArray(p.tilknyttedeArter) && p.tilknyttedeArter.length > 0 && (
           <div>
             <h2 className="portrait-doc__h2">{t('portrett.tilknyttede-arter')}</h2>
-            <table className="portrait-doc__table portrait-doc__table--small">
-              <thead><tr><th>{t('portrett.arter')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
-              <tbody>
-                {p.tilknyttedeArter.map((r, i) => <tr key={i}><td>{r.art}</td><td>{r.detaljer}</td></tr>)}
-              </tbody>
-            </table>
+            <ResponsiveTable
+              className="portrait-doc__table--small"
+              headers={[t('portrett.arter'), t('portrett.detaljer')]}
+              rows={p.tilknyttedeArter.map(r => [r.art, r.detaljer])}
+            />
           </div>
         )}
         {p.trussler && (
@@ -134,15 +133,10 @@ export default function PlanteportrettView({ portrait, subject }) {
         {p.pollinatorVerdi && (
           <div>
             <h2 className="portrait-doc__h2">{t('portrett.pollinator-verdi')}</h2>
-            <table className="portrait-doc__table">
-              <thead><tr><th>{t('portrett.kvalitet')}</th><th>{t('portrett.detaljer')}</th></tr></thead>
-              <tbody>
-                <tr>
-                  <td><strong>{p.pollinatorVerdi.kvalitet}</strong></td>
-                  <td>{p.pollinatorVerdi.detaljer}</td>
-                </tr>
-              </tbody>
-            </table>
+            <ResponsiveTable
+              headers={[t('portrett.kvalitet'), t('portrett.detaljer')]}
+              rows={[[<strong>{p.pollinatorVerdi.kvalitet}</strong>, p.pollinatorVerdi.detaljer]]}
+            />
           </div>
         )}
         {p.samspillMedMennesker && (

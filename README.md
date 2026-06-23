@@ -26,6 +26,8 @@ Se [FUNKSJONER.md](FUNKSJONER.md) for en fullstendig oversikt over hva som ligge
 
 - **Tospråklig** (norsk/engelsk) med språkbryter i toppen
 - **GBIF og iNaturalist** som primære artskilder, sortert etter datakvalitet (recency + observasjonsantall + verifiseringsnivå)
+- **Heatmap-overlay** i naturportrettets kart (default på, toggle av/på) — viser tetthet av arts-observasjoner i området rundt eiendommen
+- **Naturtype-tabell med avhengige arter** — KI lister konkrete arter som er avhengige av hver naturtype, med anti-hallusinerings-regel
 - **Lokalt indeksert lovbase** med 5 lover/forskrifter (naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven, SAK10) — paragrafer siteres ordrett fra Lovdata
 - **Anti-hallusinering** som overordnet KI-prinsipp — utelat heller enn å gjette
 - **Modell-fallback-kjede** (Sonnet → Opus → Haiku) for robusthet ved modell-deprekering

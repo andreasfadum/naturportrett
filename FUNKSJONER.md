@@ -1,6 +1,6 @@
 # Naturportrett — funksjonsoversikt
 
-Levende dokument som beskriver hva prototypen kan gjøre per **23. juni 2026** (etter iter 13 og brukertest-runde 2).
+Levende dokument som beskriver hva prototypen kan gjøre per **23. juni 2026** (etter iter 13, brukertest-runde 2 og fem fikser fra Vahls gate-test).
 
 Skal du forstå hvordan en konkret funksjon er bygd, se [DEVLOG.md](DEVLOG.md) for kronologisk endringshistorikk og pekere til commit-er.
 
@@ -55,11 +55,11 @@ KI-syntese basert på Claude (`claude-sonnet-4-6` med fallback til `claude-opus-
 
 ### Innhold i portrettet
 - **Informasjonsbase-banner** — tydelig avgrensning: portrettet erstatter ikke faglig kvalitetssikring
-- **Eiendomskontekst** — 2–5 setninger som spesifikt knytter eiendommen til områdedataene (svarer på R6-innspill fra workshop 17. juni: «forskjellen på hva som handler om eiendom vs. område»)
-- **Oversiktskart** — Leaflet med OpenStreetMap-bakgrunn, influenssone som sirkel, markør på adressen
-- **Naturtyper i området** — tabell med NiN-kode, rødliste, beskrivelse
+- **Eiendomskontekst** — 2–5 setninger som spesifikt knytter eiendommen til områdedataene (svarer på R6-innspill fra workshop 17. juni: «forskjellen på hva som handler om eiendom vs. område»). Solid lysbeige bakgrunn med mørkeblå venstre-border.
+- **Oversiktskart med heatmap-overlay** — Leaflet med OpenStreetMap-bakgrunn, influenssone som sirkel, markør på adressen. **Heatmap-overlay aktivt som default** (toggle øverst venstre i kartet for av/på, valg lagres i localStorage). Heatmap-dataen er den samme `/heatmap-data.json` som /heatmap-siden bruker — én sannhetskilde, filtrert til bbox rundt eiendommen for ytelse.
+- **Naturtyper i området** — tabell med NiN-kode, rødliste, beskrivelse og **avhengige arter** (KI lister konkrete arter som er avhengige av hver naturtype, prioritert fra observasjonslisten med anti-hallusinerings-regel)
 - **Registrerte arter av høy økologisk verdi** — KI-utvalg fra de 25 artene med best datakvalitet som ble sendt inn. Hver rad har en datakvalitet-celle (grønn/gul/rød + sist observert dato)
-- **Oppsummering under tabellen** — sett i sammenheng: «Av X registrerte arter ble Y sendt til KI, som vurderte Z som høy økologisk verdi»
+- **Oppsummering under tabellen** — sett i sammenheng: «Av X registrerte arter ble Y sendt til KI, som vurderte Z som høy økologisk verdi». Antallet er nå faktisk (MAX_SPECIES hevet fra 60 til 500 i juni 2026 — tidligere traff vi taket nesten alltid)
 - **Kategori-filter** på arts-tabellen vises automatisk når KI-utvalget er > 30
 - **Økologiske sammenhenger og barrierer**, **Trusler og fremtidig potensiale**, **Spesielt viktige områder** — fritekst-seksjoner
 - **Forvaltningsråd** — konkrete råd sortert etter tidshorisont (Umiddelbart / 1–3 år / Langsiktig)
@@ -143,6 +143,8 @@ Tre tabeller — Plantebaserte næringskilder, Habitatstøttende planter, Dyreba
 
 Under hver tabell renderes en kort **synteseblokk** (italic, blå venstre-border) — «Oppsummering: hva må prioriteres ved drift/forvaltning av eiendommen».
 
+Layout: de tre tabellene stacker vertikalt (én under én) for å gi 4-kolonners tabeller nok plass. `table-layout: fixed` + `overflow-wrap: break-word` på alle portrett-tabeller forhindrer overflow ved lange tekstceller.
+
 ---
 
 ## 7. Symbioser og økologiske avhengigheter
@@ -193,10 +195,11 @@ KI-genererte tekster om jus blir aldri «tolket» — paragrafene siteres slik d
 - Dev-banner beholdes (med ryddig papir-styling) som påminnelse om at portrettet er fra testversjon
 
 ### Heatmap-side (`/heatmap`)
-- Egen visualisering av alle arts-registreringer i Oslo som leaflet.heat heatmap
+- Egen helsides-visualisering av alle arts-registreringer i Oslo som leaflet.heat heatmap (samme datakilde som overlay-en i naturportrett-kartet)
 - Intensitet beregnes fra 100 m grid-celler
 - Brukerstyrt artsgruppe-filter
 - Dynamisk radius som skalerer med zoom-nivå
+- Lenke til siden ligger ikke lenger i footer (siden heatmap er integrert i naturportrettet) — direkte-URL fortsatt tilgjengelig
 
 ### Workshop-app (`/workshop_01`)
 - Underapp brukt på workshop 17. juni 2026 for å samle inn brukerinnspill
@@ -245,7 +248,9 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 ## 13. Designsystem
 
 - Oslo kommunes visuelle identitet (Oslo Sans, Punkt CSS, Oslo-paletten via `--oslo-*` CSS-variabler)
-- Inline SVG-flagg for språkbryteren
+- Inline SVG-flagg for språkbryteren (vises i alle nettlesere inkludert Windows)
+- Konsistent spacing-mønster på alle innholdsseksjoner: h2-tittel → intro-tekst (med ramme) → liste/kort med `margin-top: var(--space-4)` og `gap: var(--space-4)`. Gjelder forvaltningsråd, praktiske designtiltak, symbioser og datakvalitet — én sannhetskilde for vertikal rytme.
+- Prototype-banner («Prototype under utvikling — sist oppdatert {dato}» / «Prototype under development — last updated {dato}») ligger i footer som dempet linje, ikke som topbanner. Skjules i print.
 - Designreferanse: [designmanual.oslo.kommune.no](https://designmanual.oslo.kommune.no)
 
 ---
@@ -261,6 +266,9 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 | Tom liste vises eksplisitt i UI | Synliggjør at KI vurderte feltet, ikke at det er glemt |
 | Lovsitater alltid norske | Lovdata er norsk kilde; oversettelse skader presisjon |
 | Bekreftelses-modal uten kostnadsinformasjon | Brukerønske — kostnad er drift-perspektiv, ikke bruker-perspektiv |
+| Heatmap som overlay i naturportrett-kart (default på) | Gir umiddelbar visuell kontekst om datatetthet uten å kreve at brukeren navigerer til egen side. Toggle av/på hvis ønsket. |
+| MAX_SPECIES = 500 (ikke 60) | Tidligere kappet alltid på 60 så oppsummeringen viste samme tall. iNaturalist + GBIF gir teoretisk maks ~200, så 500 er bare safety-net. |
+| Prototype-banner i footer, ikke topp | Mindre påtrengende i den faktiske brukerflyten; informerer fortsatt om status uten å konkurrere med Oslo-banneret |
 
 ---
 

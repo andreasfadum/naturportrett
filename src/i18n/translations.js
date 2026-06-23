@@ -33,6 +33,10 @@ export const oversettelser = {
     no: 'Biologisk mangfold i influensområdet',
     en: 'Biodiversity in the project influence zone',
   },
+  'app.kommune': {
+    no: 'Oslo kommune',
+    en: 'City of Oslo',
+  },
   'sprak.bytt': {
     no: 'Bytt språk',
     en: 'Switch language',

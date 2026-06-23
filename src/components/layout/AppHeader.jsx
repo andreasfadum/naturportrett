@@ -5,11 +5,14 @@ export default function AppHeader() {
   const t = useT()
   return (
     <header className="app-header">
-      <img
-        src="/oslo-logo.svg"
-        alt="Oslo kommune"
-        className="app-header__logo"
-      />
+      <div className="app-header__brand">
+        <img
+          src="/oslo-logo.svg"
+          alt={t('app.kommune')}
+          className="app-header__logo"
+        />
+        <span className="app-header__kommune">{t('app.kommune')}</span>
+      </div>
       <div className="app-header__divider" />
       <div className="app-header__textwrap">
         <div className="app-header__title">{t('app.tittel')}</div>

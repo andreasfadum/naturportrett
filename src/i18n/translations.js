@@ -604,6 +604,30 @@ export const oversettelser = {
   'bekreft.gener': { no: 'Generér portrett', en: 'Generate portrait' },
   'bekreft.aria.lukk': { no: 'Lukk', en: 'Close' },
 
+  // --- Næringskilde-tabeller: nye kolonner + syntese ---
+  'naering.kol.lokal-forekomst': { no: 'Lokal forekomst', en: 'Local occurrence' },
+  'naering.kol.handling-eiendom': { no: 'Handling på eiendommen', en: 'Action on the property' },
+  'naering.syntese.tittel': { no: 'Oppsummering', en: 'Summary' },
+
+  // --- Symbioser-seksjon ---
+  'symbioser.tittel': { no: 'Symbioser og økologiske avhengigheter', en: 'Symbioses and ecological dependencies' },
+  'symbioser.intro': {
+    no: 'Dokumenterte gjensidige avhengigheter mellom arten og andre arter, ikke generelle økosystem-koblinger. Tom liste betyr at KI ikke fant artsspesifikke, dokumenterte koblinger med tilstrekkelig belegg.',
+    en: 'Documented mutual dependencies between this species and others — not general ecosystem links. An empty list means the AI could not find species-specific, sufficiently documented connections.',
+  },
+  'symbioser.tom': {
+    no: 'Ingen artsspesifikke symbioser med tilstrekkelig dokumentasjon å vise. Generelle økosystem-koblinger er bevisst utelatt.',
+    en: 'No species-specific symbioses with sufficient documentation to show. Generic ecosystem links are deliberately omitted.',
+  },
+  'symbioser.type.mutualisme': { no: 'Mutualisme', en: 'Mutualism' },
+  'symbioser.type.kommensalisme': { no: 'Kommensalisme', en: 'Commensalism' },
+  'symbioser.type.predator-bytte': { no: 'Predator–bytte', en: 'Predator–prey' },
+  'symbioser.type.parasittisme': { no: 'Parasittisme', en: 'Parasitism' },
+  'symbioser.type.konkurranse': { no: 'Konkurranse', en: 'Competition' },
+  'symbioser.type.indikator-relasjon': { no: 'Indikator-relasjon', en: 'Indicator relationship' },
+  'symbioser.lokal-relevans': { no: 'Lokal relevans:', en: 'Local relevance:' },
+  'symbioser.evidensgrunnlag': { no: 'Evidensgrunnlag:', en: 'Evidence basis:' },
+
   // --- Felles delseksjonsoverskrifter for Arts-/Plante-/Naturtypeportrett ---
   'portrett.karakteristikker': { no: 'Karakteristikker', en: 'Characteristics' },
   'portrett.artsfamilie': { no: 'Artsfamilie', en: 'Species family' },

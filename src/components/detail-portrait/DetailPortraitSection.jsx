@@ -8,6 +8,7 @@ import NaturtypeportrettView from './NaturtypeportrettView.jsx'
 import PdfDownloadButton from './PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { useT, useSprak } from '../../i18n/index.jsx'
+import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
 
 const TYPE_CONFIG = {
   artsportrett: {
@@ -120,12 +121,33 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     if (!bekreftEmne) return
     const valgt = bekreftEmne
     setBekreftEmne(null)
+    // Topp 30 observerte arter (etter datakvalitet) sendes med slik at
+    // KI har et reelt grunnlag for lokalForekomst-feltene og kan unngå
+    // å spekulere. Plus Oslo-grønnstrukturer hvis adressen er i Oslo
+    // (samme finnNarliggende som naturportrettet bruker).
+    const lat = address.representasjonspunkt?.lat
+    const lon = address.representasjonspunkt?.lon
+    const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
+      ? finnNarliggende(lat, lon, 1500)
+      : []
     if (valgt.type === 'species') {
       setPickedSubject(valgt.payload)
-      generate(portraitType, { species: valgt.payload, address, lang: sprak })
+      generate(portraitType, {
+        species: valgt.payload,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
     } else {
       setPickedSubject(valgt.payload)
-      generate('naturtypeportrett', { naturtype: valgt.payload, address, observedSpecies: species.slice(0, 15), lang: sprak })
+      generate('naturtypeportrett', {
+        naturtype: valgt.payload,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
     }
   }
 

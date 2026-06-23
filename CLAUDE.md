@@ -37,6 +37,7 @@ npm run dev:all
 src/
   components/
     layout/             AppHeader, AppFooter, StepIndicator, LanguageSwitcher, Flags, ProgressBar
+                        (Prototype-banner ligger i AppFooter, ikke som egen komponent)
     address/            AddressSearch, AddressSuggestions, InfluenceZoneInfo
     naturportrett/      NaturportrettSection, NaturportrettView, AreaMap
     portrait-selector/  PortraitTypeSelector
@@ -127,6 +128,13 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - Ingen TypeScript ennå (planlagt i v2)
 - CSS custom properties fra `--oslo-*` paletten, ikke hardkodede farger
 - Datakvalitet-tersklene (0.65 / 0.35) er én sannhetskilde i `speciesAggregator.js` og brukes konsekvent i UI
+
+## Arbeidsregler for endringer
+
+- **Når brukeren flagger en styling- eller layout-feil: sjekk hele kode-basen for samme mønster.** Ikke fiks bare det isolerte tilfellet. Eksempel: når «forvaltningsråd» har spacing-feil, sjekk også tiltakene, symbiose-listen og datakvalitet-listen.
+- **Spacing-mønster for innholdsseksjoner:** `<section class="portrait-doc__section">` → `h2` → intro-tekst → liste. Alle lister (`.forvaltningsrad-liste`, `.tiltak-liste`, `.symbioser-liste`, `.datakvalitet-liste`) skal ha `margin-top: var(--space-4)` og `gap: var(--space-4)`. Endre én — endre alle.
+- **Multi-col grids:** bruk `minmax(0, 1fr)` i `grid-template-columns` + `min-width: 0` + `overflow-wrap: break-word` på kolonne-children, og `table-layout: fixed` på tabeller inni. Forhindrer at lange tekstceller bryter layout.
+- **Anti-hallusinering:** når et nytt JSON-felt har risiko for fabulasjon (symbioser, lokal forekomst, avhengige arter, evidensgrunnlag), legg eksplisitt instruks i prompten — «utelat heller enn å gjette» — og hånder tom liste eksplisitt i UI så det fremgår at KI vurderte feltet.
 
 ## Tilbakemeldinger og admin
 

@@ -15,10 +15,15 @@ function formatRadius(meter) {
   return `${meter} m`
 }
 
-export default function NaturportrettView({ portrait, address, species, zoneRadiusM = 500 }) {
+export default function NaturportrettView({ portrait, address, species = [], speciesByCategory = {}, zoneRadiusM = 500 }) {
   const p = portrait || {}
   const t = useT()
   const radiusTekst = formatRadius(zoneRadiusM)
+  // Topp 25 vises i tabellen + sendes til Claude. Resten telles i oppsummeringen.
+  const ANTALL_I_PORTRETT = 25
+  const antallTotalt = species.length
+  const antallVist = Math.min(ANTALL_I_PORTRETT, antallTotalt)
+  const visOppsummering = antallTotalt > ANTALL_I_PORTRETT
 
   return (
     <article className="portrait-doc">
@@ -116,6 +121,24 @@ export default function NaturportrettView({ portrait, address, species, zoneRadi
               ))}
             </tbody>
           </table>
+
+          {visOppsummering && (
+            <div className="arter-oppsummering">
+              <p className="arter-oppsummering__tekst">
+                {t('arter.oppsummering.kort', { antallVist, antallTotalt })}
+              </p>
+              <div className="arter-oppsummering__fordeling">
+                <strong>{t('arter.oppsummering.fordeling')}</strong>
+                {Object.entries(speciesByCategory)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([kat, n]) => (
+                    <span key={kat} className="arter-oppsummering__pill">
+                      {kat}: {n}
+                    </span>
+                  ))}
+              </div>
+            </div>
+          )}
         </section>
       )}
 

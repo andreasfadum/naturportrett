@@ -30,6 +30,16 @@ export async function fetchSpeciesFromGBIF(lat, lon, radiusKm = 0.5) {
 function mapGBIFOccurrence(occ) {
   const media = (occ.media || []).find(m => m.type === 'StillImage')
 
+  // GBIF eventDate kan være ISO eller bare år/måned/dag
+  let lastObservedDate = null
+  if (occ.eventDate) {
+    lastObservedDate = occ.eventDate.slice(0, 10)
+  } else if (occ.year) {
+    const mm = String(occ.month || 1).padStart(2, '0')
+    const dd = String(occ.day || 1).padStart(2, '0')
+    lastObservedDate = `${occ.year}-${mm}-${dd}`
+  }
+
   return {
     source: 'gbif',
     id: `gbif-${occ.key}`,
@@ -40,7 +50,16 @@ function mapGBIFOccurrence(occ) {
     kingdom: occ.kingdom || '',
     photoUrl: media ? media.identifier : null,
     photoSquareUrl: media ? media.identifier : null,
-    observationCount: 0,
+    // Hver GBIF-occurrence = én observasjon
+    observationCount: 1,
+    lastObservedDate,
+    // GBIF har ikke samme kvalitetsgradering som iNaturalist, men hasCoordinate=true
+    // og kjent taxonKey er en grei indikasjon på at observasjonen er identifisert
+    // og koordinatfestet.
+    qualityGrade: occ.taxonKey ? 'identified' : 'unverified',
+    coordinateUncertaintyM: typeof occ.coordinateUncertaintyInMeters === 'number'
+      ? occ.coordinateUncertaintyInMeters
+      : null,
     taxonKey: occ.taxonKey,
   }
 }

@@ -523,6 +523,16 @@ export const oversettelser = {
   // --- ConservationStatusBadge ---
   'rodliste.tittel': { no: 'Rødliste status', en: 'Red list status' },
 
+  // --- Arts-oppsummering under arts-tabellen ---
+  'arter.oppsummering.kort': {
+    no: 'Viser de {antallVist} artene med høyest datakvalitet (nyligste observasjoner, peer-verifiserte registreringer) av totalt {antallTotalt} registrerte arter i området.',
+    en: 'Showing the top {antallVist} species ranked by data quality (most recent observations, peer-verified records) of {antallTotalt} registered species in the area.',
+  },
+  'arter.oppsummering.fordeling': {
+    no: 'Fordeling totalt:',
+    en: 'Distribution across all species:',
+  },
+
   // --- DetailPortraitSection (subjekt-velger og loading) ---
   'detalj.artsportrett.tittel': { no: 'Artsportrett', en: 'Species portrait' },
   'detalj.planteportrett.tittel': { no: 'Planteportrett', en: 'Plant portrait' },

@@ -1,10 +1,12 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS, AVSTAND_INSTRUKS, formatAvstandKm } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
 Du skal generere et PLANTEPORTRETT — et detaljert plantekortportrett for ÉN konkret plante, strukturert etter Oslo kommunes mal for planteportretter.
 
 ${ANTI_HALLUSINERING}
+
+${AVSTAND_INSTRUKS}
 
 ${REFERENCES}
 
@@ -98,7 +100,7 @@ export function buildUserPrompt({ species, address, observedSpecies, narliggende
     : ''
 
   const gronnstrukturBlokk = Array.isArray(narliggendeGronnstrukturer) && narliggendeGronnstrukturer.length > 0
-    ? `\n\n## Kjente Oslo-grønnstrukturer i nærheten\nReferer til disse ved navn for lokalRelevans-feltet i symbioser.\n\n${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
+    ? `\n\n## Kjente Oslo-grønnstrukturer i nærheten\nReferer til disse ved navn for lokalRelevans-feltet i symbioser.\n\n${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${formatAvstandKm(g.avstandM)}`).join('\n')}`
     : ''
 
   return `## Plante for portrett

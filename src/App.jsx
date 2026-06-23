@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import AppHeader from './components/layout/AppHeader.jsx'
 import AppFooter from './components/layout/AppFooter.jsx'
-import DevBanner from './components/layout/DevBanner.jsx'
 import AddressSearch from './components/address/AddressSearch.jsx'
 import NaturportrettSection from './components/naturportrett/NaturportrettSection.jsx'
 import PortraitTypeSelector from './components/portrait-selector/PortraitTypeSelector.jsx'
@@ -94,7 +93,6 @@ function Hovedflyt() {
 
   return (
     <div className="app-container">
-      <DevBanner />
       <AppHeader />
       <main className="main-content">
         <StepIndicator currentStep={step} portraitType={portraitType} />

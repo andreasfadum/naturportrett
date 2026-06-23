@@ -392,8 +392,8 @@ export const oversettelser = {
     en: '← Back to Naturportrett',
   },
   'footer.dev-banner': {
-    no: 'Testversjon under utvikling — sist oppdatert {dato}',
-    en: 'Development version — last updated {dato}',
+    no: 'Prototype under utvikling — sist oppdatert {dato}',
+    en: 'Prototype under development — last updated {dato}',
   },
 
   // --- FactBox-labels (Naturportrett-hovedseksjonen) ---

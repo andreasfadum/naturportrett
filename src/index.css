@@ -684,7 +684,8 @@ img {
 .symbioser-liste {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-3);
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .symbiose-kort {
@@ -745,13 +746,21 @@ img {
 .symbiose-badge--indikator { background: #2A2859; }
 .symbiose-badge--annet { background: #666; }
 
-/* Kart-kontroller (heatmap-toggle) */
+/* Kart-kontroller (heatmap-toggle) — overlay øverst til venstre med jevn
+   ramme-padding rundt knappen */
 .area-map__controls {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 500;
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
-  margin-bottom: var(--space-2);
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
   font-size: 0.88rem;
 }
 
@@ -838,6 +847,13 @@ img {
 
 .app-footer__lenker {
   margin-top: var(--space-2);
+}
+
+.app-footer__prototype {
+  margin-top: var(--space-2);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .app-footer__lenker a {
@@ -2105,6 +2121,7 @@ ul.portrait-doc__textblock {
 
 /* Leaflet map */
 .area-map-wrap {
+  position: relative;
   border: 1px solid var(--oslo-svart);
   border-radius: 4px;
   overflow: hidden;
@@ -2300,16 +2317,6 @@ ul.portrait-doc__textblock {
     max-width: none;
   }
 
-  /* Dev-banner beholdes i PDF, men ryddet til papir-format */
-  .dev-banner {
-    background: white !important;
-    color: var(--oslo-morkebla) !important;
-    border: 1px solid var(--oslo-morkebla);
-    padding: 6pt 10pt !important;
-    margin-bottom: 12pt;
-    font-size: 9pt !important;
-    letter-spacing: normal !important;
-  }
 
   /* Typografi optimert for A4-trykk */
   body {
@@ -2430,7 +2437,8 @@ ul.portrait-doc__textblock {
 /* Datakvalitet-seksjon — per-tema vurdering av datagrunnlaget */
 .datakvalitet-liste {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .datakvalitet-item {
@@ -2621,8 +2629,8 @@ ul.portrait-doc__textblock {
 /* Forvaltningsråd — handlingsrettede råd sortert etter tidshorisont (g4-innspill 17. juni) */
 .forvaltningsrad-liste {
   display: grid;
-  gap: var(--space-3);
-  margin: 0;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
   padding-left: 0;
   list-style: none;
   counter-reset: forvaltningsrad;
@@ -3142,7 +3150,7 @@ ul.portrait-doc__textblock {
 
 /* Eiendomskontekst — adresserer R6 (iterasjon 7): skill eiendom fra område */
 .eiendomskontekst {
-  background: linear-gradient(135deg, var(--oslo-lysbeige) 0%, white 100%);
+  background: var(--oslo-lysbeige);
   border: 1px solid var(--oslo-morkbeige);
   border-left: 6px solid var(--oslo-morkebla);
   border-radius: 4px;

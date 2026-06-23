@@ -7,16 +7,19 @@ export default function AppFooter() {
     'Naturportrett prototype 2026',
     `Naturportrett prototype ${new Date().getFullYear()}`,
   )
+  // __BUILD_DATE__ injiseres av Vite (samme verdi som tidligere stod i topp-banneret).
+  // I print-CSS skjules .app-footer, så banneret påvirker ikke PDF-eksport.
   return (
     <footer className="app-footer">
       <div>{footerKilde}</div>
-      <div className="app-footer__lenker">
-        {erHeatmap ? (
-          <a href="/">{t('footer.heatmap-tilbake')}</a>
-        ) : (
-          <a href="/heatmap">{t('footer.heatmap-lenke')}</a>
-        )}
+      <div className="app-footer__prototype">
+        {t('footer.dev-banner', { dato: __BUILD_DATE__ })}
       </div>
+      {erHeatmap && (
+        <div className="app-footer__lenker">
+          <a href="/">{t('footer.heatmap-tilbake')}</a>
+        </div>
+      )}
     </footer>
   )
 }

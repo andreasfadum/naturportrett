@@ -731,6 +731,78 @@ img {
 .symbiose-badge--indikator { background: #2A2859; }
 .symbiose-badge--annet { background: #666; }
 
+/* Kart-kontroller (heatmap-toggle) */
+.area-map__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2);
+  font-size: 0.88rem;
+}
+
+.heatmap-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--oslo-svart);
+  user-select: none;
+  font-weight: 500;
+}
+
+.heatmap-toggle__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.heatmap-toggle__track {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  background: var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 999px;
+  transition: background-color 0.18s ease;
+}
+
+.heatmap-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.18s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.heatmap-toggle__input:checked + .heatmap-toggle__track {
+  background: var(--oslo-morkebla);
+}
+
+.heatmap-toggle__input:checked + .heatmap-toggle__track .heatmap-toggle__thumb {
+  transform: translateX(16px);
+}
+
+.heatmap-toggle__input:focus-visible + .heatmap-toggle__track {
+  outline: 2px solid var(--oslo-morkebla);
+  outline-offset: 2px;
+}
+
+.heatmap-toggle__status {
+  font-size: 0.8rem;
+  color: var(--oslo-svart);
+  opacity: 0.7;
+}
+
+.heatmap-toggle__status--feil {
+  color: #b62a2a;
+  opacity: 1;
+}
+
 /* ================================
    Footer
 ================================ */

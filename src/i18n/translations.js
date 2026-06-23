@@ -247,6 +247,22 @@ export const oversettelser = {
     no: '{radius} influenssone',
     en: '{radius} influence zone',
   },
+  'naturportrett.kart.heatmap-toggle': {
+    no: 'Heatmap',
+    en: 'Heatmap',
+  },
+  'naturportrett.kart.heatmap-hjelp': {
+    no: 'Vis arts-observasjoner som heatmap-overlay. Mørke flekker = mye registrerte observasjoner.',
+    en: 'Show species observations as a heatmap overlay. Dark spots = many recorded observations.',
+  },
+  'naturportrett.kart.heatmap-laster': {
+    no: 'Laster heatmap …',
+    en: 'Loading heatmap …',
+  },
+  'naturportrett.kart.heatmap-feil': {
+    no: 'Klarte ikke å laste heatmap-data.',
+    en: 'Could not load heatmap data.',
+  },
 
   // --- Tabellhoder (gjenbrukes) ---
   'tabell.naturtype': { no: 'Naturtype', en: 'Habitat type' },

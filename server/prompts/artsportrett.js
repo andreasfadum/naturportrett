@@ -1,10 +1,12 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS, AVSTAND_INSTRUKS, formatAvstandKm } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
 Du skal generere et ARTSPORTRETT — et detaljert kortportrett for ÉN konkret dyreart (fugl, pattedyr, insekt, etc.), strukturert etter Oslo kommunes mal for artsportretter.
 
 ${ANTI_HALLUSINERING}
+
+${AVSTAND_INSTRUKS}
 
 ${REFERENCES}
 
@@ -117,7 +119,7 @@ ${observedSpecies.slice(0, 30).map(sp => `- ${sp.norwegianName} (${sp.scientific
 ## Kjente Oslo-grønnstrukturer i nærheten (sortert etter avstand)
 Du kan referere til disse ved navn for lokalForekomst-feltene. Ikke finn på andre lokaliteter.
 
-${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
+${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${formatAvstandKm(g.avstandM)}`).join('\n')}`
     : ''
 
   return `## Art for portrett

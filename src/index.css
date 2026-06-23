@@ -746,12 +746,13 @@ img {
 .symbiose-badge--indikator { background: #2A2859; }
 .symbiose-badge--annet { background: #666; }
 
-/* Kart-kontroller (heatmap-toggle) — overlay øverst til venstre med jevn
-   ramme-padding rundt knappen */
+/* Kart-kontroller (heatmap-toggle) — overlay øverst til høyre.
+   Leaflet zoom-control (+/-) ligger default på topp-venstre, så toggle
+   må til høyre for å unngå kollisjon. */
 .area-map__controls {
   position: absolute;
   top: var(--space-3);
-  left: var(--space-3);
+  right: var(--space-3);
   z-index: 500;
   display: flex;
   align-items: center;

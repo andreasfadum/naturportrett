@@ -1,10 +1,12 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, TILTAK_FIELD, TILTAK_INSTRUKS, ANTI_HALLUSINERING, SYMBIOSE_FIELD, SYMBIOSE_INSTRUKS, AVSTAND_INSTRUKS, formatAvstandKm } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
 Du skal generere et NATURTYPEPORTRETT — et detaljert portrett av ÉN konkret naturtype (etter NiN-systemet), strukturert etter Oslo kommunes mal for naturtypeportretter.
 
 ${ANTI_HALLUSINERING}
+
+${AVSTAND_INSTRUKS}
 
 ${REFERENCES}
 
@@ -85,7 +87,7 @@ export function buildUserPrompt({ naturtype, address, observedSpecies, narliggen
     .join('\n')
 
   const gronnstrukturBlokk = Array.isArray(narliggendeGronnstrukturer) && narliggendeGronnstrukturer.length > 0
-    ? `\n\n## Kjente grønnstrukturer i nærheten\nKan brukes for lokalRelevans i symbioser. Ikke finn på andre lokaliteter.\n\n${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
+    ? `\n\n## Kjente grønnstrukturer i nærheten\nKan brukes for lokalRelevans i symbioser. Ikke finn på andre lokaliteter.\n\n${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${formatAvstandKm(g.avstandM)}`).join('\n')}`
     : ''
 
   return `## Naturtype for portrett

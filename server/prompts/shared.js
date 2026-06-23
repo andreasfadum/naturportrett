@@ -77,6 +77,20 @@ Når kategorien er "lovstyrt_krav" SKAL hjemmel-feltet inneholde lov + paragraf,
 Fase-feltet angir hvor i et byggeprosjekt tiltaket settes inn (tidligfase, reguleringsplan, utomhusplan, gjennomforing).
 Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "fuglekasse 12×12 cm på sørvegg, 4–6 m over bakken") fremfor abstrakte oppfordringer.`
 
+/**
+ * Formaterer avstand i meter til "0.X km" rundet til nærmeste 100 m.
+ * Adresser dekker et areal, ikke et punkt — så avstander som "535 m"
+ * er misvisende presise. Vi gir KI samme avrundete tall så den ikke
+ * fabrikkerer presisjon.
+ */
+export function formatAvstandKm(meter) {
+  const km = Math.round(meter / 100) / 10
+  return `${km.toFixed(1)} km`
+}
+
+export const AVSTAND_INSTRUKS = `AVSTANDER:
+Alle avstander i området skal oppgis i km med presisjon på 0,1 km (cirka 100 m). En eiendom er i praksis et areal, ikke et punkt — så avstander som "535 m fra eiendommen" er misvisende presise. Bruk "0,5 km" på norsk, "0.5 km" på engelsk. Ikke oppgi meter-presisjon for omgivelser/parker/grønnstrukturer.`
+
 export const ANTI_HALLUSINERING = `ANTI-HALLUSINERING (overordnet prinsipp — gjelder hele responsen):
 KI-troverdighet er den viktigste verdien tjenesten har. Brukerne er fagfolk (planleggere, biologer, saksbehandlere) som vil oppdage spekulasjoner, og falske påstander vil sette en stopper for videre utvikling av tjenesten.
 
@@ -113,7 +127,7 @@ export const EIENDOMSKONTEKST_FIELD = `"eiendomsKontekst": "1-3 setninger som sp
 export const EIENDOMSKONTEKST_INSTRUKS = `EIENDOMSKONTEKST (R6-innspill 17. juni):
 Bruker savnet «forskjellen på hvilke data som kommer fra området og hvilken informasjon som kommer om en eiendom». Resten av portrettet handler om 500m-området rundt adressen. Dette feltet er det eneste som handler om akkurat eiendommen som søkt opp.
 
-Hvis user-prompten inneholder en liste under «Kjente Oslo-grønnstrukturer i nærheten», SKAL du nevne ALLE oppføringene innenfor 500m og prioritere flest mulig innenfor 1000m hvis de er artsrike eller utgjør viktige korridorer. Ikke velg favoritter — saksbehandlere trenger oversikt, ikke ikoniske enkelt-eksempler. Hvis listen f.eks. inneholder både Tøyenparken (200 m) OG Botanisk hage (350 m) skal begge nevnes ved navn, ikke kun en av dem.
+Hvis user-prompten inneholder en liste under «Kjente Oslo-grønnstrukturer i nærheten», SKAL du nevne ALLE oppføringene innenfor 0,5 km og prioritere flest mulig innenfor 1 km hvis de er artsrike eller utgjør viktige korridorer. Ikke velg favoritter — saksbehandlere trenger oversikt, ikke ikoniske enkelt-eksempler. Hvis listen f.eks. inneholder både Tøyenparken (0,2 km) OG Botanisk hage (0,4 km) skal begge nevnes ved navn, ikke kun en av dem.
 
 Inkluder i tillegg:
 - Om eiendommen ligger sentralt i en kartlagt verdifull struktur (korridor, naturtype, trekkrute) — si det konkret

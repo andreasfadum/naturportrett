@@ -1,10 +1,12 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS, EIENDOMSKONTEKST_FIELD, EIENDOMSKONTEKST_INSTRUKS, ANTI_HALLUSINERING } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS, EIENDOMSKONTEKST_FIELD, EIENDOMSKONTEKST_INSTRUKS, ANTI_HALLUSINERING, AVSTAND_INSTRUKS, formatAvstandKm } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
 Du skal generere et NATURPORTRETT — en helhetsoversikt over biologisk mangfold og naturhensyn for et konkret prosjektområde innenfor en konfigurerbar influensradius (typisk 500 m, men kan være alt fra 100 m til 2 km) fra en oppgitt norsk adresse. Influenssonen oppgis i user-prompten.
 
 ${ANTI_HALLUSINERING}
+
+${AVSTAND_INSTRUKS}
 
 ${REFERENCES}
 
@@ -77,7 +79,7 @@ export function buildUserPrompt({ address, coordinates, zoneRadiusM, topSpecies,
 ## Kjente Oslo-grønnstrukturer i nærheten (sortert etter avstand)
 Denne listen er beregnet på klienten ut fra koordinatene og er en sjekkliste for eiendomsKontekst-feltet. Du skal nevne ALLE som er innenfor ${innenforSone} m (influenssonen), og du SKAL nevne dem som er innenfor ${utvidetSone} m hvis de er artsrike eller utgjør viktige korridorer (parker, elver, naturreservater). Ikke hopp over noen — selv om en er mer ikonisk enn en annen.
 
-${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
+${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${formatAvstandKm(g.avstandM)}`).join('\n')}`
     : ''
 
   return `## Prosjektadresse

@@ -135,6 +135,8 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - **Spacing-mønster for innholdsseksjoner:** `<section class="portrait-doc__section">` → `h2` → intro-tekst → liste. Alle lister (`.forvaltningsrad-liste`, `.tiltak-liste`, `.symbioser-liste`, `.datakvalitet-liste`) skal ha `margin-top: var(--space-4)` og `gap: var(--space-4)`. Endre én — endre alle.
 - **Multi-col grids:** bruk `minmax(0, 1fr)` i `grid-template-columns` + `min-width: 0` + `overflow-wrap: break-word` på kolonne-children, og `table-layout: fixed` på tabeller inni. Forhindrer at lange tekstceller bryter layout.
 - **Anti-hallusinering:** når et nytt JSON-felt har risiko for fabulasjon (symbioser, lokal forekomst, avhengige arter, evidensgrunnlag), legg eksplisitt instruks i prompten — «utelat heller enn å gjette» — og hånder tom liste eksplisitt i UI så det fremgår at KI vurderte feltet.
+- **Avstander:** alle avstander til omgivelser/parker/grønnstrukturer skal være km med 0,1 km-presisjon (~100 m), ikke meter. En eiendom er et areal, ikke et punkt, så «535 m fra eiendommen» er misvisende presist. Helper `formatAvstandKm(meter)` i `server/prompts/shared.js` brukes for ALLE prompt-tekster som rendrer avstander. KI får en eksplisitt `AVSTAND_INSTRUKS` slik at den ikke fabrikkerer meter-presisjon i fritekst-felt.
+- **Leaflet overlay-kontroller:** zoom-control (+/-) ligger default på topp-venstre. Egne overlay-kontroller (heatmap-toggle osv.) plasseres på topp-høyre med `position: absolute; top: var(--space-3); right: var(--space-3); z-index: 500`.
 
 ## Tilbakemeldinger og admin
 

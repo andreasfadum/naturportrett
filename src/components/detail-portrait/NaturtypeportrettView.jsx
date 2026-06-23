@@ -43,7 +43,7 @@ export default function NaturtypeportrettView({ portrait, subject }) {
       {p.beskrivelse && (
         <section className="portrait-doc__section">
           <h2 className="portrait-doc__h2">{t('portrett.beskrivelse')}</h2>
-          <table className="portrait-doc__table">
+          <table className="portrait-doc__table portrait-doc__table--label-value">
             <tbody>
               {p.beskrivelse.utseende && <tr><th>{t('portrett.utseende')}</th><td>{p.beskrivelse.utseende}</td></tr>}
               {p.beskrivelse.struktur && <tr><th>{t('portrett.struktur')}</th><td>{p.beskrivelse.struktur}</td></tr>}
@@ -57,7 +57,7 @@ export default function NaturtypeportrettView({ portrait, subject }) {
       {p.viktigeStrukturer && (
         <section className="portrait-doc__section">
           <h2 className="portrait-doc__h2">{t('portrett.viktige-strukturer')}</h2>
-          <table className="portrait-doc__table">
+          <table className="portrait-doc__table portrait-doc__table--label-value">
             <tbody>
               {p.viktigeStrukturer.vegetasjon && <tr><th>{t('portrett.vegetasjon')}</th><td>{p.viktigeStrukturer.vegetasjon}</td></tr>}
               {p.viktigeStrukturer.hydrologi && <tr><th>{t('portrett.hydrologi')}</th><td>{p.viktigeStrukturer.hydrologi}</td></tr>}

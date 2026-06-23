@@ -8,6 +8,8 @@ import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import SymbioseSeksjon from '../portrait-shared/SymbioseSeksjon.jsx'
+import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
+import { useIsMobile } from '../../hooks/useIsMobile.js'
 import { useT } from '../../i18n/index.jsx'
 
 export default function ArtsportrettView({ portrait, subject }) {
@@ -52,7 +54,7 @@ export default function ArtsportrettView({ portrait, subject }) {
       <section className="portrait-doc__two-col">
         <div>
           <h2 className="portrait-doc__h2">{t('portrett.beskrivelse')}</h2>
-          <table className="portrait-doc__table">
+          <table className="portrait-doc__table portrait-doc__table--label-value">
             <tbody>
               {p.beskrivelse?.storrelse && <tr><th>{t('portrett.storrelse')}</th><td>{p.beskrivelse.storrelse}</td></tr>}
               {p.beskrivelse?.farger && <tr><th>{t('portrett.farger')}</th><td>{p.beskrivelse.farger}</td></tr>}
@@ -203,29 +205,25 @@ function FactBox({ label, value }) {
 function NaeringsBlokk({ title, rows, colA, syntese, t }) {
   if (!Array.isArray(rows) || rows.length === 0) return null
   const harLokalKolonne = rows.some(r => r.lokalForekomst || r.handlingPaaEiendommen)
+
+  const headers = [colA, t('portrett.detaljer')]
+  if (harLokalKolonne) {
+    headers.push(t('naering.kol.lokal-forekomst'))
+    headers.push(t('naering.kol.handling-eiendom'))
+  }
+  const tableRows = rows.map(r => {
+    const rad = [r.art, r.detaljer]
+    if (harLokalKolonne) {
+      rad.push(r.lokalForekomst || '–')
+      rad.push(r.handlingPaaEiendommen || '–')
+    }
+    return rad
+  })
+
   return (
     <div className="naering-blokk">
       <h3 className="portrait-doc__h3">{title}</h3>
-      <table className="portrait-doc__table portrait-doc__table--small">
-        <thead>
-          <tr>
-            <th>{colA}</th>
-            <th>{t('portrett.detaljer')}</th>
-            {harLokalKolonne && <th>{t('naering.kol.lokal-forekomst')}</th>}
-            {harLokalKolonne && <th>{t('naering.kol.handling-eiendom')}</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, i) => (
-            <tr key={i}>
-              <td>{r.art}</td>
-              <td>{r.detaljer}</td>
-              {harLokalKolonne && <td>{r.lokalForekomst || '–'}</td>}
-              {harLokalKolonne && <td>{r.handlingPaaEiendommen || '–'}</td>}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ResponsiveTable headers={headers} rows={tableRows} className="portrait-doc__table--small" />
       {syntese && (
         <blockquote className="naering-syntese">
           <strong>{t('naering.syntese.tittel')}: </strong>{syntese}

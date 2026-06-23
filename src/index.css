@@ -2607,6 +2607,45 @@ ul.portrait-doc__textblock {
   max-width: 100%;
 }
 
+/* === Label-value-tabeller stacker vertikalt på mobil ===
+   Disse tabellene har én th + én td per rad (kompakt nøkkel-verdi). På
+   desktop renderes som tabell. På mobil rendres hver rad som et
+   stack-element: liten label-overskrift over verdi, ingen border-celle
+   som komplisererer layout. */
+@media (max-width: 720px) {
+  .portrait-doc__table--label-value,
+  .portrait-doc__table--label-value tbody,
+  .portrait-doc__table--label-value tr {
+    display: block;
+    width: 100%;
+  }
+  .portrait-doc__table--label-value tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: var(--space-2) 0;
+  }
+  .portrait-doc__table--label-value tr:last-child {
+    border-bottom: none;
+  }
+  .portrait-doc__table--label-value th,
+  .portrait-doc__table--label-value td {
+    display: block;
+    padding: 0;
+    border: none;
+    text-align: left;
+    width: 100%;
+    background: none;
+    font-size: 0.92rem;
+  }
+  .portrait-doc__table--label-value th {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--oslo-morkebla);
+    margin-bottom: 3px;
+  }
+}
+
 /* === Arts-tabell kompakt på mobil ===
    På mobil skjules kategori- og datakvalitet-kolonnene. Kategori
    vises i stedet som et lite badge under norsk navn (rendret fra JSX

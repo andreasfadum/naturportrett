@@ -119,19 +119,39 @@ claudeRouter.post('/portrait', async (req, res) => {
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
     const lang = payload?.lang === 'en' ? 'en' : 'no'
+    // Språk-instruksen plasseres FØRST i system-prompten — ellers drukner
+    // den i den norske basis-prompten og KI fortsetter å skrive norsk.
     const systemPrompt = lang === 'en'
-      ? `${promptModule.SYSTEM_PROMPT}
+      ? `# CRITICAL — OUTPUT LANGUAGE: ENGLISH
 
-# OUTPUT LANGUAGE
-All free-text fields in the JSON output (prosjektnavn, lokasjon, eiendomsKontekst, beskrivelse, tema, kortBegrunnelse, kategori, status, rad, begrunnelse, tiltak-tekster, forvaltningsråd-tekster, datakvalitets-vurderinger, andreKilder, trusler, osv.) MUST be written in fluent, professional English.
+The user has selected English as the interface language. EVERY single free-text field in the JSON response MUST be written in fluent, professional English suitable for case officers, architects and planners. This includes (but is not limited to):
 
-The following remain in their original form:
-- JSON field names (the keys themselves are Norwegian and must not change)
-- Quoted text from Norwegian legal paragraphs (sitat-feltet under relevanteLover) — the verbatim Norwegian text is preserved by the server-side enricher anyway
-- Norwegian common names (norskeNavn / artens navn) — keep the Norwegian name and add the English common name in parentheses when it is well-established
-- Scientific names — always Latin
+- prosjektnavn, lokasjon, eiendomsKontekst, beskrivelse, tema, kortBegrunnelse, kategori, status, rad, begrunnelse, kommentarer
+- All tiltak-tekster, forvaltningsråd-tekster, datakvalitets-vurderinger, andreKilder, trusler, lokalForekomst, handlingPaaEiendommen
+- All symbioser-felter (partnerart-navn aside): forklaring, lokalRelevans, evidensgrunnlag
+- All naturtyper-felter: navn, beskrivelse, avhengigeArter
+- All hierarchical text (avlOgOppvekst, atferdsprofil, habitatkrav, etc.)
+- rodlisteStatus.label (e.g. "Critically Endangered" / "Severely invasive – very high ecological risk")
+- All array-elements that contain prose
 
-Write in clear, professional English suitable for case officers, architects and planners.`
+THE FOLLOWING ARE THE ONLY EXCEPTIONS — everything else is English:
+
+1. **JSON field NAMES (keys)** stay Norwegian — never translate the keys. Only translate VALUES.
+2. **Verbatim quoted Norwegian legal text** (the \`sitat\` field under relevanteLover) — the server enricher inserts these verbatim from Lovdata; you do not need to handle them.
+3. **Norwegian place names** (Tøyenparken, Akerselva, Vahls gate, Birkelunden, Oslo etc.) stay Norwegian — they are official toponyms.
+4. **Scientific names** are always Latin.
+5. **Species common names** — write the ENGLISH common name as PRIMARY, then the Norwegian name in parentheses. Example: \`"folkenavn": "Canada Goose (Kanadagås)"\`. Never write only the Norwegian name. If no established English common name exists, use the Latin name with a brief English descriptor.
+
+Do NOT begin sentences with Norwegian phrasing translated word-for-word — write idiomatic English from scratch.
+
+---
+
+${promptModule.SYSTEM_PROMPT}
+
+---
+
+# REMINDER: LANGUAGE
+Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default is English for every free-text field. Norwegian is only allowed for: JSON keys, verbatim legal quotes, place names, and Norwegian common names appended in parentheses after their English equivalents.`
       : promptModule.SYSTEM_PROMPT
 
     const result = await streamWithRetry(client, {

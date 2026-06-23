@@ -135,19 +135,25 @@ export default function AreaMap({ lat, lon, radiusM = 500, label }) {
     if (naerliggendeCeller.length === 0) return
 
     // Skala intensitet til median × 2 for å unngå at ekstreme celler suger
-    // synlighet (samme strategi som HeatmapPage)
+    // synlighet (samme strategi som HeatmapPage). På mobil senker vi
+    // taket ytterligere så cellene blir mer fargemettede, og øker
+    // radius+blur slik at punkter overlapper synlig også når man er
+    // zoomet inn på eiendommen.
+    const erMobil = typeof window !== 'undefined' && window.innerWidth < 720
     const sortert = [...naerliggendeCeller].sort((a, b) => a.antall - b.antall)
     const median = sortert[Math.floor(sortert.length / 2)]?.antall || 1
-    const maxVerdi = Math.max(2, median * 2)
+    const maxVerdi = erMobil
+      ? Math.max(1.5, median * 1.2)
+      : Math.max(2, median * 2)
 
     const punkter = naerliggendeCeller.map(c => [c.lat, c.lon, c.antall])
 
     heatLayerRef.current = L.heatLayer(punkter, {
-      radius: 22,
-      blur: 28,
+      radius: erMobil ? 40 : 22,
+      blur: erMobil ? 50 : 28,
       maxZoom: 18,
       max: maxVerdi,
-      minOpacity: 0.35,
+      minOpacity: erMobil ? 0.55 : 0.35,
       gradient: {
         0.0: 'rgba(67, 248, 182, 0.6)',
         0.3: 'rgba(67, 248, 182, 0.9)',

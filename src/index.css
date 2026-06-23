@@ -2607,6 +2607,17 @@ ul.portrait-doc__textblock {
   max-width: 100%;
 }
 
+/* === Skjul siste kolonne på mobil i utvalgte tabeller ===
+   Brukes der en kolonne er nyttig på desktop men tar for mye plass på
+   mobil (f.eks. datakvalitet-celle i arts-tabellen). Desktop påvirkes
+   ikke. */
+@media (max-width: 720px) {
+  .arts-tabell--skjul-siste-pa-mobil th:last-child,
+  .arts-tabell--skjul-siste-pa-mobil td:last-child {
+    display: none;
+  }
+}
+
 /* Informasjonsbase-banner — fremtredende disclaimer på toppen av hvert portrett */
 .info-base-banner {
   background: var(--oslo-lysbeige);

@@ -3,6 +3,7 @@ import { useSpeciesSearch } from '../../hooks/useSpeciesSearch.js'
 import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import InfluenceZoneInfo from '../address/InfluenceZoneInfo.jsx'
 import NaturportrettView from './NaturportrettView.jsx'
+import AreaMap from './AreaMap.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
@@ -63,6 +64,19 @@ export default function NaturportrettSection({ address, zoneRadiusM = 500, onCon
                 t('nps.last-portrett'),
               ]}
             />
+            {/* Kartet vises mens KI jobber — alle dataene det trenger
+                (koordinater, radius, heatmap-overlay) er tilgjengelig
+                med en gang. Gir brukeren noe konkret å se på. */}
+            {address?.representasjonspunkt && (
+              <div className="portrait-loading__map">
+                <AreaMap
+                  lat={address.representasjonspunkt.lat}
+                  lon={address.representasjonspunkt.lon}
+                  radiusM={zoneRadiusM}
+                  label={address.adressenavn}
+                />
+              </div>
+            )}
           </div>
         )}
 

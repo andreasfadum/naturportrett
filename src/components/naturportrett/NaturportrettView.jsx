@@ -6,6 +6,8 @@ import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import ForvaltningsradListe from '../portrait-shared/ForvaltningsradListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import AreaMap from './AreaMap.jsx'
+import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
+import ExpandableText from '../portrait-shared/ExpandableText.jsx'
 import { useT, useSprak } from '../../i18n/index.jsx'
 
 const ANTALL_TIL_KI = 25
@@ -102,7 +104,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
       {p.eiendomsKontekst && (
         <section className="eiendomskontekst">
           <h2 className="eiendomskontekst__tittel">{t('naturportrett.eiendomskontekst.tittel')}</h2>
-          <p className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</p>
+          <ExpandableText className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</ExpandableText>
           <p className="eiendomskontekst__forklaring">
             {t('naturportrett.eiendomskontekst.forklaring', { radius: radiusTekst })}
           </p>
@@ -124,28 +126,22 @@ export default function NaturportrettView({ portrait, address, species = [], spe
       {Array.isArray(p.naturtyper) && p.naturtyper.length > 0 && (
         <section className="portrait-doc__section">
           <h2 className="portrait-doc__h2">{t('naturportrett.naturtyper', { radius: radiusTekst })}</h2>
-          <table className="portrait-doc__table">
-            <thead>
-              <tr>
-                <th>{t('tabell.naturtype')}</th>
-                <th>{t('tabell.nin-kode')}</th>
-                <th>{t('tabell.rodliste')}</th>
-                <th>{t('tabell.beskrivelse')}</th>
-                <th>{t('tabell.avhengige-arter')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {p.naturtyper.map((nt, i) => (
-                <tr key={i}>
-                  <td><strong>{nt.navn}</strong></td>
-                  <td>{nt.ninKode || '–'}</td>
-                  <td>{nt.rodlisteStatus || '–'}</td>
-                  <td>{nt.beskrivelse}</td>
-                  <td className="portrait-doc__avhengige">{nt.avhengigeArter || '–'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <ResponsiveTable
+            headers={[
+              t('tabell.naturtype'),
+              t('tabell.nin-kode'),
+              t('tabell.rodliste'),
+              t('tabell.beskrivelse'),
+              t('tabell.avhengige-arter'),
+            ]}
+            rows={p.naturtyper.map(nt => [
+              <strong>{nt.navn}</strong>,
+              nt.ninKode || '–',
+              nt.rodlisteStatus || '–',
+              nt.beskrivelse,
+              nt.avhengigeArter || '–',
+            ])}
+          />
         </section>
       )}
 
@@ -228,10 +224,11 @@ export default function NaturportrettView({ portrait, address, species = [], spe
         </section>
       )}
 
-      {/* Tekstseksjoner */}
+      {/* Tekstseksjoner — ExpandableText forkorter på mobil */}
       <TextSection title={t('seksjon.okologiske-sammenhenger')} body={p.okologiskeSammenhenger} />
       <TextSection title={t('seksjon.trusler')} body={p.trusler} />
       <TextSection title={t('seksjon.spesielt-viktige')} body={p.spesieltViktigeOmrader} />
+      {/* TextSection bruker ExpandableText internt (oppdatert nederst i filen) */}
 
       <ForvaltningsradListe items={p.forvaltningsrad} />
 
@@ -302,7 +299,7 @@ function TextSection({ title, body }) {
   return (
     <section className="portrait-doc__section">
       <h2 className="portrait-doc__h2">{title}</h2>
-      <div className="portrait-doc__textblock">{body}</div>
+      <ExpandableText className="portrait-doc__textblock">{body}</ExpandableText>
     </section>
   )
 }

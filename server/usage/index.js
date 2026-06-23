@@ -50,7 +50,7 @@ function ensureDir() {
  * @param {string} args.modell
  * @param {object} args.usage - { input_tokens, output_tokens, cache_*_tokens }
  */
-export function logUsage({ ip, kontekst, modell, usage }) {
+export function logUsage({ ip, kontekst, modell, usage, zoneRadiusM }) {
   if (!usage) return
   try {
     ensureDir()
@@ -59,6 +59,7 @@ export function logUsage({ ip, kontekst, modell, usage }) {
       ip: ip || null,
       kontekst: kontekst || 'ukjent',
       modell: modell || 'ukjent',
+      zoneRadiusM: typeof zoneRadiusM === 'number' ? zoneRadiusM : null,
       input_tokens: usage.input_tokens || 0,
       output_tokens: usage.output_tokens || 0,
       cache_creation_input_tokens: usage.cache_creation_input_tokens || 0,
@@ -180,6 +181,28 @@ export function aggregerStats() {
     dagsBuckets[dato].usd += k.usd || 0
   }
 
+  // Per-radius (kun naturportrett-kall, der zoneRadiusM er kjent):
+  // bin på 100-meter — viser om kostnaden øker med influenssone-størrelse.
+  const radiusBuckets = {}
+  for (const k of alle) {
+    if (typeof k.zoneRadiusM !== 'number') continue
+    if (!k.kontekst || !k.kontekst.startsWith('portrait:naturportrett')) continue
+    const bin = Math.round(k.zoneRadiusM / 100) * 100  // 100, 200, ..., 2000
+    if (!radiusBuckets[bin]) radiusBuckets[bin] = {
+      antallKall: 0, inputTokens: 0, outputTokens: 0, usd: 0,
+    }
+    radiusBuckets[bin].antallKall++
+    radiusBuckets[bin].inputTokens += k.input_tokens || 0
+    radiusBuckets[bin].outputTokens += k.output_tokens || 0
+    radiusBuckets[bin].usd += k.usd || 0
+  }
+  // Legg til snitt-felter
+  for (const b of Object.values(radiusBuckets)) {
+    b.snittInputTokens = b.antallKall > 0 ? Math.round(b.inputTokens / b.antallKall) : 0
+    b.snittOutputTokens = b.antallKall > 0 ? Math.round(b.outputTokens / b.antallKall) : 0
+    b.snittUsd = b.antallKall > 0 ? b.usd / b.antallKall : 0
+  }
+
   return {
     forstegangBruk: alle[0]?.tidspunkt || null,
     sistKall: alle[alle.length - 1]?.tidspunkt || null,
@@ -196,6 +219,7 @@ export function aggregerStats() {
       ...sesjonsStats(aggregerSesjoner(alle)),
     },
     perDag: dagsBuckets,
+    perRadius: radiusBuckets,
     prisliste: MODELL_PRISER,
     notat: 'USD-beregninger er estimater basert på offisielle Anthropic-priser. Fasiten ligger i Anthropic Console.',
   }

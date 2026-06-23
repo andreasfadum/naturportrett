@@ -6,15 +6,15 @@ export default function AppHeader() {
   return (
     <header className="app-header">
       <div className="app-header__brand">
-        {/* Hvit logo for mørk header — den mørkeblå .svg-en brukes på
-            portrettene som har hvit bakgrunn. Følger Oslo kommunes
-            designmanual: hvit/lyse logoer på mørke bakgrunner. */}
+        {/* Hvit logo for mørk header (Oslo-morkebla bakgrunn). Logoen er
+            St. Hallvard-symbolet + "Oslo" som én helhet — ifølge Oslo
+            visuell identitet skal det ikke stå "Oslo kommune" som
+            tilleggstekst i tillegg til logoen. */}
         <img
           src="/oslo-logo-hvit.svg"
           alt={t('app.kommune')}
           className="app-header__logo"
         />
-        <span className="app-header__kommune">{t('app.kommune')}</span>
       </div>
       <div className="app-header__divider" />
       <div className="app-header__textwrap">

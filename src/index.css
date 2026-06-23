@@ -184,17 +184,14 @@ img {
 }
 
 .app-header__logo {
-  height: 56px;
+  height: 84px;
   width: auto;
 }
 
-.app-header__kommune {
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  color: var(--oslo-hvit);
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
+/* Beholder klassen som no-op for bakoverkompatibilitet — Oslo visuell
+   identitet sier "Oslo kommune"-tekst ikke skal stå ved siden av
+   logoen. Logoen inneholder allerede "Oslo". */
+.app-header__kommune { display: none; }
 
 .app-header__divider {
   width: 1px;
@@ -231,8 +228,7 @@ img {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-3);
   }
-  .app-header__logo { height: 44px; }
-  .app-header__kommune { display: none; }
+  .app-header__logo { height: 66px; }
   .app-header__divider { display: none; }
   .app-header__title { font-size: 1.25rem; }
   .app-header__subtitle { font-size: 0.78rem; }
@@ -1721,7 +1717,9 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: var(--space-3);
   margin-bottom: var(--space-7);
+  flex-wrap: wrap;
 }
 
 .portrait-doc__title {
@@ -1729,12 +1727,18 @@ img {
   font-weight: 300;
   margin: 0;
   letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+@media (max-width: 720px) {
+  .portrait-doc__title { font-size: 1.7rem; }
 }
 
 .portrait-doc__header-right {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .portrait-doc__date {
@@ -2022,8 +2026,50 @@ ul.portrait-doc__textblock {
   margin-bottom: var(--space-2);
 }
 
+.legal-paragraph__details {
+  margin-top: var(--space-2);
+}
+
+.legal-paragraph__summary {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--oslo-morkebla);
+  padding: 4px 10px;
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 999px;
+  background: white;
+  user-select: none;
+  list-style: none;
+}
+
+.legal-paragraph__summary::-webkit-details-marker { display: none; }
+
+.legal-paragraph__summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform 0.15s ease;
+}
+
+.legal-paragraph__details[open] .legal-paragraph__summary::before {
+  transform: rotate(90deg);
+}
+
+.legal-paragraph__summary-skjul { display: none; }
+.legal-paragraph__details[open] .legal-paragraph__summary-vis { display: none; }
+.legal-paragraph__details[open] .legal-paragraph__summary-skjul { display: inline; }
+
+/* I print skal sitatene alltid være synlige */
+@media print {
+  .legal-paragraph__summary { display: none; }
+  .legal-paragraph__details > blockquote { display: block !important; }
+  .legal-paragraph__details:not([open]) > blockquote { display: block !important; }
+}
+
 .legal-paragraph__quote {
-  margin: 0;
+  margin: var(--space-2) 0 0;
   padding: var(--space-3) var(--space-4);
   background: var(--oslo-lysbeige);
   border-left: 3px solid var(--oslo-morkebla);
@@ -2452,6 +2498,59 @@ ul.portrait-doc__textblock {
 
   .portrait-doc__attributes {
     grid-template-columns: 1fr;
+  }
+}
+
+/* === Mobil-tilpasning av hele portrettet ===
+   Brukere er primært på desktop, men prototypen må kunne leses på
+   mobiltelefon uten kollisjoner eller horizontal scroll. Hovedfokus:
+   tabeller, padding og scroll-håndtering. */
+@media (max-width: 720px) {
+  /* Tabeller får horisontal scroll med tydelig indikator
+     (skygge til høyre antyder mer innhold) */
+  .portrait-doc__table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background:
+      linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+      linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.08) 70%) 100% 0,
+      linear-gradient(to right, white, white) 0 0,
+      linear-gradient(to right, white, white) 100% 0;
+    background-repeat: no-repeat;
+    background-size: 30px 100%, 30px 100%, 0 0, 0 0;
+    background-attachment: local, local, scroll, scroll;
+  }
+  .portrait-doc__table th,
+  .portrait-doc__table td {
+    min-width: 110px;
+    font-size: 0.82rem;
+  }
+
+  /* Mindre padding på portrettets seksjoner */
+  .portrait-doc__section { margin-bottom: var(--space-5); }
+  .portrait-doc__h2 { font-size: 0.95rem; padding: 4px 10px; }
+
+  /* Hero-bilde i artsportrett tar full bredde, ikke fast 320px */
+  .portrait-doc__hero-photo {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  /* Næringskilde-tabeller stacker allerede vertikalt (.naering-grid),
+     men cellene trenger mindre min-width på mobil */
+  .naering-blokk .portrait-doc__table th,
+  .naering-blokk .portrait-doc__table td {
+    min-width: 90px;
+    font-size: 0.78rem;
+  }
+
+  /* Inline-faktbokser stacker vertikalt */
+  .portrait-doc__factbox-inline { padding: var(--space-2); }
+
+  /* Eiendomskontekst og info-base-banner får mindre padding */
+  .eiendomskontekst, .info-base-banner {
+    padding: var(--space-3) var(--space-4);
   }
 }
 

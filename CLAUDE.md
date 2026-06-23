@@ -95,7 +95,7 @@ Alle offisielle logo-filer ligger i `Oslo visuell identitet/Oslologo_skjerm_og_u
 - `/oslo-logo-hvit.svg` (fill: #fff) — **brukes på mørk bakgrunn** (AppHeader på Oslo-morkebla #2A2859)
 - `/oslo-logo.svg` / `/oslo-logo-morkeblaa.svg` (fill: #2A2859) — **brukes på lys bakgrunn** (portrett-headere, PDF, A4)
 
-Velg variant ut fra bakgrunnsfargen. Logoen må aldri bytte farge eller separeres — den består av St. Hallvard-symbolet og «Oslo» som én helhet. Etat-/avsender-navn skrives som tilleggstekst ved siden av (`Oslo kommune` / `City of Oslo`), ikke som del av logoen.
+Velg variant ut fra bakgrunnsfargen. Logoen må aldri bytte farge eller separeres — den består av St. Hallvard-symbolet og «Oslo» som én helhet. **Ifølge Oslo visuell identitet skal det IKKE stå «Oslo kommune» som tilleggstekst ved siden av logoen** — «Oslo» er allerede inkludert i logoen. Etat-navn skrives kun der det er nødvendig for å identifisere konkret etat (f.eks. på portrettenes metadata-tabell: «Plan- og bygningsetaten, Oslo kommune»).
 
 Fargevarianter som finnes i designmanualen: sort, hvit, mørk blå, lys blå, mørk grønn, lys grønn. Bruk kun den hvite eller mørkeblå i denne prototypen for konsistens.
 

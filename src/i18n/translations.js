@@ -483,6 +483,8 @@ export const oversettelser = {
 
   // --- Lovgrunnlag ekstra ---
   'lov.endret': { no: 'Endret:', en: 'Changed:' },
+  'lov.vis-sitat': { no: 'Vis lovtekst', en: 'Show legal text' },
+  'lov.skjul-sitat': { no: 'Skjul lovtekst', en: 'Hide legal text' },
 
   // --- AreaMap-legend ---
   'kart.mangler-koordinater': {

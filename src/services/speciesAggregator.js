@@ -3,7 +3,12 @@ import { fetchSpeciesFromGBIF } from './gbif.js'
 import { getCategory } from '../utils/speciesCategories.js'
 import { getConservationStatus } from '../utils/conservationStatus.js'
 
-const MAX_SPECIES = 60
+// Returnerer faktisk antall unike arter etter dedup. Tidligere kappet vi
+// på 60 — det førte til at oppsummeringen alltid sa "60 registrerte arter"
+// fordi vi nesten alltid traff taket. iNaturalist + GBIF returnerer maks
+// ~100 hver per spørring, så ~200 er teoretisk øvre grense etter dedup.
+// 500 er en safety-net som ikke skal treffes i praksis.
+const MAX_SPECIES = 500
 
 /**
  * Henter og slår sammen artsdata fra alle aktiverte kilder.

@@ -2607,13 +2607,27 @@ ul.portrait-doc__textblock {
   max-width: 100%;
 }
 
-/* === Skjul siste kolonne på mobil i utvalgte tabeller ===
-   Brukes der en kolonne er nyttig på desktop men tar for mye plass på
-   mobil (f.eks. datakvalitet-celle i arts-tabellen). Desktop påvirkes
-   ikke. */
+/* === Arts-tabell kompakt på mobil ===
+   På mobil skjules kategori- og datakvalitet-kolonnene. Kategori
+   vises i stedet som et lite badge under norsk navn (rendret fra JSX
+   med useIsMobile). Desktop er uendret. */
+.arts-tabell__kategori-badge {
+  display: inline-block;
+  margin-top: 4px;
+  margin-left: 6px;
+  padding: 1px 8px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--oslo-morkebla);
+  background: var(--oslo-lysbeige);
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
 @media (max-width: 720px) {
-  .arts-tabell--skjul-siste-pa-mobil th:last-child,
-  .arts-tabell--skjul-siste-pa-mobil td:last-child {
+  .arts-tabell--kompakt-pa-mobil .arts-tabell__kategori-kolonne,
+  .arts-tabell--kompakt-pa-mobil .arts-tabell__datakvalitet-kolonne {
     display: none;
   }
 }

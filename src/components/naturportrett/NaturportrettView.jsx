@@ -8,6 +8,7 @@ import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import AreaMap from './AreaMap.jsx'
 import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
 import ExpandableText from '../portrait-shared/ExpandableText.jsx'
+import { useIsMobile } from '../../hooks/useIsMobile.js'
 import { useT, useSprak } from '../../i18n/index.jsx'
 
 const ANTALL_TIL_KI = 25
@@ -35,6 +36,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
   const p = portrait || {}
   const t = useT()
   const { sprak } = useSprak()
+  const erMobil = useIsMobile()
   const radiusTekst = formatRadius(zoneRadiusM)
 
   // Berik KI-utvalg ("høy økologisk verdi"-arter) med datakvalitet fra species-pipelinen
@@ -177,26 +179,34 @@ export default function NaturportrettView({ portrait, address, species = [], spe
             </div>
           )}
 
-          {/* "arts-tabell--skjul-siste-pa-mobil" gjør at datakvalitet-
-              kolonnen forsvinner på mobil (kun) via CSS. Beholdes på desktop. */}
-          <table className="portrait-doc__table arts-tabell--skjul-siste-pa-mobil">
+          {/* På mobil: skjul kategori- og datakvalitet-kolonnene via CSS.
+              Kategori vises i stedet som et lite badge under norsk navn
+              (kun mobil) — desktop forblir uendret med 5 kolonner. */}
+          <table className="portrait-doc__table arts-tabell--kompakt-pa-mobil">
             <thead>
               <tr>
                 <th>{t('tabell.norsk-navn')}</th>
                 <th>{t('tabell.vitenskapelig')}</th>
-                <th>{t('tabell.kategori')}</th>
+                <th className="arts-tabell__kategori-kolonne">{t('tabell.kategori')}</th>
                 <th>{t('tabell.status')}</th>
-                <th>{t('arter.tabell.datakvalitet')}</th>
+                <th className="arts-tabell__datakvalitet-kolonne">{t('arter.tabell.datakvalitet')}</th>
               </tr>
             </thead>
             <tbody>
               {filtrerteArter.map((a, i) => (
                 <tr key={i}>
-                  <td><strong>{a.navn}</strong></td>
+                  <td>
+                    <strong>{a.navn}</strong>
+                    {erMobil && a.kategori && (
+                      <span className="arts-tabell__kategori-badge">{a.kategori}</span>
+                    )}
+                  </td>
                   <td><em>{a.vitenskapelig}</em></td>
-                  <td>{a.kategori}</td>
+                  <td className="arts-tabell__kategori-kolonne">{a.kategori}</td>
                   <td>{a.status}</td>
-                  <td><DatakvalitetCelle score={a._priorityScore} dato={a._lastObservedDate} sprak={sprak} t={t} /></td>
+                  <td className="arts-tabell__datakvalitet-kolonne">
+                    <DatakvalitetCelle score={a._priorityScore} dato={a._lastObservedDate} sprak={sprak} t={t} />
+                  </td>
                 </tr>
               ))}
             </tbody>

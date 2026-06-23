@@ -1,36 +1,39 @@
+import { useT } from '../../i18n/index.jsx'
+
 export default function PortrettMetadata({ referanseprosjekt }) {
+  const t = useT()
   return (
     <section className="portrait-doc__section portrait-doc__metadata">
-      <h2 className="portrait-doc__h2">Portrettdata</h2>
+      <h2 className="portrait-doc__h2">{t('metadata.tittel')}</h2>
       <table className="portrait-doc__table">
         <tbody>
           <tr>
-            <th>Produksjonsdato</th>
+            <th>{t('metadata.produksjonsdato')}</th>
             <td>{__BUILD_DATE__}</td>
           </tr>
           <tr>
-            <th>Produksjonsmåte</th>
-            <td>KI uten faglig kvalitetssikring</td>
+            <th>{t('metadata.produksjonsmate')}</th>
+            <td>{t('metadata.produksjonsmate.verdi')}</td>
           </tr>
           <tr>
-            <th>Kilder</th>
-            <td>iNaturalist, GBIF, Artsdatabanken (Rødlista 2021, Fremmedartslista 2023), Kartverket, Anthropic Claude (claude-sonnet-4-6)</td>
+            <th>{t('metadata.kilder')}</th>
+            <td>GBIF, iNaturalist, {t('om-tjenesten.kilde.artsdatabanken')}, {t('om-tjenesten.kilde.kartverket')}, Anthropic Claude (claude-sonnet-4-6)</td>
           </tr>
           <tr>
-            <th>Produsent</th>
-            <td>Plan- og bygningsetaten, Oslo kommune</td>
+            <th>{t('metadata.produsent')}</th>
+            <td>{t('metadata.produsent.verdi')}</td>
           </tr>
           <tr>
-            <th>Fagansvar</th>
-            <td>Utarbeidet maskinelt — må kvalitetssikres av fagkyndige</td>
+            <th>{t('metadata.fagansvar')}</th>
+            <td>{t('metadata.fagansvar.verdi')}</td>
           </tr>
           <tr>
-            <th>Kontaktopplysninger</th>
-            <td>Plan- og bygningsetaten, Oslo kommune</td>
+            <th>{t('metadata.kontakt')}</th>
+            <td>{t('metadata.produsent.verdi')}</td>
           </tr>
           <tr>
-            <th>Referanseprosjekt</th>
-            <td>{referanseprosjekt || 'Naturportrett – prototype'}</td>
+            <th>{t('metadata.referanseprosjekt')}</th>
+            <td>{referanseprosjekt || t('metadata.referanseprosjekt.default')}</td>
           </tr>
         </tbody>
       </table>

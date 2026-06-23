@@ -331,6 +331,19 @@ export const oversettelser = {
     no: 'Beklager, innspillet ble ikke registrert. Prøv igjen.',
     en: 'Sorry, the input was not recorded. Please try again.',
   },
+  'feedback.takk': { no: 'Takk!', en: 'Thank you!' },
+  'feedback.lukk': { no: 'Lukk', en: 'Close' },
+  'feedback.gjelder-hele': { no: '— gjelder hele portrettet —', en: '— applies to the whole portrait —' },
+  'feedback.epost.placeholder': { no: 'navn@etat.oslo.kommune.no', en: 'name@agency.org' },
+  'feedback.aria.send-tilbakemelding': { no: 'Send inn tilbakemelding', en: 'Submit feedback' },
+  'feedback.kort-beskrivelse-paakrevd': { no: 'Skriv en kort beskrivelse', en: 'Please write a brief description' },
+  'feedback.send-feil-generisk': { no: 'Kunne ikke sende — prøv igjen om litt.', en: 'Could not send — please try again shortly.' },
+  'feedback.sender': { no: 'Sender …', en: 'Sending …' },
+  'feedback.modal.naturportrettet': { no: 'naturportrettet', en: 'the nature portrait' },
+  'feedback.modal.artsportrettet': { no: 'artsportrettet', en: 'the species portrait' },
+  'feedback.modal.planteportrettet': { no: 'planteportrettet', en: 'the plant portrait' },
+  'feedback.modal.naturtypeportrettet': { no: 'naturtypeportrettet', en: 'the habitat portrait' },
+  'feedback.modal.portrettet': { no: 'portrettet', en: 'the portrait' },
 
   // --- Footer ---
   'footer.kommune': {
@@ -349,4 +362,148 @@ export const oversettelser = {
     no: 'Testversjon under utvikling — sist oppdatert {dato}',
     en: 'Development version — last updated {dato}',
   },
+
+  // --- FactBox-labels (Naturportrett-hovedseksjonen) ---
+  'fact.prosjektnavn': { no: 'Prosjektnavn', en: 'Project name' },
+  'fact.lokasjon': { no: 'Lokasjon', en: 'Location' },
+  'fact.antall-verdifulle': { no: 'Antall verdifulle naturområder', en: 'Number of valuable nature areas' },
+
+  // --- Tekstseksjon-titler ---
+  'seksjon.okologiske-sammenhenger': { no: 'Økologiske sammenhenger og barrierer', en: 'Ecological connections and barriers' },
+  'seksjon.trusler': { no: 'Trusler og fremtidig potensiale', en: 'Threats and future potential' },
+  'seksjon.spesielt-viktige': { no: 'Spesielt viktige områder', en: 'Particularly important areas' },
+  'seksjon.andre-kilder': { no: 'Andre kilder for informasjon om området', en: 'Other sources of information about the area' },
+  'seksjon.naturtyper-feedback': { no: 'Naturtyper', en: 'Habitat types' },
+  'seksjon.arter-feedback': { no: 'Arter av høy økologisk verdi', en: 'Species of high ecological value' },
+  'seksjon.okologiske-feedback': { no: 'Økologiske sammenhenger', en: 'Ecological connections' },
+  'seksjon.trusler-feedback': { no: 'Trusler', en: 'Threats' },
+  'seksjon.spesielt-feedback': { no: 'Spesielt viktige områder', en: 'Particularly important areas' },
+  'seksjon.forvaltning-feedback': { no: 'Forvaltningsråd', en: 'Management advice' },
+  'seksjon.lovgrunnlag-feedback': { no: 'Relevant lovgrunnlag', en: 'Relevant legal basis' },
+  'seksjon.datakvalitet-feedback': { no: 'Datakvalitet', en: 'Data quality' },
+
+  // --- Forvaltningsråd ---
+  'forvaltning.tittel': { no: 'Forvaltningsråd', en: 'Management advice' },
+  'forvaltning.intro': {
+    no: 'Konkrete råd til arkitekt, utvikler eller saksbehandler — sortert etter når i prosjektet de bør gjennomføres.',
+    en: 'Concrete advice for architects, developers and case officers — sorted by when in the project lifecycle they should be implemented.',
+  },
+  'forvaltning.umiddelbart': { no: 'Umiddelbart', en: 'Immediately' },
+  'forvaltning.1-3-aar': { no: '1–3 år', en: '1–3 years' },
+  'forvaltning.langsiktig': { no: 'Langsiktig', en: 'Long-term' },
+  'forvaltning.uklar': { no: 'Tidshorisont uklar', en: 'Time horizon unclear' },
+
+  // --- Tiltak (praktiske designtiltak) ---
+  'tiltak.tittel': { no: 'Praktiske designtiltak', en: 'Practical design measures' },
+  'tiltak.intro': {
+    no: 'Hvert tiltak er merket som «Lovstyrt krav» (kan stilles som vilkår i en lovstyrt prosess) eller «Frivillig forbedring» (naturforbedrende tiltak uten lovhjemlet kravgrunnlag).',
+    en: 'Each measure is marked as either "Legally mandated requirement" (can be set as a condition in a regulatory process) or "Voluntary improvement" (nature-enhancing measure without a legal basis as requirement).',
+  },
+  'tiltak.lovstyrt': { no: 'Lovstyrt krav', en: 'Legally mandated requirement' },
+  'tiltak.frivillig': { no: 'Frivillig forbedring', en: 'Voluntary improvement' },
+  'tiltak.ukategorisert': { no: 'Ukategorisert', en: 'Uncategorised' },
+  'tiltak.hjemmel': { no: 'Hjemmel:', en: 'Legal basis:' },
+  'tiltak.fase.tidligfase': { no: 'Tidligfase', en: 'Early phase' },
+  'tiltak.fase.reguleringsplan': { no: 'Reguleringsplan', en: 'Zoning plan' },
+  'tiltak.fase.utomhusplan': { no: 'Utomhusplan', en: 'Outdoor area plan' },
+  'tiltak.fase.gjennomforing': { no: 'Gjennomføring', en: 'Implementation' },
+
+  // --- Datakvalitet ---
+  'datakvalitet.tittel': { no: 'Datakvalitet per tema', en: 'Data quality per topic' },
+  'datakvalitet.intro': {
+    no: 'Hvor godt støtter datagrunnlaget det portrettet sier? Vurderingen er gjort av KI på generelt grunnlag og bør sjekkes opp mot fagvurdering.',
+    en: 'How well does the underlying data support what the portrait claims? The assessment is made by AI on a general basis and should be cross-checked with expert judgement.',
+  },
+  'datakvalitet.god': { no: 'God', en: 'Good' },
+  'datakvalitet.delvis': { no: 'Delvis', en: 'Partial' },
+  'datakvalitet.mangelfull': { no: 'Mangelfull', en: 'Insufficient' },
+  'datakvalitet.ukjent': { no: 'Ukjent', en: 'Unknown' },
+  'datakvalitet.uten-navn': { no: 'Uten navn', en: 'Unnamed' },
+  'datakvalitet.feltarbeid': { no: 'Foreslått feltarbeid:', en: 'Suggested field work:' },
+
+  // --- PortrettMetadata ---
+  'metadata.tittel': { no: 'Portrettdata', en: 'Portrait metadata' },
+  'metadata.produksjonsdato': { no: 'Produksjonsdato', en: 'Date of generation' },
+  'metadata.produksjonsmate': { no: 'Produksjonsmåte', en: 'Generation method' },
+  'metadata.produksjonsmate.verdi': {
+    no: 'KI uten faglig kvalitetssikring',
+    en: 'AI-generated without expert quality assurance',
+  },
+  'metadata.kilder': { no: 'Kilder', en: 'Sources' },
+  'metadata.produsent': { no: 'Produsent', en: 'Producer' },
+  'metadata.produsent.verdi': { no: 'Plan- og bygningsetaten, Oslo kommune', en: 'Agency for Planning and Building Services, City of Oslo' },
+  'metadata.fagansvar': { no: 'Fagansvar', en: 'Expert responsibility' },
+  'metadata.fagansvar.verdi': {
+    no: 'Utarbeidet maskinelt — må kvalitetssikres av fagkyndige',
+    en: 'Generated automatically — must be quality-assured by domain experts',
+  },
+  'metadata.kontakt': { no: 'Kontaktopplysninger', en: 'Contact information' },
+  'metadata.referanseprosjekt': { no: 'Referanseprosjekt', en: 'Reference project' },
+  'metadata.referanseprosjekt.default': {
+    no: 'Naturportrett – prototype',
+    en: 'Naturportrett – prototype',
+  },
+
+  // --- Lovgrunnlag ekstra ---
+  'lov.endret': { no: 'Endret:', en: 'Changed:' },
+
+  // --- AreaMap-legend ---
+  'kart.mangler-koordinater': {
+    no: 'Mangler koordinater for visning av kart.',
+    en: 'Missing coordinates for map display.',
+  },
+
+  // --- Adresse-forslag ---
+  'adresse.ingen-treff-for': { no: 'Ingen adresser funnet for «{query}»', en: 'No addresses found for "{query}"' },
+
+  // --- Influenssone-info ---
+  'influens.intro': {
+    no: 'Søker innenfor {radius} m fra',
+    en: 'Searching within {radius} m of',
+  },
+
+  // --- Naturportrett-seksjon (knapper + status) ---
+  'nps.last-portrett': { no: 'Lager naturportrett …', en: 'Generating nature portrait …' },
+  'nps.ny-adresse': { no: '← Ny adresse', en: '← New address' },
+  'nps.detalj': { no: 'Lag mer detaljert portrett →', en: 'Generate a more detailed portrait →' },
+  'nps.feil-label': { no: 'Feil:', en: 'Error:' },
+
+  // --- Portretttype-velger ---
+  'velger.tittel': { no: 'Velg portrettype', en: 'Select portrait type' },
+  'velger.intro': {
+    no: 'Et naturportrett kan utdypes med tre typer detaljportretter. Velg hva du ønsker å fordype deg i.',
+    en: 'A nature portrait can be expanded with three types of detailed portraits. Choose which one you want to explore in depth.',
+  },
+  'velger.naturtype.tittel': { no: 'Naturtypeportrett', en: 'Habitat portrait' },
+  'velger.naturtype.beskrivelse': {
+    no: 'Detaljert portrett av en konkret naturtype basert på NiN-klassifikasjon (T35 park og bymark, T4 nakent berg osv).',
+    en: 'A detailed portrait of a specific habitat type based on the NiN classification (T35 park, T4 bare rock, etc.).',
+  },
+  'velger.arts.tittel': { no: 'Artsportrett', en: 'Species portrait' },
+  'velger.arts.beskrivelse': {
+    no: 'Detaljert portrett av en konkret dyreart (fugl, pattedyr, insekt) med fokus på relevans for bymiljø og grønne arealer.',
+    en: 'A detailed portrait of a specific animal species (bird, mammal, insect) with focus on relevance for urban environments and green areas.',
+  },
+  'velger.plante.tittel': { no: 'Planteportrett', en: 'Plant portrait' },
+  'velger.plante.beskrivelse': {
+    no: 'Detaljert portrett av en konkret plante med fokus på relevans for bymiljø, grønne tak og grønne arealer.',
+    en: 'A detailed portrait of a specific plant with focus on relevance for urban environments, green roofs and green areas.',
+  },
+  'velger.tilbake': { no: '← Tilbake til naturportrett', en: '← Back to nature portrait' },
+
+  // --- Arts-/Subjekt-valg ---
+  'arter.tittel': { no: 'Natur og arter i nærområdet', en: 'Nature and species in the area' },
+  'arter.soker': { no: 'Søker etter arter innenfor 500 m...', en: 'Searching for species within 500 m...' },
+  'arter.funnet': {
+    no: '{antall} arter funnet · Velg naturtypene og artene du vil ha portretter for',
+    en: '{antall} species found · Select the habitats and species you want portraits for',
+  },
+  'arter.ingen-funnet': { no: 'Ingen artsregistreringer funnet i dette området.', en: 'No species registrations found in this area.' },
+  'arter.ingen-i-kategori': { no: 'Ingen arter i denne kategorien.', en: 'No species in this category.' },
+  'arter.ny-adresse': { no: '← Ny adresse', en: '← New address' },
+  'arter.generer': { no: 'Generer faglig vurdering ({antall})', en: 'Generate professional assessment ({antall})' },
+  'arter.minst-en': { no: 'Velg minst én art for å gå videre', en: 'Select at least one species to continue' },
+
+  // --- ConservationStatusBadge ---
+  'rodliste.tittel': { no: 'Rødliste status', en: 'Red list status' },
 }

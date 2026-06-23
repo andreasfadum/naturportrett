@@ -6,8 +6,11 @@ import NaturportrettView from './NaturportrettView.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
+import { useT, useSprak } from '../../i18n/index.jsx'
 
 export default function NaturportrettSection({ address, onContinue, onBack }) {
+  const t = useT()
+  const { sprak } = useSprak()
   const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address)
   const { portrait, isLoading: portraitLoading, error: portraitError, generate } = usePortraitGeneration()
 
@@ -33,6 +36,7 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
         topSpecies: species,
         categoryCounts: speciesByCategory,
         narliggendeGronnstrukturer,
+        lang: sprak,
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,16 +49,16 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
       <div className="portrait-screen">
         {isLoading && (
           <div className="portrait-loading">
-            <h1 className="portrait-page-title">Naturportrett</h1>
+            <h1 className="portrait-page-title">{t('naturportrett.tittel')}</h1>
             <ProgressBar
               isActive={isLoading}
               expectedDurationMs={24000}
               stages={[
-                'Finner planter og dyr i nærområdet…',
-                'Ser etter sårbare og fremmede arter…',
-                'Samler informasjon om området…',
-                'Skriver naturportrettet…',
-                'Gjør portrettet klart for visning…',
+                t('nps.last-portrett'),
+                t('nps.last-portrett'),
+                t('nps.last-portrett'),
+                t('nps.last-portrett'),
+                t('nps.last-portrett'),
               ]}
             />
           </div>
@@ -62,7 +66,7 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
 
         {(speciesError || portraitError) && (
           <div className="recommendation-error" style={{ marginBottom: 'var(--space-6)' }}>
-            <strong>Feil:</strong> {speciesError || portraitError}
+            <strong>{t('nps.feil-label')}</strong> {speciesError || portraitError}
           </div>
         )}
 
@@ -79,13 +83,13 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
         flexWrap: 'wrap',
       }}>
         <button type="button" className="btn btn--secondary" onClick={onBack}>
-          ← Ny adresse
+          {t('nps.ny-adresse')}
         </button>
         {portrait && !isLoading && (
           <>
             <PdfDownloadButton />
             <button type="button" className="btn btn--primary" onClick={() => onContinue(species)}>
-              Lag mer detaljert portrett →
+              {t('nps.detalj')}
             </button>
           </>
         )}

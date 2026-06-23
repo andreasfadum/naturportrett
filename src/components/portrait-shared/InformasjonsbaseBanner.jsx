@@ -1,8 +1,11 @@
+import { useT } from '../../i18n/index.jsx'
+
 export default function InformasjonsbaseBanner() {
+  const t = useT()
   return (
-    <div className="info-base-banner" role="note" aria-label="Informasjonsbase">
-      <strong>Informasjonsbase — ikke en endelig vurdering.</strong>{' '}
-      Portrettet er KI-generert fra åpne datakilder for å gi rask oversikt. Det erstatter ikke faglig kvalitetssikring eller feltkartlegging. Sjekk datakvalitets-vurderingene nederst før du bruker innholdet i en sak.
+    <div className="info-base-banner" role="note" aria-label={t('banner.informasjonsbase.tittel')}>
+      <strong>{t('banner.informasjonsbase.tittel')}</strong>{' '}
+      {t('banner.informasjonsbase.tekst')}
     </div>
   )
 }

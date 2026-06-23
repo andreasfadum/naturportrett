@@ -39,14 +39,17 @@ function renderSitat(tekst) {
   })
 }
 
+import { useT } from '../../i18n/index.jsx'
+
 export default function LegalReferences({ items }) {
+  const t = useT()
   if (!Array.isArray(items) || items.length === 0) return null
 
   return (
     <section className="portrait-doc__section">
-      <h2 className="portrait-doc__h2">Relevant lovgrunnlag</h2>
+      <h2 className="portrait-doc__h2">{t('lov.tittel')}</h2>
       <p className="portrait-doc__textblock legal-disclaimer">
-        Lover og paragrafer som har relevans for dette portrettet. Sitater er hentet ordrett fra den arkiverte lovteksten. Naturportrett gir ingen juridisk tolkning — kvalifisert vurdering må gjøres av saksbehandler.
+        {t('lov.disclaimer')}
       </p>
       {items.map((lov, i) => (
         <div className="legal-block" key={`${lov.kortKode}-${i}`}>
@@ -79,13 +82,13 @@ export default function LegalReferences({ items }) {
                 <blockquote className="legal-paragraph__quote">{renderSitat(p.sitat)}</blockquote>
               )}
               {p.endretAv && (
-                <div className="legal-paragraph__changed">Endret: {p.endretAv}</div>
+                <div className="legal-paragraph__changed">{t('lov.endret')} {p.endretAv}</div>
               )}
             </article>
           ))}
           {Array.isArray(lov.ukjentParagrafer) && lov.ukjentParagrafer.length > 0 && (
             <p className="legal-block__missing">
-              KI foreslo paragrafer som ikke finnes i lovbasen: §{lov.ukjentParagrafer.join(', §')}
+              {t('lov.ukjente-paragrafer', { paragrafer: lov.ukjentParagrafer.join(', §') })}
             </p>
           )}
         </div>

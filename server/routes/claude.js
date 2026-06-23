@@ -84,7 +84,13 @@ claudeRouter.post('/', async (req, res) => {
   }
 })
 
-// Nytt endepunkt for portretter: JSON-respons
+// Portretter — SSE-strømmet respons.
+//
+// Vi strømmer rå tekst-chunks som "progress"-events for å holde Railway-
+// proxyens forbindelse aktiv (uten kontinuerlig output stopper proxyen
+// etter ~60 sek og returnerer 502, selv om Claude jobber videre). Når
+// Claude er ferdig, parser vi JSON, beriker med lov-sitater og sender
+// det ferdige portrettet som ett "portrait"-event.
 claudeRouter.post('/portrait', async (req, res) => {
   const { portraitType, payload } = req.body
 
@@ -97,9 +103,19 @@ claudeRouter.post('/portrait', async (req, res) => {
     return res.status(500).json({ error: 'ANTHROPIC_API_KEY mangler i Railway-variabler eller .env.' })
   }
 
+  // Sett SSE-headers og start strømming umiddelbart
+  res.setHeader('Content-Type', 'text/event-stream')
+  res.setHeader('Cache-Control', 'no-cache, no-transform')
+  res.setHeader('Connection', 'keep-alive')
+  res.setHeader('X-Accel-Buffering', 'no')  // Railway/nginx skal ikke buffre
+  res.flushHeaders()
+
+  function sendEvent(eventName, data) {
+    res.write(`event: ${eventName}\ndata: ${JSON.stringify(data)}\n\n`)
+  }
+
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-  let modelUsed = CLAUDE_MODEL
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
     const lang = payload?.lang === 'en' ? 'en' : 'no'
@@ -117,16 +133,17 @@ The following remain in their original form:
 
 Write in clear, professional English suitable for case officers, architects and planners.`
       : promptModule.SYSTEM_PROMPT
-    const result = await createWithRetry(client, {
+
+    const result = await streamWithRetry(client, {
       max_tokens: 8000,
       system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
-    })
-    const response = result.response
-    modelUsed = result.modelUsed
+    }, (lengde) => sendEvent('progress', { lengde }))
 
-    const rawText = response.content?.[0]?.text || ''
-    const stopReason = response.stop_reason
+    const rawText = result.fullText
+    const stopReason = result.finalMessage?.stop_reason
+    const modelUsed = result.modelUsed
+    const usage = result.finalMessage?.usage
 
     const jsonText = extractBalancedJson(rawText)
 
@@ -134,19 +151,20 @@ Write in clear, professional English suitable for case officers, architects and 
     try {
       parsed = JSON.parse(jsonText)
     } catch (parseErr) {
-      // Forsøk å autofikse vanlige feil og parse på nytt
       try {
         parsed = JSON.parse(autoFixJson(jsonText))
       } catch (parseErr2) {
         console.warn('JSON parse-feil:', parseErr2.message, '| stop_reason:', stopReason)
         const truncated = stopReason === 'max_tokens'
-        return res.status(502).json({
+        sendEvent('error', {
           error: truncated
             ? 'KI-svaret ble for langt og avkortet før det var ferdig. Prøv igjen — i de fleste tilfeller fungerer det andre forsøk.'
             : 'Kunne ikke tolke svaret fra Claude som strukturert data. Prøv igjen.',
           stopReason,
           rawText: rawText.slice(0, 2000),
         })
+        res.end()
+        return
       }
     }
 
@@ -158,21 +176,26 @@ Write in clear, professional English suitable for case officers, architects and 
       ip: klientIp(req),
       kontekst: `portrait:${portraitType}`,
       modell: modelUsed,
-      usage: response.usage,
+      usage,
     })
 
-    return res.json({ portrait: parsed, model: modelUsed, stopReason })
+    sendEvent('portrait', { portrait: parsed, model: modelUsed, stopReason })
+    sendEvent('done', { ok: true })
+    res.end()
   } catch (err) {
     console.error('Claude portrait-feil:', err.message)
-    let userMessage = err.message
+    let brukerMelding = err.message
     if (err.status === 401) {
-      userMessage = 'API-nøkkelen er ugyldig.'
+      brukerMelding = 'API-nøkkelen er ugyldig.'
     } else if (err.status === 429) {
-      userMessage = 'For mange forespørsler. Vent litt og prøv igjen.'
+      brukerMelding = 'For mange forespørsler. Vent litt og prøv igjen.'
     } else if (err.status >= 500) {
-      userMessage = 'Midlertidig feil hos KI-leverandøren. Prøv igjen om litt.'
+      brukerMelding = 'Midlertidig feil hos KI-leverandøren. Prøv igjen om litt.'
     }
-    return res.status(500).json({ error: userMessage })
+    try {
+      sendEvent('error', { error: brukerMelding })
+    } catch { /* connection kan være lukket */ }
+    res.end()
   }
 })
 
@@ -186,6 +209,61 @@ Write in clear, professional English suitable for case officers, architects and 
  * Permanent 404: gå videre til neste modell i kjeden uten å vente.
  * Andre feil (401, 400 osv.): kastes umiddelbart.
  */
+/**
+ * SSE-variant av createWithRetry. Strømmer tekst-chunks via Anthropic
+ * SDK sin `messages.stream()`, samler full tekst, og kaller onProgress
+ * hver gang vi mottar nye chunks slik at serveren kan signalisere til
+ * klient (og Railway-proxy) at forbindelsen er aktiv.
+ *
+ * Returnerer { fullText, finalMessage, modelUsed }. Følger samme
+ * fallback-/retry-logikk som createWithRetry — 404 → bytt modell uten
+ * venting, transient 5xx/429 → backoff.
+ */
+async function streamWithRetry(client, params, onProgress, maxRetries = 2) {
+  let lastErr
+  for (const model of MODEL_CHAIN) {
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        const stream = client.messages.stream({ ...params, model })
+        let fullText = ''
+        let lastFlush = Date.now()
+        for await (const chunk of stream) {
+          if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+            fullText += chunk.delta.text
+            // Heartbeat ~hver 500ms for å holde Railway-proxy våken uten å
+            // oversvømme klienten med events.
+            const naa = Date.now()
+            if (naa - lastFlush > 500) {
+              try { onProgress(fullText.length) } catch { /* noop */ }
+              lastFlush = naa
+            }
+          }
+        }
+        const finalMessage = await stream.finalMessage()
+        if (model !== MODEL_CHAIN[0]) {
+          console.warn(`KI-fallback: brukte ${model} i stedet for ${MODEL_CHAIN[0]} (sannsynligvis deprecated/retired)`)
+        }
+        return { fullText, finalMessage, modelUsed: model }
+      } catch (err) {
+        lastErr = err
+        if (isModelNotFoundError(err)) {
+          console.warn(`Modell ${model} ikke funnet (deprecated/retired) — prøver neste i kjeden`)
+          break
+        }
+        const transient = err.status >= 500 || err.status === 429
+        if (transient && attempt < maxRetries) {
+          const waitMs = 1500 * (attempt + 1)
+          console.warn(`Forbigående KI-feil (status ${err.status}) på ${model} (stream) — gjenforsøk ${attempt + 1}/${maxRetries} om ${waitMs} ms`)
+          await new Promise(r => setTimeout(r, waitMs))
+          continue
+        }
+        throw err
+      }
+    }
+  }
+  throw lastErr
+}
+
 async function createWithRetry(client, params, maxRetries = 2) {
   let lastErr
   for (const model of MODEL_CHAIN) {

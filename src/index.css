@@ -156,7 +156,7 @@ img {
 
 .main-content {
   flex: 1;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
   width: 100%;
@@ -1709,8 +1709,12 @@ img {
   font-size: 0.92rem;
   line-height: 1.45;
   padding: var(--space-6);
-  max-width: 920px;
+  /* Samme bredde som .main-content for konsistent sentrering på tvers
+     av sider — der den ene siden er adressesøk i full bredde og den
+     andre er ferdig portrett. */
+  max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .portrait-doc__header {

@@ -88,6 +88,17 @@ scripts/                build-lover-index.js, build-heatmap-data.js, check-model
 - Oslo-logoens mørkeblå (#2A2859) brukes som primærfarge
 - Referanse: <https://designmanual.oslo.kommune.no>
 
+### Oslo-logoen — bruksregler
+
+Alle offisielle logo-filer ligger i `Oslo visuell identitet/Oslologo_skjerm_og_utskrift/`. Vi har kopiert to varianter til `public/`:
+
+- `/oslo-logo-hvit.svg` (fill: #fff) — **brukes på mørk bakgrunn** (AppHeader på Oslo-morkebla #2A2859)
+- `/oslo-logo.svg` / `/oslo-logo-morkeblaa.svg` (fill: #2A2859) — **brukes på lys bakgrunn** (portrett-headere, PDF, A4)
+
+Velg variant ut fra bakgrunnsfargen. Logoen må aldri bytte farge eller separeres — den består av St. Hallvard-symbolet og «Oslo» som én helhet. Etat-/avsender-navn skrives som tilleggstekst ved siden av (`Oslo kommune` / `City of Oslo`), ikke som del av logoen.
+
+Fargevarianter som finnes i designmanualen: sort, hvit, mørk blå, lys blå, mørk grønn, lys grønn. Bruk kun den hvite eller mørkeblå i denne prototypen for konsistens.
+
 ## Adressesøk
 
 - Default filtrert til Oslo (`kommunenummer=0301`). Bryteren «Hele Norge» fjerner filteret.

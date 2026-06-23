@@ -172,16 +172,19 @@ img {
   display: flex;
   align-items: center;
   gap: var(--space-4);
+  flex-wrap: wrap;
+  row-gap: var(--space-2);
 }
 
 .app-header__brand {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  flex-shrink: 0;
 }
 
 .app-header__logo {
-  height: 40px;
+  height: 56px;
   width: auto;
 }
 
@@ -195,8 +198,9 @@ img {
 
 .app-header__divider {
   width: 1px;
-  height: 32px;
+  height: 40px;
   background-color: rgba(255,255,255,0.3);
+  flex-shrink: 0;
 }
 
 .app-header__title {
@@ -204,6 +208,7 @@ img {
   font-weight: 700;
   color: var(--oslo-hvit);
   letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 
 .app-header__subtitle {
@@ -212,8 +217,26 @@ img {
   font-weight: 400;
 }
 
-.app-header__textwrap { flex: 0 0 auto; }
+.app-header__textwrap {
+  flex: 0 1 auto;
+  min-width: 0;
+}
 .app-header__spacer { flex: 1 1 auto; }
+
+/* Mobil-tilpasning: skjul Oslo kommune-tekst og divider, gjør logoen
+   litt mindre, la title brytes til neste linje. Språkbryteren beholdes
+   alltid synlig — det er en operasjonell kontroll. */
+@media (max-width: 640px) {
+  .app-header {
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-3);
+  }
+  .app-header__logo { height: 44px; }
+  .app-header__kommune { display: none; }
+  .app-header__divider { display: none; }
+  .app-header__title { font-size: 1.25rem; }
+  .app-header__subtitle { font-size: 0.78rem; }
+}
 
 .lang-switcher {
   display: flex;

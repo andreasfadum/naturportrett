@@ -1,8 +1,10 @@
-import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS, EIENDOMSKONTEKST_FIELD, EIENDOMSKONTEKST_INSTRUKS } from './shared.js'
+import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEVANTE_LOVER_INSTRUKS, DATAKVALITET_FIELD, DATAKVALITET_INSTRUKS, FORVALTNINGSRAD_FIELD, FORVALTNINGSRAD_INSTRUKS, EIENDOMSKONTEKST_FIELD, EIENDOMSKONTEKST_INSTRUKS, ANTI_HALLUSINERING } from './shared.js'
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
 Du skal generere et NATURPORTRETT — en helhetsoversikt over biologisk mangfold og naturhensyn for et konkret prosjektområde innenfor en konfigurerbar influensradius (typisk 500 m, men kan være alt fra 100 m til 2 km) fra en oppgitt norsk adresse. Influenssonen oppgis i user-prompten.
+
+${ANTI_HALLUSINERING}
 
 ${REFERENCES}
 
@@ -16,7 +18,13 @@ Returner et JSON-objekt med følgende struktur:
   ${EIENDOMSKONTEKST_FIELD},
   "antallVerdifulleNaturomrader": "Tall + kort beskrivelse, f.eks. '3 verdifulle naturområder, hvorav 1 med høy lokal verdi'",
   "naturtyper": [
-    { "navn": "Naturtypens navn", "ninKode": "NiN-kode hvis kjent", "rodlisteStatus": "LC|NT|VU|EN|CR eller 'ikke vurdert'", "beskrivelse": "1-2 setninger" }
+    {
+      "navn": "Naturtypens navn",
+      "ninKode": "NiN-kode hvis kjent",
+      "rodlisteStatus": "LC|NT|VU|EN|CR eller 'ikke vurdert'",
+      "beskrivelse": "1-2 setninger",
+      "avhengigeArter": "Arter som er avhengige av denne naturtypen for å overleve i området. Bruk konkrete artsnavn (norsk + evt. latinsk i parens). Prioriter arter fra observasjonslisten i user-prompten der det er belegg. Hvis naturtypen kun har generelle arter som ikke er artsspesifikt avhengige — skriv 'generelle urbane arter' eller liknende, ikke gjett. Maks 5 arter per naturtype, kommaseparert."
+    }
   ],
   "arterAvHoyOkologiskVerdi": [
     { "navn": "Norsk navn", "vitenskapelig": "Latinsk navn", "kategori": "Fugl/Plante/Insekt/Pattedyr/Sopp", "status": "f.eks. 'NT – Nær truet' eller 'Nøkkelart'" }

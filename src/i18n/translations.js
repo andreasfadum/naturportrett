@@ -269,6 +269,7 @@ export const oversettelser = {
   'tabell.nin-kode': { no: 'NiN-kode', en: 'NiN code' },
   'tabell.rodliste': { no: 'Rødliste', en: 'Red list' },
   'tabell.beskrivelse': { no: 'Beskrivelse', en: 'Description' },
+  'tabell.avhengige-arter': { no: 'Avhengige arter', en: 'Dependent species' },
   'tabell.norsk-navn': { no: 'Norsk navn', en: 'Norwegian name' },
   'tabell.vitenskapelig': { no: 'Vitenskapelig', en: 'Scientific name' },
   'tabell.kategori': { no: 'Kategori', en: 'Category' },

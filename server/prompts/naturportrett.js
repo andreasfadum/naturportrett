@@ -2,7 +2,7 @@ import { ROLE_INTRO, REFERENCES, JSON_OUTPUT_RULES, RELEVANTE_LOVER_FIELD, RELEV
 
 export const SYSTEM_PROMPT = `${ROLE_INTRO}
 
-Du skal generere et NATURPORTRETT — en helhetsoversikt over biologisk mangfold og naturhensyn for et konkret prosjektområde innenfor 500 m radius fra en oppgitt adresse i Oslo.
+Du skal generere et NATURPORTRETT — en helhetsoversikt over biologisk mangfold og naturhensyn for et konkret prosjektområde innenfor en konfigurerbar influensradius (typisk 500 m, men kan være alt fra 100 m til 2 km) fra en oppgitt norsk adresse. Influenssonen oppgis i user-prompten.
 
 ${REFERENCES}
 
@@ -61,11 +61,13 @@ export function buildUserPrompt({ address, coordinates, zoneRadiusM, topSpecies,
     .map(([cat, count]) => `${cat}: ${count}`)
     .join(', ')
 
+  const innenforSone = zoneRadiusM
+  const utvidetSone = Math.max(1000, zoneRadiusM * 2)
   const gronnstrukturBlokk = Array.isArray(narliggendeGronnstrukturer) && narliggendeGronnstrukturer.length > 0
     ? `
 
 ## Kjente Oslo-grønnstrukturer i nærheten (sortert etter avstand)
-Denne listen er beregnet på klienten ut fra koordinatene og er en sjekkliste for eiendomsKontekst-feltet. Du skal nevne ALLE som er innenfor 500 m, og du SKAL nevne dem som er innenfor 1000 m hvis de er artsrike eller utgjør viktige korridorer (parker, elver, naturreservater). Ikke hopp over noen — selv om en er mer ikonisk enn en annen.
+Denne listen er beregnet på klienten ut fra koordinatene og er en sjekkliste for eiendomsKontekst-feltet. Du skal nevne ALLE som er innenfor ${innenforSone} m (influenssonen), og du SKAL nevne dem som er innenfor ${utvidetSone} m hvis de er artsrike eller utgjør viktige korridorer (parker, elver, naturreservater). Ikke hopp over noen — selv om en er mer ikonisk enn en annen.
 
 ${narliggendeGronnstrukturer.map(g => `- ${g.navn} (${g.type}) — ${g.avstandM} m`).join('\n')}`
     : ''

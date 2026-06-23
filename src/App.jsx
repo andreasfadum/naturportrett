@@ -37,11 +37,25 @@ export default function App() {
   return <Hovedflyt />
 }
 
+const LS_RADIUS = 'naturportrett.influensradius'
+const DEFAULT_RADIUS_M = 500
+
 function Hovedflyt() {
   const [step, setStep] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [speciesForArea, setSpeciesForArea] = useState([])
   const [portraitType, setPortraitType] = useState(null)
+  const [influenceRadiusM, setInfluenceRadiusM] = useState(() => {
+    try {
+      const lagret = parseInt(window.localStorage.getItem(LS_RADIUS), 10)
+      if (lagret >= 100 && lagret <= 2000) return lagret
+    } catch { /* noop */ }
+    return DEFAULT_RADIUS_M
+  })
+
+  useEffect(() => {
+    try { window.localStorage.setItem(LS_RADIUS, String(influenceRadiusM)) } catch { /* noop */ }
+  }, [influenceRadiusM])
 
   function handleAddressSelected(address) {
     setSelectedAddress(address)
@@ -86,12 +100,17 @@ function Hovedflyt() {
         <StepIndicator currentStep={step} portraitType={portraitType} />
 
         {step === 1 && (
-          <AddressSearch onAddressSelected={handleAddressSelected} />
+          <AddressSearch
+            onAddressSelected={handleAddressSelected}
+            radiusM={influenceRadiusM}
+            onRadiusChange={setInfluenceRadiusM}
+          />
         )}
 
         {step === 2 && selectedAddress && (
           <NaturportrettSection
             address={selectedAddress}
+            zoneRadiusM={influenceRadiusM}
             onContinue={handleNaturportrettContinue}
             onBack={handleBack}
           />

@@ -68,12 +68,16 @@ export default function AreaMap({ lat, lon, radiusM = 500, label }) {
     )
   }
 
+  const radiusTekst = radiusM >= 1000
+    ? (Number.isInteger(radiusM / 1000) ? `${radiusM / 1000} km` : `${(radiusM / 1000).toFixed(1)} km`)
+    : `${radiusM} m`
+
   return (
     <div className="area-map-wrap">
       <div ref={containerRef} className="area-map" />
       <div className="area-map__legend">
         <span className="area-map__legend-dot" /> {t('naturportrett.kart.legend.adresse')}
-        <span className="area-map__legend-circle" /> {t('naturportrett.kart.legend.sone')}
+        <span className="area-map__legend-circle" /> {t('naturportrett.kart.legend.sone', { radius: radiusTekst })}
       </div>
     </div>
   )

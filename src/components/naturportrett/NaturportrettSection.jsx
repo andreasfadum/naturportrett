@@ -8,10 +8,10 @@ import ProgressBar from '../layout/ProgressBar.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
 import { useT, useSprak } from '../../i18n/index.jsx'
 
-export default function NaturportrettSection({ address, onContinue, onBack }) {
+export default function NaturportrettSection({ address, zoneRadiusM = 500, onContinue, onBack }) {
   const t = useT()
   const { sprak } = useSprak()
-  const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address)
+  const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address, zoneRadiusM)
   const { portrait, isLoading: portraitLoading, error: portraitError, generate } = usePortraitGeneration()
 
   const speciesByCategory = useMemo(() => {
@@ -26,13 +26,15 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
     if (!speciesLoading && species.length > 0 && !portrait && !portraitLoading) {
       const lat = address.representasjonspunkt?.lat
       const lon = address.representasjonspunkt?.lon
+      // Grønnstruktur-listen får alltid minst 1500 m radius for å gi KI en bredere
+      // sjekkliste — også når brukeren har satt en liten influenssone.
       const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
-        ? finnNarliggende(lat, lon, 1500)
+        ? finnNarliggende(lat, lon, Math.max(1500, zoneRadiusM * 1.5))
         : []
       generate('naturportrett', {
         address,
         coordinates: { lat, lon },
-        zoneRadiusM: 500,
+        zoneRadiusM,
         topSpecies: species,
         categoryCounts: speciesByCategory,
         narliggendeGronnstrukturer,
@@ -71,7 +73,7 @@ export default function NaturportrettSection({ address, onContinue, onBack }) {
         )}
 
         {portrait && !isLoading && (
-          <NaturportrettView portrait={portrait} address={address} species={species} />
+          <NaturportrettView portrait={portrait} address={address} species={species} zoneRadiusM={zoneRadiusM} />
         )}
       </div>
 

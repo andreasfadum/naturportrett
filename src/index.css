@@ -617,19 +617,33 @@ img {
   gap: var(--space-2);
 }
 
-/* Næringskilde-grid (3 kolonner) + syntese */
+/* Næringskilde-tabellene — stacker vertikalt for å gi 4-kolonners
+   tabeller (Art / Detaljer / Lokal forekomst / Handling) nok plass.
+   Tidligere 3-kol grid funket med 2-kol tabeller, men kollapset
+   synlig når lokal forekomst-kolonnene kom inn. */
 .naering-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
   margin-bottom: var(--space-7);
 }
 
-@media (max-width: 900px) {
-  .naering-grid { grid-template-columns: 1fr; }
+.naering-blokk {
+  min-width: 0;
+  width: 100%;
 }
 
-.naering-blokk { min-width: 0; }
+/* Holder cellene fra å bli for trange uansett bredde */
+.naering-blokk .portrait-doc__table {
+  table-layout: fixed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.naering-blokk .portrait-doc__table th,
+.naering-blokk .portrait-doc__table td {
+  vertical-align: top;
+}
 
 .naering-syntese {
   margin: var(--space-3) 0 0;
@@ -641,6 +655,7 @@ img {
   line-height: 1.5;
   font-style: italic;
   color: var(--oslo-svart);
+  overflow-wrap: break-word;
 }
 
 .naering-syntese strong {
@@ -709,7 +724,6 @@ img {
 
 .symbiose-kort__meta--evidens {
   margin-top: 4px;
-  opacity: 0.75;
 }
 
 .symbiose-badge {
@@ -727,7 +741,7 @@ img {
 .symbiose-badge--kommensalisme { background: #4a8aa8; }
 .symbiose-badge--predator { background: #b62a2a; }
 .symbiose-badge--parasittisme { background: #884444; }
-.symbiose-badge--konkurranse { background: #c2a23b; color: #1a1a1a; }
+.symbiose-badge--konkurranse { background: #8a6f1f; color: white; }
 .symbiose-badge--indikator { background: #2A2859; }
 .symbiose-badge--annet { background: #666; }
 
@@ -1841,21 +1855,35 @@ ul.portrait-doc__textblock {
 /* Multi-column layouts */
 .portrait-doc__two-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--space-5);
   margin-bottom: var(--space-7);
 }
 
 .portrait-doc__three-col {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-5);
   margin-bottom: var(--space-7);
+}
+
+.portrait-doc__two-col > div,
+.portrait-doc__three-col > div {
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .portrait-doc__two-col > div > * + *,
 .portrait-doc__three-col > div > * + * {
   margin-top: var(--space-3);
+}
+
+/* Tabeller inni multi-col grids skal aldri overflowe sin kolonne */
+.portrait-doc__two-col .portrait-doc__table,
+.portrait-doc__three-col .portrait-doc__table {
+  table-layout: fixed;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Lovgrunnlag */
@@ -1980,6 +2008,8 @@ ul.portrait-doc__textblock {
   text-align: left;
   vertical-align: top;
   font-size: 0.9rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .portrait-doc__table th {
@@ -2482,8 +2512,8 @@ ul.portrait-doc__textblock {
 /* Praktiske designtiltak — kategorisert som lovstyrt krav vs frivillig (R2-innspill 17. juni) */
 .tiltak-liste {
   display: grid;
-  gap: var(--space-3);
-  margin: 0;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
   padding-left: 0;
   list-style: none;
   counter-reset: tiltak;

@@ -7,6 +7,7 @@ import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.js
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
+import SymbioseSeksjon from '../portrait-shared/SymbioseSeksjon.jsx'
 import { useT } from '../../i18n/index.jsx'
 
 export default function ArtsportrettView({ portrait, subject }) {
@@ -79,10 +80,28 @@ export default function ArtsportrettView({ portrait, subject }) {
         </section>
       )}
 
-      <section className="portrait-doc__three-col">
-        <DetailTable title={t('portrett.plantebaserte')} rows={p.plantebaserteNaeringskilder} colA={t('portrett.art-plantetype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
-        <DetailTable title={t('portrett.habitatstottende-planter')} rows={p.habitatStottendePlanter} colA={t('portrett.art-plantetype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
-        <DetailTable title={t('portrett.dyrebaserte')} rows={p.dyrebasertNaeringskilder} colA={t('portrett.art-dyretype')} colB={t('portrett.detaljer')} keyA="art" keyB="detaljer" />
+      <section className="naering-grid">
+        <NaeringsBlokk
+          title={t('portrett.plantebaserte')}
+          rows={p.plantebaserteNaeringskilder}
+          colA={t('portrett.art-plantetype')}
+          syntese={p.plantebaserteSyntese}
+          t={t}
+        />
+        <NaeringsBlokk
+          title={t('portrett.habitatstottende-planter')}
+          rows={p.habitatStottendePlanter}
+          colA={t('portrett.art-plantetype')}
+          syntese={p.habitatStottendeSyntese}
+          t={t}
+        />
+        <NaeringsBlokk
+          title={t('portrett.dyrebaserte')}
+          rows={p.dyrebasertNaeringskilder}
+          colA={t('portrett.art-dyretype')}
+          syntese={p.dyrebasertSyntese}
+          t={t}
+        />
       </section>
 
       <section className="portrait-doc__two-col">
@@ -125,6 +144,8 @@ export default function ArtsportrettView({ portrait, subject }) {
           )}
         </section>
       )}
+
+      <SymbioseSeksjon items={p.symbioser} />
 
       <TiltakListe items={p.praktiskeDesigntiltak} />
 
@@ -179,24 +200,37 @@ function FactBox({ label, value }) {
   )
 }
 
-function DetailTable({ title, rows, colA, colB, keyA, keyB }) {
+function NaeringsBlokk({ title, rows, colA, syntese, t }) {
   if (!Array.isArray(rows) || rows.length === 0) return null
+  const harLokalKolonne = rows.some(r => r.lokalForekomst || r.handlingPaaEiendommen)
   return (
-    <div>
+    <div className="naering-blokk">
       <h3 className="portrait-doc__h3">{title}</h3>
       <table className="portrait-doc__table portrait-doc__table--small">
         <thead>
-          <tr><th>{colA}</th><th>{colB}</th></tr>
+          <tr>
+            <th>{colA}</th>
+            <th>{t('portrett.detaljer')}</th>
+            {harLokalKolonne && <th>{t('naering.kol.lokal-forekomst')}</th>}
+            {harLokalKolonne && <th>{t('naering.kol.handling-eiendom')}</th>}
+          </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
             <tr key={i}>
-              <td>{r[keyA]}</td>
-              <td>{r[keyB]}</td>
+              <td>{r.art}</td>
+              <td>{r.detaljer}</td>
+              {harLokalKolonne && <td>{r.lokalForekomst || '–'}</td>}
+              {harLokalKolonne && <td>{r.handlingPaaEiendommen || '–'}</td>}
             </tr>
           ))}
         </tbody>
       </table>
+      {syntese && (
+        <blockquote className="naering-syntese">
+          <strong>{t('naering.syntese.tittel')}: </strong>{syntese}
+        </blockquote>
+      )}
     </div>
   )
 }

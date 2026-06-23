@@ -5,6 +5,7 @@ import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.js
 import DataKvalitetSeksjon from '../portrait-shared/DataKvalitetSeksjon.jsx'
 import TiltakListe from '../portrait-shared/TiltakListe.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
+import SymbioseSeksjon from '../portrait-shared/SymbioseSeksjon.jsx'
 import { useT } from '../../i18n/index.jsx'
 
 export default function NaturtypeportrettView({ portrait, subject }) {
@@ -147,6 +148,8 @@ export default function NaturtypeportrettView({ portrait, subject }) {
           <div className="portrait-doc__textblock">{p.kommentarer}</div>
         </section>
       )}
+
+      <SymbioseSeksjon items={p.symbioser} />
 
       <TiltakListe items={p.praktiskeDesigntiltak} />
 

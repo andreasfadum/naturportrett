@@ -617,6 +617,120 @@ img {
   gap: var(--space-2);
 }
 
+/* Næringskilde-grid (3 kolonner) + syntese */
+.naering-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-7);
+}
+
+@media (max-width: 900px) {
+  .naering-grid { grid-template-columns: 1fr; }
+}
+
+.naering-blokk { min-width: 0; }
+
+.naering-syntese {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-lysbeige);
+  border-left: 3px solid var(--oslo-morkebla);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--oslo-svart);
+}
+
+.naering-syntese strong {
+  font-style: normal;
+  color: var(--oslo-morkebla);
+}
+
+/* Symbiose-seksjon */
+.symbioser-intro {
+  margin: 0 0 var(--space-3);
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.symbioser-tom {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-lysbeige);
+  border-radius: 4px;
+  font-size: 0.92rem;
+  color: var(--oslo-svart);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.symbioser-liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+
+.symbiose-kort {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 4px;
+  background: white;
+}
+
+.symbiose-kort__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--space-2);
+}
+
+.symbiose-kort__partner {
+  font-size: 1rem;
+  color: var(--oslo-morkebla);
+}
+
+.symbiose-kort__forklaring {
+  margin: 0 0 var(--space-2);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.symbiose-kort__meta {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--oslo-svart);
+}
+
+.symbiose-kort__meta strong { color: var(--oslo-morkebla); }
+
+.symbiose-kort__meta--evidens {
+  margin-top: 4px;
+  opacity: 0.75;
+}
+
+.symbiose-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: white;
+}
+
+.symbiose-badge--mutualisme { background: #1a8a3f; }
+.symbiose-badge--kommensalisme { background: #4a8aa8; }
+.symbiose-badge--predator { background: #b62a2a; }
+.symbiose-badge--parasittisme { background: #884444; }
+.symbiose-badge--konkurranse { background: #c2a23b; color: #1a1a1a; }
+.symbiose-badge--indikator { background: #2A2859; }
+.symbiose-badge--annet { background: #666; }
+
 /* ================================
    Footer
 ================================ */

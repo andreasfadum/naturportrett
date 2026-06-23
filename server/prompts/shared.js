@@ -77,6 +77,37 @@ Når kategorien er "lovstyrt_krav" SKAL hjemmel-feltet inneholde lov + paragraf,
 Fase-feltet angir hvor i et byggeprosjekt tiltaket settes inn (tidligfase, reguleringsplan, utomhusplan, gjennomforing).
 Lever 3–6 tiltak per portrett. Vær spesifikk om mål og dimensjoner (f.eks. "fuglekasse 12×12 cm på sørvegg, 4–6 m over bakken") fremfor abstrakte oppfordringer.`
 
+export const ANTI_HALLUSINERING = `ANTI-HALLUSINERING (overordnet prinsipp — gjelder hele responsen):
+KI-troverdighet er den viktigste verdien tjenesten har. Brukerne er fagfolk (planleggere, biologer, saksbehandlere) som vil oppdage spekulasjoner, og falske påstander vil sette en stopper for videre utvikling av tjenesten.
+
+REGEL: Når et felt har risiko for fabulasjon — særlig symbioser, gjensidige avhengigheter, lokale forekomster og evidensgrunnlag — er det BEDRE å returnere en tom liste, "ikke kjent", eller utelate detaljen, enn å gjette. Utelat heller enn å gjette. Tom array er et fullt gyldig svar.
+
+Hver påstand om en konkret økologisk relasjon, en konkret lokal forekomst (f.eks. "finnes ved Sognsvann") eller en konkret kilde må kunne forsvares mot fagfellevurdering. Hvis du ikke har godt belegg, si det eksplisitt eller utelat påstanden.`
+
+export const SYMBIOSE_FIELD = `"symbioser": [
+    {
+      "partnerart": "Norsk navn (Latin)",
+      "type": "mutualisme | kommensalisme | predator-bytte | parasittisme | konkurranse | indikator-relasjon",
+      "forklaring": "1-2 setninger om relasjonen",
+      "lokalRelevans": "Er den andre arten kjent i området? Hvor? Eller 'ikke kjent fra lokale registreringer'",
+      "evidensgrunnlag": "kort begrunnelse — f.eks. 'dokumentert i Norsk rødliste-faktablad' eller 'generelt akseptert økologisk relasjon i litteraturen'"
+    }
+  ]`
+
+export const SYMBIOSE_INSTRUKS = `SYMBIOSER OG GJENSIDIGE AVHENGIGHETER (anti-hallusinering kritisk):
+Symbioser-feltet skal vise hvilke arter den valgte arten har konkrete, dokumenterte gjensidige avhengigheter med — IKKE generelle økosystem-koblinger.
+
+ABSOLUTTE REGLER:
+- Hvis arten ikke har kjente, dokumenterte symbioser av økologisk betydning: returner [].
+- Hvis det kun finnes generelle økosystem-koblinger uten artsspesifikk avhengighet: returner [].
+- Hvis du er usikker på om en relasjon er reell eller etablert i litteraturen: utelat den.
+
+Maks 5 oppføringer. Ingen minimum. Tom liste er gyldig og foretrukket fremfor spekulative oppføringer.
+
+evidensgrunnlag-feltet er obligatorisk for hver oppføring og skal være ærlig — om det er "generelt akseptert" eller "dokumentert i konkret kilde X", ikke pynt på det.
+
+Hensikten: gi brukeren bedre forståelse av hvordan valgte arter kan sikres overlevelse videre når prosjektet realiseres, eller gjennom drift/forvaltning av eiendommen.`
+
 export const EIENDOMSKONTEKST_FIELD = `"eiendomsKontekst": "1-3 setninger som spesifikt beskriver hvordan akkurat denne eiendommen forholder seg til områdedataene i portrettet — f.eks. om den ligger på en grønn korridor, ved kanten av en kartlagt naturtype, sentralt i et fugletrekk, eller om eiendommen i seg selv har lite kjent biologi men området rundt er rikt."`
 
 export const EIENDOMSKONTEKST_INSTRUKS = `EIENDOMSKONTEKST (R6-innspill 17. juni):

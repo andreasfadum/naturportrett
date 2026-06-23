@@ -131,6 +131,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
                 <th>{t('tabell.nin-kode')}</th>
                 <th>{t('tabell.rodliste')}</th>
                 <th>{t('tabell.beskrivelse')}</th>
+                <th>{t('tabell.avhengige-arter')}</th>
               </tr>
             </thead>
             <tbody>
@@ -140,6 +141,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
                   <td>{nt.ninKode || '–'}</td>
                   <td>{nt.rodlisteStatus || '–'}</td>
                   <td>{nt.beskrivelse}</td>
+                  <td className="portrait-doc__avhengige">{nt.avhengigeArter || '–'}</td>
                 </tr>
               ))}
             </tbody>

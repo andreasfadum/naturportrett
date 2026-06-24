@@ -1,7 +1,6 @@
 MIT License
 
 Copyright (c) 2026 City of Oslo, Agency for Planning and Building Services
-(Oslo kommune, Plan- og bygningsetaten)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-## Acknowledgements
-
-The verbatim Norwegian legal texts indexed in `Kunnskapsbase/` are sourced from
-Lovdata (https://lovdata.no) and remain subject to Lovdata's terms. They are
-quoted verbatim in this software for reference purposes and are not modified.
-
-Species occurrence data is fetched in real time from GBIF (https://www.gbif.org)
-and iNaturalist (https://www.inaturalist.org) under their respective terms.
-
-The conceptual lineage of the species, plant and habitat portrait formats
-traces back to the Animal-Aided Design framework developed by Thomas Hauck and
-Wolfgang W. Weisser at TU Munich.

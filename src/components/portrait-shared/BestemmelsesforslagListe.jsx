@@ -1,4 +1,5 @@
 import { useT } from '../../i18n/index.jsx'
+import { lovdataLenke } from '../../utils/lovdataLenke.js'
 
 /**
  * Lister bestemmelsesforslag — tema, materielt behov, kandidat-hjemmel
@@ -34,18 +35,31 @@ export default function BestemmelsesforslagListe({ items, forbehold }) {
                 </div>
               )}
 
-              {b.kandidatHjemmel && (
-                <div className="bestemmelser-liste__hjemmel">
-                  <span className="bestemmelser-liste__felt-label">{t('planportrett.bestemmelser.hjemmel-label')}</span>{' '}
-                  <code className="bestemmelser-liste__hjemmel-kode">{b.kandidatHjemmel}</code>
-                  {b.hjemmelKategori && (
-                    <span className="bestemmelser-liste__kategori">[{b.hjemmelKategori}]</span>
-                  )}
-                  <span className="bestemmelser-liste__hjemmel-merk">
-                    {t('planportrett.bestemmelser.hjemmel-merk')}
-                  </span>
-                </div>
-              )}
+              {b.kandidatHjemmel && (() => {
+                const url = lovdataLenke(b.kandidatHjemmel)
+                return (
+                  <div className="bestemmelser-liste__hjemmel">
+                    <span className="bestemmelser-liste__felt-label">{t('planportrett.bestemmelser.hjemmel-label')}</span>{' '}
+                    <code className="bestemmelser-liste__hjemmel-kode">{b.kandidatHjemmel}</code>
+                    {b.hjemmelKategori && (
+                      <span className="bestemmelser-liste__kategori">[{b.hjemmelKategori}]</span>
+                    )}
+                    {url && (
+                      <a
+                        className="bestemmelser-liste__hjemmel-lenke"
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Lovdata ↗
+                      </a>
+                    )}
+                    <span className="bestemmelser-liste__hjemmel-merk">
+                      {t('planportrett.bestemmelser.hjemmel-merk')}
+                    </span>
+                  </div>
+                )
+              })()}
 
               {b.skisseOrdlyd && (
                 <div className="bestemmelser-liste__skisse">

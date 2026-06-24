@@ -88,7 +88,9 @@ export default function LegalReferences({ items }) {
               <p className="legal-block__why">{lov.kortBegrunnelse}</p>
             )}
           </header>
-          {Array.isArray(lov.paragrafer) && lov.paragrafer.map((p, j) => (
+          {Array.isArray(lov.paragrafer) && lov.paragrafer
+            .filter(p => p && (p.nummer || p.tema || p.sitat))
+            .map((p, j) => (
             <article className="legal-paragraph" key={`${lov.kortKode}-${p.nummer}-${j}`}>
               <header className="legal-paragraph__header">
                 <span className="legal-paragraph__num">{p.nummer}</span>

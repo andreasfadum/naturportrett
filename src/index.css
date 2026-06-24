@@ -2280,6 +2280,31 @@ ul.portrait-doc__textblock {
   gap: var(--space-4);
 }
 
+/* 2x2 modifier — brukes for de 4 detaljportrettene under bredkortet
+   for naturportrett. På mobil stacker alle 4 vertikalt. */
+.portrait-type-grid--2x2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 720px) {
+  .portrait-type-grid--2x2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bredt kort over griddet — generelt naturportrett (oversiktsvalget). */
+.portrait-type-card--wide {
+  width: 100%;
+  margin-bottom: var(--space-5);
+  background: var(--oslo-lysgron);
+  border-color: var(--oslo-morkebla);
+}
+.portrait-type-card--wide:hover {
+  background: white;
+}
+.portrait-type-card--wide .portrait-type-card__title {
+  font-size: 1.4rem;
+}
+
 .portrait-type-card {
   display: flex;
   flex-direction: column;
@@ -3728,4 +3753,83 @@ ul.portrait-doc__textblock {
   font-size: 0.88rem;
   color: var(--oslo-morkebla);
   font-weight: 500;
+}
+
+/* === Influensområde-steg (steg 2) === */
+.influence-zone-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.influence-zone-section__intro {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--oslo-svart);
+}
+
+.influence-zone-section__kart {
+  width: 100%;
+}
+
+.influence-zone-section__slider {
+  background: var(--oslo-lysbeige);
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  padding: var(--space-4) var(--space-5);
+  border-radius: 6px;
+}
+
+.influence-zone-section__slider-label {
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: var(--space-3);
+  color: var(--oslo-morkebla);
+}
+
+.influence-zone-section__slider-input {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 6px;
+  background: var(--oslo-morkbeige, #d6cfb8);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.influence-zone-section__slider-input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--oslo-morkebla);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.influence-zone-section__slider-input::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--oslo-morkebla);
+  cursor: pointer;
+  border: 3px solid white;
+}
+
+.influence-zone-section__slider-hjelp {
+  margin-top: var(--space-3);
+  font-size: 0.88rem;
+  color: var(--oslo-svart);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+.influence-zone-section__knapper {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-3);
 }

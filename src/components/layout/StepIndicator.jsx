@@ -2,15 +2,18 @@ import { useT } from '../../i18n/index.jsx'
 
 const STEP_KEYS = [
   { num: 1, key: 'steg.adresse' },
-  { num: 2, key: 'steg.naturportrett' },
+  { num: 2, key: 'steg.influensomraade' },
   { num: 3, key: 'steg.portrettype' },
-  { num: 4, key: 'steg.detaljportrett' },
+  { num: 4, key: 'steg.portrett' },
 ]
 
+// Når brukeren har valgt portrettype, viser vi den konkrete typen i steg 4.
 const PORTRAIT_STEG_KEY = {
+  naturportrett: 'steg.naturportrett',
   artsportrett: 'steg.artsportrett',
   planteportrett: 'steg.planteportrett',
   naturtypeportrett: 'steg.naturtypeportrett',
+  planportrett: 'steg.planportrett',
 }
 
 export default function StepIndicator({ currentStep, portraitType }) {

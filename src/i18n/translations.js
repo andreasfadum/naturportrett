@@ -64,8 +64,8 @@ export const oversettelser = {
     en: 'Searching …',
   },
   'adresse.knapp-sok': {
-    no: 'Søk etter arter',
-    en: 'Search for species',
+    no: 'Velg influensområde',
+    en: 'Choose influence zone',
   },
   'adresse.overskrift': {
     no: 'Finn natur og arter i nærområdet',
@@ -185,6 +185,10 @@ export const oversettelser = {
     no: 'Adresse',
     en: 'Address',
   },
+  'steg.influensomraade': {
+    no: 'Influensområde',
+    en: 'Influence zone',
+  },
   'steg.naturportrett': {
     no: 'Naturportrett',
     en: 'Nature portrait',
@@ -193,9 +197,17 @@ export const oversettelser = {
     no: 'Portrettype',
     en: 'Portrait type',
   },
+  'steg.portrett': {
+    no: 'Portrett',
+    en: 'Portrait',
+  },
   'steg.detaljportrett': {
     no: 'Detaljportrett',
     en: 'Detailed portrait',
+  },
+  'steg.planportrett': {
+    no: 'Planportrett',
+    en: 'Plan portrait',
   },
   'steg.artsportrett': {
     no: 'Artsportrett',
@@ -505,7 +517,8 @@ export const oversettelser = {
 
   // --- Naturportrett-seksjon (knapper + status) ---
   'nps.last-portrett': { no: 'Lager naturportrett …', en: 'Generating nature portrait …' },
-  'nps.ny-adresse': { no: '← Ny adresse', en: '← New address' },
+  'nps.ny-adresse': { no: 'Ny adresse', en: 'New address' },
+  'nps.velg-annet': { no: '← Velg annet portrett', en: '← Choose another portrait' },
   'nps.detalj': { no: 'Lag mer detaljert portrett →', en: 'Generate a more detailed portrait →' },
   'nps.feil-label': { no: 'Feil:', en: 'Error:' },
 
@@ -535,7 +548,32 @@ export const oversettelser = {
     no: 'Beslutningsgrunnlag for naturmangfold i plansak: utkast til naturmangfold-avsnitt etter nml §§ 8–12, viktig-natur-screening, KU-screening og kandidat-temaer for reguleringsbestemmelser.',
     en: 'Decision support for biodiversity in a planning case: draft biodiversity section per Nature Diversity Act §§ 8–12, important-nature screening, EIA screening and candidate themes for zoning provisions.',
   },
-  'velger.tilbake': { no: '← Tilbake til naturportrett', en: '← Back to nature portrait' },
+  'velger.tilbake': { no: '← Tilbake', en: '← Back' },
+  'velger.naturportrett.tittel': { no: 'Naturportrett', en: 'Nature portrait' },
+  'velger.naturportrett.beskrivelse': {
+    no: 'Generelt portrett av influensområdet — alle arter og naturtyper, økologiske sammenhenger, forvaltningsråd og lovgrunnlag samlet.',
+    en: 'General portrait of the influence zone — all species and habitat types, ecological context, management advice and legal basis combined.',
+  },
+
+  // --- Influensområde (steg 2) ---
+  'influensomraade.tittel': { no: 'Velg influensområde', en: 'Choose influence zone' },
+  'influensomraade.intro': {
+    no: 'Influensområdet er sirkelen rundt {adresse} der vi henter arts- og naturdata. Bruk slideren under kartet for å justere størrelsen.',
+    en: 'The influence zone is the circle around {adresse} where we fetch species and nature data. Use the slider below the map to adjust the size.',
+  },
+  'influensomraade.slider-label': {
+    no: 'Influensområde: {radius}',
+    en: 'Influence zone: {radius}',
+  },
+  'influensomraade.slider-hjelp': {
+    no: 'Hvor langt fra eiendommen vi henter arts- og naturdata. Standard 500 m. Mindre område = mindre data, men raskere.',
+    en: 'How far from the property we fetch species and nature data. Default 500 m. Smaller area = less data, but faster.',
+  },
+  'influensomraade.bekreft-knapp': {
+    no: 'Bekreft og velg portrettype →',
+    en: 'Confirm and choose portrait type →',
+  },
+  'influensomraade.tilbake': { no: '← Tilbake til adresse', en: '← Back to address' },
 
   // --- Arts-/Subjekt-valg ---
   'arter.tittel': { no: 'Natur og arter i nærområdet', en: 'Nature and species in the area' },

@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { useSpeciesSearch } from '../../hooks/useSpeciesSearch.js'
 import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
-import InfluenceZoneInfo from '../address/InfluenceZoneInfo.jsx'
 import NaturportrettView from './NaturportrettView.jsx'
 import AreaMap from './AreaMap.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
@@ -9,10 +7,22 @@ import ProgressBar from '../layout/ProgressBar.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
 import { useT, useSprak } from '../../i18n/index.jsx'
 
-export default function NaturportrettSection({ address, zoneRadiusM = 500, onContinue, onBack }) {
+/**
+ * Steg 4 (når portraitType === 'naturportrett'). Species-data leveres som
+ * prop fra App.jsx — der useSpeciesSearch er løftet for å gjenbruke
+ * bakgrunnsfetching fra steg 2 og 3.
+ */
+export default function NaturportrettSection({
+  address,
+  zoneRadiusM = 500,
+  species = [],
+  speciesLoading = false,
+  speciesError = null,
+  onBack,
+  onRestart,
+}) {
   const t = useT()
   const { sprak } = useSprak()
-  const { species, isLoading: speciesLoading, error: speciesError } = useSpeciesSearch(address, zoneRadiusM)
   const { portrait, isLoading: portraitLoading, error: portraitError, generate } = usePortraitGeneration()
 
   const speciesByCategory = useMemo(() => {
@@ -105,16 +115,12 @@ export default function NaturportrettSection({ address, zoneRadiusM = 500, onCon
         flexWrap: 'wrap',
       }}>
         <button type="button" className="btn btn--secondary" onClick={onBack}>
+          {t('nps.velg-annet')}
+        </button>
+        {portrait && !isLoading && <PdfDownloadButton />}
+        <button type="button" className="btn btn--primary" onClick={onRestart}>
           {t('nps.ny-adresse')}
         </button>
-        {portrait && !isLoading && (
-          <>
-            <PdfDownloadButton />
-            <button type="button" className="btn btn--primary" onClick={() => onContinue(species)}>
-              {t('nps.detalj')}
-            </button>
-          </>
-        )}
       </div>
     </div>
   )

@@ -15,7 +15,10 @@ function formatRadius(meter) {
   return `${meter} m`
 }
 
-export default function AddressSearch({ onAddressSelected, radiusM = 500, onRadiusChange = () => {} }) {
+// Influensradius-slideren ble flyttet ut av denne komponenten 24. juni 2026.
+// Den ligger nå på steg 2 (InfluenceZoneSection) der brukeren ser kartet
+// samtidig som hun justerer radius.
+export default function AddressSearch({ onAddressSelected }) {
   const t = useT()
   const [heleNorge, setHeleNorge] = useState(() => {
     try { return window.localStorage.getItem(LS_HELE_NORGE) === '1' } catch { return false }
@@ -105,29 +108,6 @@ export default function AddressSearch({ onAddressSelected, radiusM = 500, onRadi
       </p>
 
       <form onSubmit={handleSubmit}>
-        <div className="address-search__radius">
-          <label htmlFor="radius-slider" className="address-search__radius-label">
-            {t('adresse.influensradius.label', { radius: formatRadius(radiusM) })}
-          </label>
-          <input
-            id="radius-slider"
-            type="range"
-            min="100"
-            max="2000"
-            step="100"
-            value={radiusM}
-            // Justering av slider skal IKKE skjule søkeknappen — adressen
-            // forblir bekreftet, og brukeren kan trykke "Søk etter arter" rett
-            // etter justert radius.
-            onChange={e => onRadiusChange(parseInt(e.target.value, 10))}
-            className="address-search__radius-slider"
-            aria-describedby="radius-hjelp"
-          />
-          <div id="radius-hjelp" className="address-search__radius-hjelp">
-            {t('adresse.influensradius.hjelp')}
-          </div>
-        </div>
-
         <div className="address-search__field">
           <div className="address-search__label-row">
             <label htmlFor="address-input" className="address-search__label">

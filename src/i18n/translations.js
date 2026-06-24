@@ -67,6 +67,10 @@ export const oversettelser = {
     no: 'Velg influensområde',
     en: 'Choose influence zone',
   },
+  'adresse.bekreftet-label': {
+    no: 'Valgt adresse:',
+    en: 'Selected address:',
+  },
   'adresse.overskrift': {
     no: 'Finn natur og arter i nærområdet',
     en: 'Find nature and species in the area',
@@ -666,8 +670,8 @@ export const oversettelser = {
     en: 'Generate {portretttype}?',
   },
   'bekreft.intro': {
-    no: 'Portrettet bygges fra åpne datakilder og KI-syntese. Det tar ca. 20 sekunder.',
-    en: 'The portrait is built from open data sources and AI synthesis. It takes about 20 seconds.',
+    no: 'Portrettet bygges fra åpne datakilder og KI-syntese. Genereringen tar gjerne under ett minutt.',
+    en: 'The portrait is built from open data sources and AI synthesis. Generation usually takes under a minute.',
   },
   'bekreft.gener': { no: 'Generér portrett', en: 'Generate portrait' },
   'bekreft.aria.lukk': { no: 'Lukk', en: 'Close' },

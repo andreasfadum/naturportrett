@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import SpeciesCard from '../species/SpeciesCard.jsx'
 import SpeciesFilter from '../species/SpeciesFilter.jsx'
@@ -65,6 +65,10 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   const [kvalitetFilter, setKvalitetFilter] = useState('alle')
   const [bekreftEmne, setBekreftEmne] = useState(null) // species/naturtype som venter på bekreftelse
   const { portrait, isLoading, error, generate, reset } = usePortraitGeneration()
+  // Hvilket språk siste fullførte generering ble gjort på. Når brukeren
+  // bytter språk etter at portrettet er ferdig, regenererer vi på det
+  // nye språket så all KI-tekst oppdateres.
+  const sisteGenererSprak = useRef(null)
 
   const tittel = t(cfg.tittelKey)
 
@@ -75,6 +79,47 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [bekreftEmne])
+
+  // Regenerer portrettet på det nye språket når brukeren bytter språk
+  // etter at portrettet er ferdig. Gjenbruker pickedSubject og
+  // portraitType — brukeren slipper å gjenta valg av art/naturtype.
+  useEffect(() => {
+    if (!portrait || isLoading || !pickedSubject) return
+    if (!sisteGenererSprak.current || sprak === sisteGenererSprak.current) return
+
+    const lat = address.representasjonspunkt?.lat
+    const lon = address.representasjonspunkt?.lon
+    const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
+      ? finnNarliggende(lat, lon, 1500)
+      : []
+    sisteGenererSprak.current = sprak
+
+    if (portraitType === 'planportrett') {
+      generate('planportrett', {
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    } else if (portraitType === 'naturtypeportrett') {
+      generate('naturtypeportrett', {
+        naturtype: pickedSubject,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    } else {
+      generate(portraitType, {
+        species: pickedSubject,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sprak])
 
   const filtered = useMemo(() => {
     if (!cfg.filter) return []
@@ -150,6 +195,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
       ? finnNarliggende(lat, lon, 1500)
       : []
+    sisteGenererSprak.current = sprak
     if (valgt.type === 'species') {
       setPickedSubject(valgt.payload)
       generate(portraitType, {

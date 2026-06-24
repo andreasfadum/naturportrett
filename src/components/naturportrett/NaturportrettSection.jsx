@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import NaturportrettView from './NaturportrettView.jsx'
 import AreaMap from './AreaMap.jsx'
@@ -24,6 +24,11 @@ export default function NaturportrettSection({
   const t = useT()
   const { sprak } = useSprak()
   const { portrait, isLoading: portraitLoading, error: portraitError, generate } = usePortraitGeneration()
+  // Hvilket språk siste fullførte generering ble gjort på. Når brukeren
+  // bytter språk etter at portrettet er ferdig, regenererer vi på det
+  // nye språket så all KI-tekst oppdateres (lovsitater forblir norske —
+  // det er server-prompten som styrer den regelen).
+  const sisteGenererSprak = useRef(null)
 
   const speciesByCategory = useMemo(() => {
     const counts = {}
@@ -33,27 +38,41 @@ export default function NaturportrettSection({
     return counts
   }, [species])
 
+  function startGenerering() {
+    const lat = address.representasjonspunkt?.lat
+    const lon = address.representasjonspunkt?.lon
+    // Grønnstruktur-listen får alltid minst 1500 m radius for å gi KI en bredere
+    // sjekkliste — også når brukeren har satt en liten influenssone.
+    const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
+      ? finnNarliggende(lat, lon, Math.max(1500, zoneRadiusM * 1.5))
+      : []
+    sisteGenererSprak.current = sprak
+    generate('naturportrett', {
+      address,
+      coordinates: { lat, lon },
+      zoneRadiusM,
+      topSpecies: species,
+      categoryCounts: speciesByCategory,
+      narliggendeGronnstrukturer,
+      lang: sprak,
+    })
+  }
+
+  // Førstegangsgenerering når species-data er klar
   useEffect(() => {
-    if (!speciesLoading && species.length > 0 && !portrait && !portraitLoading) {
-      const lat = address.representasjonspunkt?.lat
-      const lon = address.representasjonspunkt?.lon
-      // Grønnstruktur-listen får alltid minst 1500 m radius for å gi KI en bredere
-      // sjekkliste — også når brukeren har satt en liten influenssone.
-      const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
-        ? finnNarliggende(lat, lon, Math.max(1500, zoneRadiusM * 1.5))
-        : []
-      generate('naturportrett', {
-        address,
-        coordinates: { lat, lon },
-        zoneRadiusM,
-        topSpecies: species,
-        categoryCounts: speciesByCategory,
-        narliggendeGronnstrukturer,
-        lang: sprak,
-      })
+    if (!speciesLoading && species.length > 0 && !portrait && !portraitLoading && !sisteGenererSprak.current) {
+      startGenerering()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speciesLoading, species.length])
+
+  // Re-generering når brukeren bytter språk etter at portrettet er ferdig
+  useEffect(() => {
+    if (portrait && !portraitLoading && sisteGenererSprak.current && sprak !== sisteGenererSprak.current) {
+      startGenerering()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sprak])
 
   const isLoading = speciesLoading || portraitLoading
 

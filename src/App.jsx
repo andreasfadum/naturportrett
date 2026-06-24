@@ -67,12 +67,17 @@ function Hovedflyt() {
   const [step, setStep] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [portraitType, setPortraitType] = useState(null)
-  // pickedSubjects per portretttype — slik at brukeren som navigerer
-  // tilbake til portretttype-velgeren og velger samme type igjen ikke
-  // mister sitt valgte subject. Naturportrett har ikke subject.
-  // Eksempel: { artsportrett: speciesObj, planteportrett: speciesObj,
-  //            naturtypeportrett: naturtypeObj, planportrett: { _erPlanportrett: true } }
-  const [pickedSubjects, setPickedSubjects] = useState({})
+  // generatedSubjects per portretttype — liste av alle subjects brukeren
+  // har generert portrett for i denne sesjonen. Brukes til to ting:
+  //   1) Markere disse subjects i pickeren med lys bakgrunnsfarge så
+  //      brukeren ser hva som er gjort.
+  //   2) Hoppe over bekreftelses-modal når brukeren klikker en
+  //      allerede generert subject — cache treffer uansett, så det
+  //      blir instant retur til ferdig portrett.
+  // Naturportrett har ingen subject. Eksempel:
+  //   { artsportrett: [sp1, sp2], planteportrett: [pl1],
+  //     naturtypeportrett: [nt1], planportrett: [planSentinel] }
+  const [generatedSubjects, setGeneratedSubjects] = useState({})
   const [influenceRadiusM, setInfluenceRadiusM] = useState(() => {
     try {
       const lagret = parseInt(window.localStorage.getItem(LS_RADIUS), 10)
@@ -129,11 +134,25 @@ function Hovedflyt() {
     setStep(1)
     setSelectedAddress(null)
     setPortraitType(null)
-    setPickedSubjects({})
+    setGeneratedSubjects({})
+  }
+
+  // Stabil identifikator per subject — brukes til dedup i
+  // generatedSubjects-listen.
+  function subjectId(subject) {
+    if (!subject) return null
+    if (subject._erPlanportrett) return '__planportrett__'
+    return subject.id || subject.scientificName || subject.ninKode || subject.navn || null
   }
 
   function handleSubjectPicked(type, subject) {
-    setPickedSubjects(prev => ({ ...prev, [type]: subject }))
+    setGeneratedSubjects(prev => {
+      const eksisterende = prev[type] || []
+      const id = subjectId(subject)
+      if (!id) return prev
+      if (eksisterende.some(s => subjectId(s) === id)) return prev
+      return { ...prev, [type]: [...eksisterende, subject] }
+    })
   }
 
   // Klikk på et tidligere fullført steg i StepIndicator. Tillater kun
@@ -203,7 +222,7 @@ function Hovedflyt() {
             species={species}
             speciesLoading={speciesLoading}
             speciesError={speciesError}
-            initialSubject={pickedSubjects[portraitType] || null}
+            generatedSubjects={generatedSubjects[portraitType] || []}
             onSubjectPicked={handleSubjectPicked}
             onBack={handleBack}
             onRestart={handleRestart}

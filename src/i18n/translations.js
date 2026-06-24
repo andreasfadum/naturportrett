@@ -233,6 +233,10 @@ export const oversettelser = {
     no: 'Gå til steget «{steg}»',
     en: 'Go to step "{steg}"',
   },
+  'detalj.allerede-laget': {
+    no: 'Allerede laget',
+    en: 'Already generated',
+  },
 
   // --- Naturportrett (oversikt) ---
   'naturportrett.tittel': {

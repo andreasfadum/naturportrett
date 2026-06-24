@@ -1,18 +1,35 @@
 import { getCategoryCss } from '../../utils/speciesCategories.js'
+import { useT } from '../../i18n/index.jsx'
 
-export default function SpeciesCard({ species, isSelected, onToggle }) {
+export default function SpeciesCard({ species, isSelected, alleredeLaget = false, onToggle }) {
   const categoryCss = getCategoryCss(species.category)
+  const t = useT()
+
+  const klasser = [
+    'species-card',
+    isSelected && 'species-card--selected',
+    alleredeLaget && 'species-card--allerede-laget',
+  ].filter(Boolean).join(' ')
+
+  const tittel = alleredeLaget
+    ? `${species.norwegianName} (${species.scientificNameDisplay}) — ${t('detalj.allerede-laget')}`
+    : `${species.norwegianName} (${species.scientificNameDisplay})`
 
   return (
     <div
-      className={`species-card${isSelected ? ' species-card--selected' : ''}`}
+      className={klasser}
       onClick={() => onToggle(species)}
       role="checkbox"
       aria-checked={isSelected}
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' || e.key === ' ' ? onToggle(species) : null}
-      title={`${species.norwegianName} (${species.scientificNameDisplay})`}
+      title={tittel}
     >
+      {alleredeLaget && (
+        <div className="species-card__allerede-badge" aria-hidden="true">
+          {t('detalj.allerede-laget')}
+        </div>
+      )}
       {/* Avkrysningsboks */}
       <div className="species-card__checkbox" aria-hidden="true">
         <svg viewBox="0 0 14 14">

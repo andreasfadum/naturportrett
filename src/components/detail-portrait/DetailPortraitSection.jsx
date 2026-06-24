@@ -59,7 +59,7 @@ export default function DetailPortraitSection({
   portraitType,
   address,
   species,
-  initialSubject = null,
+  generatedSubjects = [],
   onSubjectPicked,
   onBack,
   onRestart,
@@ -67,10 +67,10 @@ export default function DetailPortraitSection({
   const t = useT()
   const { sprak } = useSprak()
   const cfg = TYPE_CONFIG[portraitType]
-  // Pre-fyll med tidligere valgt subject (fra App.jsx) slik at brukeren
-  // som navigerer tilbake til samme portretttype hopper rett til portrettet
-  // (cache-hit gir instant retur uten ny KI-runde).
-  const [pickedSubject, setPickedSubject] = useState(initialSubject)
+  // pickedSubject starter null — pickeren vises alltid. Brukeren ser
+  // hele listen og kan velge enten et nytt subject (KI-runde) eller en
+  // av de markerte (cache-hit, instant retur).
+  const [pickedSubject, setPickedSubject] = useState(null)
   const [filter, setFilter] = useState('alle')
   const [statusFilter, setStatusFilter] = useState('alle')
   const [kvalitetFilter, setKvalitetFilter] = useState('alle')
@@ -91,47 +91,24 @@ export default function DetailPortraitSection({
     return () => window.removeEventListener('keydown', onKey)
   }, [bekreftEmne])
 
-  // Auto-generer ved mount hvis vi har et tidligere valgt subject (fra
-  // App.jsx). Cache-hit gir instant retur uten KI-runde; miss kjører
-  // vanlig generering. Slik hopper brukeren rett til portrettet etter å
-  // ha navigert tilbake til samme portretttype.
-  useEffect(() => {
-    if (!initialSubject || portrait || isLoading || error) return
-    if (sisteGenererSprak.current) return  // allerede generert i denne mounten
+  // Stabil ID på subject — brukt til å markere allerede genererte i
+  // pickeren. Må matche subjectId() i App.jsx.
+  function subjectId(sp) {
+    if (!sp) return null
+    if (sp._erPlanportrett) return '__planportrett__'
+    return sp.id || sp.scientificName || sp.ninKode || sp.navn || null
+  }
 
-    const lat = address.representasjonspunkt?.lat
-    const lon = address.representasjonspunkt?.lon
-    const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
-      ? finnNarliggende(lat, lon, 1500)
-      : []
-    sisteGenererSprak.current = sprak
+  // Sett av subject-IDer som allerede er generert i denne sesjonen
+  const genererteIder = useMemo(
+    () => new Set(generatedSubjects.map(subjectId).filter(Boolean)),
+    [generatedSubjects],
+  )
 
-    if (portraitType === 'planportrett') {
-      generate('planportrett', {
-        address,
-        observedSpecies: species,
-        narliggendeGronnstrukturer,
-        lang: sprak,
-      })
-    } else if (portraitType === 'naturtypeportrett') {
-      generate('naturtypeportrett', {
-        naturtype: initialSubject,
-        address,
-        observedSpecies: species,
-        narliggendeGronnstrukturer,
-        lang: sprak,
-      })
-    } else {
-      generate(portraitType, {
-        species: initialSubject,
-        address,
-        observedSpecies: species,
-        narliggendeGronnstrukturer,
-        lang: sprak,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  function erAlleredeGenerert(sp) {
+    const id = subjectId(sp)
+    return id ? genererteIder.has(id) : false
+  }
 
   // Regenerer portrettet på det nye språket når brukeren bytter språk
   // etter at portrettet er ferdig. Gjenbruker pickedSubject og
@@ -217,32 +194,26 @@ export default function DetailPortraitSection({
   }, [portraitType])
 
   function handlePickSpecies(sp) {
-    // Åpne bekreftelses-modal i stedet for å generere umiddelbart
+    // Hvis allerede generert i denne sesjonen: hopp over bekreftelses-
+    // modal. Cache-hit gir instant retur — det er ingenting å bekrefte.
+    if (erAlleredeGenerert(sp)) {
+      genererForSubject({ type: 'species', payload: sp })
+      return
+    }
     setBekreftEmne({ type: 'species', payload: sp, navn: sp.norwegianName, vitenskapelig: sp.scientificNameDisplay || sp.scientificName })
   }
 
   function handlePickNaturtype(nt) {
+    if (erAlleredeGenerert(nt)) {
+      genererForSubject({ type: 'naturtype', payload: nt })
+      return
+    }
     setBekreftEmne({ type: 'naturtype', payload: nt, navn: nt.navn, vitenskapelig: nt.ninKode })
   }
 
-  function handlePickPlanportrett() {
-    // Planportrettet gjelder eiendommen/influensområdet — ingen subject
-    setBekreftEmne({
-      type: 'planportrett',
-      payload: null,
-      navn: [address.adressenavn, address.nummer].filter(Boolean).join(' '),
-      vitenskapelig: null,
-    })
-  }
-
-  function bekreftOgGener() {
-    if (!bekreftEmne) return
-    const valgt = bekreftEmne
-    setBekreftEmne(null)
-    // Topp 30 observerte arter (etter datakvalitet) sendes med slik at
-    // KI har et reelt grunnlag for lokalForekomst-feltene og kan unngå
-    // å spekulere. Plus Oslo-grønnstrukturer hvis adressen er i Oslo
-    // (samme finnNarliggende som naturportrettet bruker).
+  // Felles generingslogikk — brukt både ved bekreftelses-modal og ved
+  // instant cache-hit for allerede genererte subjects.
+  function genererForSubject(valgt) {
     const lat = address.representasjonspunkt?.lat
     const lon = address.representasjonspunkt?.lon
     const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
@@ -260,8 +231,6 @@ export default function DetailPortraitSection({
         lang: sprak,
       })
     } else if (valgt.type === 'planportrett') {
-      // Sett pickedSubject til en sentinel-verdi slik at render-logikken
-      // vet at vi har "valgt" planportrettet (selv om det ikke er en art)
       const planSubject = { navn: valgt.navn, _erPlanportrett: true }
       setPickedSubject(planSubject)
       if (onSubjectPicked) onSubjectPicked('planportrett', planSubject)
@@ -282,6 +251,23 @@ export default function DetailPortraitSection({
         lang: sprak,
       })
     }
+  }
+
+  function handlePickPlanportrett() {
+    // Planportrettet gjelder eiendommen/influensområdet — ingen subject
+    setBekreftEmne({
+      type: 'planportrett',
+      payload: null,
+      navn: [address.adressenavn, address.nummer].filter(Boolean).join(' '),
+      vitenskapelig: null,
+    })
+  }
+
+  function bekreftOgGener() {
+    if (!bekreftEmne) return
+    const valgt = bekreftEmne
+    setBekreftEmne(null)
+    genererForSubject(valgt)
   }
 
   function handleBackToSubjectPicker() {
@@ -401,17 +387,24 @@ export default function DetailPortraitSection({
         </div>
       ) : portraitType === 'naturtypeportrett' ? (
         <div className="naturtype-grid">
-          {naturtypeForslag.map(nt => (
-            <button
-              key={nt.navn}
-              type="button"
-              className="naturtype-card"
-              onClick={() => handlePickNaturtype(nt)}
-            >
-              <div className="naturtype-card__title">{nt.navn}</div>
-              <div className="naturtype-card__nin">{t('detalj.nin-prefix')} {nt.ninKode}</div>
-            </button>
-          ))}
+          {naturtypeForslag.map(nt => {
+            const erLaget = erAlleredeGenerert(nt)
+            return (
+              <button
+                key={nt.navn}
+                type="button"
+                className={`naturtype-card${erLaget ? ' naturtype-card--allerede-laget' : ''}`}
+                onClick={() => handlePickNaturtype(nt)}
+                title={erLaget ? t('detalj.allerede-laget') : undefined}
+              >
+                <div className="naturtype-card__title">{nt.navn}</div>
+                <div className="naturtype-card__nin">{t('detalj.nin-prefix')} {nt.ninKode}</div>
+                {erLaget && (
+                  <div className="naturtype-card__badge">{t('detalj.allerede-laget')}</div>
+                )}
+              </button>
+            )
+          })}
         </div>
       ) : (
         <>
@@ -458,6 +451,7 @@ export default function DetailPortraitSection({
                       key={sp.id}
                       species={sp}
                       isSelected={false}
+                      alleredeLaget={erAlleredeGenerert(sp)}
                       onToggle={handlePickSpecies}
                     />
                   ))}

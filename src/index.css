@@ -1241,6 +1241,49 @@ button.step-indicator__item--klikkbar:active {
   box-shadow: var(--shadow);
 }
 
+/* Markering av subjects som allerede har et portrett — gir brukeren
+   oversikt over hva som er gjort i sesjonen. Klikk gir instant retur
+   til ferdig portrett (cache-hit). */
+.species-card--allerede-laget {
+  background: var(--oslo-lysgron);
+  border-color: var(--oslo-morkegron, #1a7d3a);
+}
+.species-card--allerede-laget:hover {
+  box-shadow: var(--shadow);
+}
+.species-card__allerede-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  background: var(--oslo-morkegron, #1a7d3a);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+/* Tilsvarende markering på naturtype-card */
+.naturtype-card--allerede-laget {
+  background: var(--oslo-lysgron);
+  border-color: var(--oslo-morkegron, #1a7d3a);
+}
+.naturtype-card__badge {
+  margin-top: var(--space-2);
+  display: inline-block;
+  background: var(--oslo-morkegron, #1a7d3a);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
 .species-card__photo {
   aspect-ratio: 1 / 1;
   width: 100%;

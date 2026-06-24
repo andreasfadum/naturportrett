@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { formatBuildDate } from '../../utils/buildDate.js'
 import PortrettMetadata from '../detail-portrait/PortrettMetadata.jsx'
 import LegalReferences from '../legal/LegalReferences.jsx'
 import InformasjonsbaseBanner from '../portrait-shared/InformasjonsbaseBanner.jsx'
@@ -88,7 +89,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
           <h1 className="portrait-doc__title">{t('naturportrett.tittel')}</h1>
         </div>
         <div className="portrait-doc__header-right">
-          <div className="portrait-doc__date">{__BUILD_DATE__}</div>
+          <div className="portrait-doc__date">{formatBuildDate(__BUILD_DATE_ISO__, sprak)}</div>
           <img src="/oslo-logo.svg" alt="Oslo kommune" className="portrait-doc__logo" />
         </div>
       </header>

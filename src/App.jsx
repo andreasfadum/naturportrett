@@ -125,11 +125,30 @@ function Hovedflyt() {
     setPortraitType(null)
   }
 
+  // Klikk på et tidligere fullført steg i StepIndicator. Tillater kun
+  // tilbake-hopp (frem-hopp ville krevd at vi vet om steget er gyldig).
+  // Når brukeren hopper tilbake til portretttype-velgeren (steg 3),
+  // nullstiller vi portraitType slik at velgeren vises igjen.
+  function handleStepClick(targetStep) {
+    if (targetStep >= step) return
+    if (targetStep === 3) setPortraitType(null)
+    if (targetStep === 2) setPortraitType(null)
+    if (targetStep === 1) {
+      setSelectedAddress(null)
+      setPortraitType(null)
+    }
+    setStep(targetStep)
+  }
+
   return (
     <div className="app-container">
       <AppHeader />
       <main className="main-content">
-        <StepIndicator currentStep={step} portraitType={portraitType} />
+        <StepIndicator
+          currentStep={step}
+          portraitType={portraitType}
+          onStepClick={handleStepClick}
+        />
 
         {step === 1 && (
           <AddressSearch onAddressSelected={handleAddressSelected} />

@@ -229,6 +229,10 @@ export const oversettelser = {
     no: 'Fremdrift',
     en: 'Progress',
   },
+  'steg.aria.gaa-til': {
+    no: 'Gå til steget «{steg}»',
+    en: 'Go to step "{steg}"',
+  },
 
   // --- Naturportrett (oversikt) ---
   'naturportrett.tittel': {

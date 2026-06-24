@@ -7,9 +7,11 @@ import KuScreeningSeksjon from '../portrait-shared/KuScreeningSeksjon.jsx'
 import BestemmelsesforslagListe from '../portrait-shared/BestemmelsesforslagListe.jsx'
 import ExpandableText from '../portrait-shared/ExpandableText.jsx'
 import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
-import { useT } from '../../i18n/index.jsx'
+import { useT, useSprak } from '../../i18n/index.jsx'
+import { formatBuildDate } from '../../utils/buildDate.js'
 
 export default function PlanportrettView({ portrait, address }) {
+  const { sprak } = useSprak()
   const p = portrait || {}
   const t = useT()
 
@@ -32,7 +34,7 @@ export default function PlanportrettView({ portrait, address }) {
           {adresseStr && <p className="planportrett__adresse">{adresseStr}</p>}
         </div>
         <div className="portrait-doc__header-right">
-          <div className="portrait-doc__date">{__BUILD_DATE__}</div>
+          <div className="portrait-doc__date">{formatBuildDate(__BUILD_DATE_ISO__, sprak)}</div>
           <img src="/oslo-logo.svg" alt="Oslo kommune" className="portrait-doc__logo" />
         </div>
       </header>

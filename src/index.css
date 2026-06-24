@@ -926,6 +926,32 @@ img {
   color: var(--oslo-morkegron);
 }
 
+/* Klikkbar variant (fullførte steg). Resetter button-default-styling slik
+   at det visuelt matcher span-versjonen, men får tydelig hover/focus. */
+button.step-indicator__item {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 999px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+button.step-indicator__item--klikkbar:hover {
+  background: rgba(42, 40, 89, 0.06);
+}
+
+button.step-indicator__item--klikkbar:focus-visible {
+  outline: 2px solid var(--oslo-morkebla);
+  outline-offset: 2px;
+}
+
+button.step-indicator__item--klikkbar:active {
+  background: rgba(42, 40, 89, 0.12);
+}
+
 .step-indicator__num {
   width: 28px;
   height: 28px;

@@ -1,7 +1,9 @@
-import { useT } from '../../i18n/index.jsx'
+import { useT, useSprak } from '../../i18n/index.jsx'
+import { formatBuildDate } from '../../utils/buildDate.js'
 
 export default function PortrettMetadata({ referanseprosjekt }) {
   const t = useT()
+  const { sprak } = useSprak()
   return (
     <section className="portrait-doc__section portrait-doc__metadata">
       <h2 className="portrait-doc__h2">{t('metadata.tittel')}</h2>
@@ -9,7 +11,7 @@ export default function PortrettMetadata({ referanseprosjekt }) {
         <tbody>
           <tr>
             <th>{t('metadata.produksjonsdato')}</th>
-            <td>{__BUILD_DATE__}</td>
+            <td>{formatBuildDate(__BUILD_DATE_ISO__, sprak)}</td>
           </tr>
           <tr>
             <th>{t('metadata.produksjonsmate')}</th>

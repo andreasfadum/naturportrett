@@ -10,11 +10,13 @@ import FeedbackKnapp from '../feedback/FeedbackKnapp.jsx'
 import SymbioseSeksjon from '../portrait-shared/SymbioseSeksjon.jsx'
 import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
 import { useIsMobile } from '../../hooks/useIsMobile.js'
-import { useT } from '../../i18n/index.jsx'
+import { useT, useSprak } from '../../i18n/index.jsx'
+import { formatBuildDate } from '../../utils/buildDate.js'
 
 export default function ArtsportrettView({ portrait, subject }) {
   const p = portrait || {}
   const t = useT()
+  const { sprak } = useSprak()
 
   return (
     <article className="portrait-doc">
@@ -24,7 +26,7 @@ export default function ArtsportrettView({ portrait, subject }) {
           <h1 className="portrait-doc__title">{t('detalj.artsportrett.tittel')}</h1>
         </div>
         <div className="portrait-doc__header-right">
-          <div className="portrait-doc__date">{__BUILD_DATE__}</div>
+          <div className="portrait-doc__date">{formatBuildDate(__BUILD_DATE_ISO__, sprak)}</div>
           <img src="/oslo-logo.svg" alt="Oslo kommune" className="portrait-doc__logo" />
         </div>
       </header>

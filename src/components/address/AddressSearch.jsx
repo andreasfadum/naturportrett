@@ -52,6 +52,10 @@ export default function AddressSearch({ onAddressSelected, initialAddress = null
     setQuery(formatFullAddress(hit))
     setShowSuggestions(false)
     setConfirmed(hit)
+    // Lukk tastaturet på mobil så "Velg influensområde"-knappen blir
+    // synlig. Uten denne blir knappen liggende under tastaturet på
+    // små skjermer (f.eks. iPhone 13 mini).
+    if (inputRef.current) inputRef.current.blur()
   }
 
   function handleBlur() {

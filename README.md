@@ -1,114 +1,239 @@
 # Naturportrett
 
-Webapplikasjon for Oslo kommune (Plan- og bygningsetaten) som hjelper arkitekter, eiendomsutviklere og saksbehandlere med å identifisere biologisk mangfold innenfor influensområdet (default 500 m, konfigurerbart 100 m – 2 km) til en eiendom under utvikling.
+> Turning GBIF occurrence data into legally-grounded, AI-synthesised
+> nature portraits for land-use decisions.
 
-**Live:** https://naturportrett.figurate.studio
+A web application built for the City of Oslo, Agency for Planning and Building
+Services (Plan- og bygningsetaten), that helps planners, architects, developers
+and case handlers identify the biological diversity in the **influence zone**
+(200 m–2 km, default 500 m) of a development site — and connects it to the
+exact Norwegian legal paragraphs that apply.
 
-## For hvem
+- **Live:** <https://naturportrett.figurate.studio>
+- **License:** MIT (see [LICENSE](LICENSE))
+- **Status:** prototype, in active development by the City of Oslo
 
-- Arkitekter og eiendomsutviklere
-- Saksbehandlere i Plan- og bygningsetaten og andre Oslo-etater
-- Reguleringsplanleggere
-- Faglige rådgivere som skal bygge naturhensyn inn i tidligfase
+This README is in English so jurors of the GBIF Ebbe Nielsen Challenge 2026 and
+international readers can follow it. Internal documentation aimed at Norwegian
+contributors is in [FUNKSJONER.md](FUNKSJONER.md), [DEVLOG.md](DEVLOG.md) and
+[CLAUDE.md](CLAUDE.md).
 
-## Hva prototypen gjør
+---
 
-Verktøyet bygger et beslutningsgrunnlag i fire steg:
+## What it does
 
-1. **Adresse** — søk i hele Norge (default Oslo), justér influenssone med slider
-2. **Naturportrett** — KI-syntese av eiendomskontekst, naturtyper, observerte arter, økologiske sammenhenger, lovgrunnlag, forvaltningsråd og datakvalitets-vurderinger
-3. **Portretttype** — velg naturtype, dyreart eller plante for fordypning
-4. **Detaljportrett** — spesifikk gjennomgang med tiltakshierarki (lovstyrt krav vs. frivillig forbedring), næringskilder med lokal forekomst, symbioser og praktiske designtiltak
+Naturportrett implements a four-step flow for building a legally-grounded
+biodiversity assessment around a Norwegian address:
 
-Se [FUNKSJONER.md](FUNKSJONER.md) for en fullstendig oversikt over hva som ligger i prototypen.
+```
+1. Address  →  2. Influence zone  →  3. Portrait type  →  4. Portrait
+```
 
-## Tekniske egenskaper
+| Step | What the user does | What the system delivers |
+|---|---|---|
+| **1 — Address** | Enters a Norwegian address (default Oslo; toggle for all of Norway) | Fuzzy address search via the Norwegian Mapping Authority (Kartverket) |
+| **2 — Influence zone** | Adjusts a 200–2 000 m slider over a map with a heatmap overlay of nearby observations | Background-fetches species data for 200 m so the heatmap appears quickly; full radius fetched after confirmation |
+| **3 — Portrait type** | Chooses one of five portrait types | Nature portrait (overview) as a wide card on top, four detailed portraits in a 2×2 grid below |
+| **4 — Portrait** | Reads, prints or downloads the generated portrait | AI-synthesised, source-grounded portrait with verbatim legal paragraphs, management measures and data-quality assessments |
 
-- **Tospråklig** (norsk/engelsk) med språkbryter i toppen
-- **GBIF og iNaturalist** som primære artskilder, sortert etter datakvalitet (recency + observasjonsantall + verifiseringsnivå)
-- **Heatmap-overlay** i naturportrettets kart (default på, toggle av/på) — viser tetthet av arts-observasjoner i området rundt eiendommen
-- **Naturtype-tabell med avhengige arter** — KI lister konkrete arter som er avhengige av hver naturtype, med anti-hallusinerings-regel
-- **Lokalt indeksert lovbase** med 5 lover/forskrifter (naturmangfoldloven, plan- og bygningsloven, friluftsloven, forvaltningsloven, SAK10) — paragrafer siteres ordrett fra Lovdata
-- **Anti-hallusinering** som overordnet KI-prinsipp — utelat heller enn å gjette
-- **Modell-fallback-kjede** (Sonnet → Opus → Haiku) for robusthet ved modell-deprekering
-- **Token- og kostnadssporing** med admin-side
-- **Brukerinnspill-system** med e-postrouting via Resend
-- **PDF-eksport** med A4-tilpasset print-CSS
+### The five portrait types
 
-## Installasjon
+| Type | Scope | Primary audience |
+|---|---|---|
+| **Nature portrait** | The whole influence zone | Anyone surveying a site |
+| **Habitat portrait** | One specific NiN-classified habitat type | Ecologists, designers of green roofs/areas |
+| **Species portrait** | One specific animal species | Architects, developers, biologists |
+| **Plant portrait** | One specific plant | Landscape architects |
+| **Plan portrait** | Decision support for a planning case under Norwegian Nature Diversity Act §§ 8–12, cf. § 7 | Case handlers in regulatory planning |
 
-**Forutsetning:** Node.js 20 eller nyere.
+The **Plan portrait** is structured around five modules: a biodiversity-section
+draft (§§ 8–12), an important-nature screening, an EIA screening, candidate
+themes for zoning provisions (always with a `[bracket]`-marked draft wording
+and a mandatory "must be clarified with a lawyer" notice), and material for
+early-phase area/process clarification. See
+[PLANPORTRETT-SPEC.md](PLANPORTRETT-SPEC.md) for the full design rationale.
+
+---
+
+## How GBIF data is used
+
+Every portrait begins with a real-time call to the
+**[GBIF Occurrence Search API](https://www.gbif.org/developer/occurrence)** for
+the chosen coordinates and radius. GBIF is the foundational species-data layer:
+
+- The query covers a circle of 200–2 000 m around the address
+- Results are deduplicated with iNaturalist research-grade observations (which
+  add Norwegian common names and photos where GBIF lacks them)
+- Each species is enriched with Norwegian Red List 2021 / Alien Species List
+  2023 status from a local index
+- A transparent priority score (recency 50 % + observation count 30 % + data
+  quality 20 %) ranks species; the top 25 are sent to the AI synthesis
+
+GBIF occurrence density is also rendered as a **heatmap layer** in the portrait's
+map view, so the user can see at a glance where GBIF data is dense and where it
+is sparse around the site.
+
+Without GBIF, the tool does not exist.
+
+---
+
+## Technical architecture
+
+| Layer | Stack | Notes |
+|---|---|---|
+| Frontend | React 18 + Vite (port 5173) | Functional components + hooks. No TypeScript yet. |
+| Backend | Express.js (port 3001) | Proxy — hides the AI API key from the client |
+| Map | Leaflet + leaflet.heat + OpenStreetMap | No API key required |
+| Design | Oslo Punkt CSS + Oslo Sans (self-hosted WOFF2) | [designmanual.oslo.kommune.no](https://designmanual.oslo.kommune.no) |
+| AI | Anthropic Claude `claude-sonnet-4-6` with fallback to `claude-opus-4-8` → `claude-haiku-4-5` | Server-side only |
+| i18n | Custom `useT()` hook + `<SprakProvider>` | NO and EN |
+| Cache | localStorage with 24-hour TTL on AI output | Reduces token cost on language toggle and back-navigation |
+
+### Data sources
+
+| Source | Purpose | How |
+|---|---|---|
+| GBIF | Primary species occurrence data | `api.gbif.org/v1/occurrence/search` |
+| iNaturalist | Photos, Norwegian names, research-grade observations | `inaturalist.org/observations` with `quality_grade=research` |
+| Norwegian Mapping Authority (Kartverket) | Address resolution to coordinates | `ws.geonorge.no/adresser/v1/sok` with `fuzzy=true` |
+| Lovdata | Verbatim Norwegian legal texts | Indexed locally from official markdown exports in `Kunnskapsbase/` (429 paragraphs across five laws/regulations) |
+| Anthropic Claude | AI synthesis | Via server proxy — the AI key is never exposed to the frontend |
+| OpenStreetMap | Base map tiles | Via Leaflet |
+
+---
+
+## Quick start
+
+**Requirements:** Node.js 20 or newer. An Anthropic API key from
+<https://console.anthropic.com>.
 
 ```bash
+git clone https://github.com/andreasfadum/naturportrett.git
+cd naturportrett
 npm install
 cp .env.example .env
-# Legg inn ANTHROPIC_API_KEY i .env
+# Add your ANTHROPIC_API_KEY to .env
 npm run dev:all
 ```
 
-Åpne http://localhost:5173.
+Open <http://localhost:5173>.
 
-## Miljøvariabler
+`npm run dev:all` runs Vite (5173) and Express (3001) concurrently.
 
-| Variabel | Beskrivelse | Påkrevd |
+### Build for production
+
+```bash
+npm run build       # builds dist/
+npm start           # serves dist/ + API on process.env.PORT
+```
+
+### Other useful scripts
+
+```bash
+npm run build:lover-index   # regenerate legal indices from Kunnskapsbase/ markdown files
+npm run build:heatmap-data  # rebuild /public/heatmap-data.json from GBIF (slow, ~5 min)
+npm run check-models        # verify which Claude models are currently available
+```
+
+### Environment variables
+
+| Variable | Description | Required |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Claude API-nøkkel fra console.anthropic.com | Ja |
-| `PORT` | Express-port (default 3001) | Nei |
-| `RESEND_API_KEY` | For e-post-routing av tilbakemeldinger | Nei |
-| `FEEDBACK_RECIPIENT_EMAIL` | Mottaker for brukerinnspill | Nei |
-| `WORKSHOP_ADMIN_PASSWORD` | Passord for `/admin/feedback` og `/admin/usage` | Nei (default: `naturportrett`) |
-| `WORKSHOP_DATA_DIR` | Path for persistent lagring (Railway: `/data`) | Nei |
+| `ANTHROPIC_API_KEY` | Claude API key | **Yes** |
+| `PORT` | Express port (default 3001) | No |
+| `RESEND_API_KEY` | For routing user feedback as email | No |
+| `FEEDBACK_RECIPIENT_EMAIL` | Recipient address for user feedback | No |
+| `WORKSHOP_ADMIN_PASSWORD` | Password for `/admin/feedback` and `/admin/usage` | No (default: `naturportrett`) |
+| `WORKSHOP_DATA_DIR` | Path for persistent storage (Railway: `/data`) | No |
 
-## Prosjektstruktur
+---
 
-```
-src/
-  components/        React-komponenter (address, naturportrett, detail-portrait, portrait-shared, layout, feedback, admin, legal)
-  hooks/             React-hooks (useAddressSearch, useSpeciesSearch, usePortraitGeneration)
-  services/          API-klienter (kartverket, inaturalist, gbif, speciesAggregator)
-  utils/             Hjelpefunksjoner (norwegianText, osloGronnstrukturer, speciesCategories)
-  i18n/              Tospråklighet (translations.js + useT-hook + SprakProvider)
-  pages/             Heatmap-side
-server/
-  routes/            Express-routere (claude, sources, feedback, usage)
-  prompts/           KI-prompts pr portretttype + shared.js med anti-hallusinerings-prinsipp
-  lover/             Berikelse av paragrafreferanser med Lovdata-sitater
-  usage/             Token- og kostnadssporing
-Kunnskapsbase/       Lovdata-markdown-filer + indekserte JSON-filer
-kunnskapskilder/     JSON-konfigurasjon for datakilder
-samarbeid-BYM/       Korrespondanse med Bymiljøetaten
-samarbeid-KLI/       Korrespondanse med Klimaetaten
-samarbeid-GBIF/      Vurdering av Ebbe Nielsen Challenge-søknad
-workshop-app/        Underapp brukt på workshop 17. juni 2026
-workshop/            Møtereferat og brukerinnspill fra workshops
-svar-radata/         Frossen rådata fra spørreskjemaer (gitignored)
-presentasjon/        Slide-materiale
-```
+## Adapting Naturportrett to another jurisdiction
 
-## Sentrale dokumenter
+The architecture is **not Norway-specific** — only the *content* of the legal
+corpus, the address source and the green-structure list. Replacing these for
+another city or country is intended to be straightforward.
+
+### 1. Swap the legal corpus
+
+The whole verbatim-quoting legal layer is loaded from JSON indices in
+`Kunnskapsbase/index/` and generated from markdown files in `Kunnskapsbase/`
+by `scripts/build-lover-index.js`.
+
+**To adapt:**
+
+1. Export the relevant laws and regulations as markdown (one file per law)
+   into `Kunnskapsbase/your-country/`.
+2. Update `Kunnskapsbase/index/index.json` to point to your new law files with
+   short codes (e.g. `bauNVZ`, `planAct`, `epa`).
+3. Run `npm run build:lover-index`.
+4. Update the prompt files in `server/prompts/` so the AI uses your new law
+   short codes when filling the `relevanteLover` field — the validation rule
+   (a quoted paragraph's `lov` ID must match the corpus) ensures the model
+   cannot smuggle in laws that are not indexed.
+
+### 2. Swap the address source
+
+`src/services/kartverket.js` is the only place that talks to the Norwegian
+Mapping Authority. Replace it with a wrapper that takes a string and returns
+`{ lat, lon, displayName }`. Any geocoder works (Nominatim, Mapbox, Google
+Geocoding, etc.).
+
+### 3. Swap the green-structure list
+
+`src/utils/osloGronnstrukturer.js` is a curated list of 30 Oslo parks,
+nature reserves and ecological corridors with names, types, coordinates and a
+bounding box. The list is used to give the AI a concrete checklist of nearby
+named places so it does not invent locations.
+
+**To adapt:**
+
+1. Replace the array with your own list (city parks, reserves, biodiversity
+   corridors, etc.). Each entry needs `navn`, `type`, `lat`, `lon`.
+2. Update the bounding box at the top of the file so the helper only activates
+   when the user is within your city.
+3. Update the `kunnskapskilder/` JSON if you have additional curated sources.
+
+### 4. Translate the UI
+
+`src/i18n/translations.js` has a flat key-value map with `no` and `en`
+variants. Add your language code (e.g. `de`, `fr`) as a third variant per
+entry, then extend the `<SprakProvider>` and `<LanguageSwitcher>` with the new
+choice. KI-generated text follows the user's UI language via an explicit
+`OUTPUT LANGUAGE` instruction at the top of every system prompt.
+
+### 5. (Optional) Swap the AI provider
+
+`server/routes/claude.js` is the only file that imports the Anthropic SDK.
+The portrait endpoint receives a `payload` and returns a structured JSON
+result — the contract is provider-agnostic. To use a different model
+(OpenAI, Google, local Llama, etc.), replace `createWithRetry()` and the
+`MODEL_CHAIN` import. The prompt files in `server/prompts/` are plain
+template literals you can keep as is.
+
+---
+
+## License and attribution
+
+This project is released under the **[MIT License](LICENSE)**.
+
+The verbatim Norwegian legal texts indexed in `Kunnskapsbase/` are sourced from
+Lovdata (<https://lovdata.no>) and remain subject to Lovdata's terms.
+
+Species occurrence data is fetched in real time from
+[GBIF](https://www.gbif.org) and [iNaturalist](https://www.inaturalist.org).
+
+The conceptual lineage of the species, plant and habitat portrait formats
+traces back to the **Animal-Aided Design** framework developed by Thomas
+Hauck and Wolfgang W. Weisser at TU Munich.
+
+---
+
+## Sentral dokumentasjon (på norsk)
 
 - **[FUNKSJONER.md](FUNKSJONER.md)** — komplett funksjonsoversikt
 - **[DEVLOG.md](DEVLOG.md)** — kronologisk endringshistorikk
 - **[CLAUDE.md](CLAUDE.md)** — instruksjoner for KI-assistenter som jobber på prosjektet
-
-## Designsystem
-
-Følger Oslo kommunes visuelle identitet:
-- [designmanual.oslo.kommune.no](https://designmanual.oslo.kommune.no)
-- Oslo Sans (selvhostet WOFF2)
-- Oslo-palett som CSS-variabler (`--oslo-*` i `src/index.css`)
-
-## API-nøkler / eksterne tjenester
-
-| Tjeneste | Nøkkel nødvendig | Brukes til |
-|---|---|---|
-| Anthropic Claude | **Ja** | KI-syntese av portretter |
-| Resend | Nei (anbefales) | E-post-routing av brukerinnspill |
-| Kartverket adresse-API | Nei | Adressesøk i hele Norge |
-| iNaturalist | Nei | Foto, norske navn, peer-verifiserte artsobservasjoner |
-| GBIF | Nei | Primær artsdata |
-| OpenStreetMap | Nei | Kart-tile i Leaflet |
-
-## Teknologi
-
-React 18 · Vite · Express.js · Anthropic SDK · Leaflet + leaflet.heat · Fuse.js · Resend
+- **[PLANPORTRETT-SPEC.md](PLANPORTRETT-SPEC.md)** — spesifikasjon for Planportrett-typen
+- **[SAKSBEHANDLING-ANALYSE-OG-ITERASJONER.md](SAKSBEHANDLING-ANALYSE-OG-ITERASJONER.md)** — analyse av saksbehandler-behov
+- **[samarbeid-GBIF/](samarbeid-GBIF/)** — arbeidet rundt Ebbe Nielsen Challenge-søknaden

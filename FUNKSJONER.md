@@ -53,9 +53,9 @@ Egen side med kart + heatmap-overlay + slider. Flyttet ut av adressesteget 24. j
 
 ---
 
-## 3. Naturportrett (steg 2)
+## 3. Naturportrett (oversiktsvalget på steg 3)
 
-KI-syntese basert på Claude (`claude-sonnet-4-6` med fallback til `claude-opus-4-8` → `claude-haiku-4-5`).
+Velges som det første og bredeste kortet på portretttype-skjermen. KI-syntese basert på Claude (`claude-sonnet-4-6` med fallback til `claude-opus-4-8` → `claude-haiku-4-5`). Skiller seg fra detaljportrettene ved at det dekker hele influensområdet, ikke ett konkret subject.
 
 ### Innhold i portrettet
 - **Informasjonsbase-banner** — tydelig avgrensning: portrettet erstatter ikke faglig kvalitetssikring
@@ -165,7 +165,7 @@ Tre tabeller — Plantebaserte næringskilder, Habitatstøttende planter, Dyreba
 
 Under hver tabell renderes en kort **synteseblokk** (italic, blå venstre-border) — «Oppsummering: hva må prioriteres ved drift/forvaltning av eiendommen».
 
-Layout: de tre tabellene stacker vertikalt (én under én) for å gi 4-kolonners tabeller nok plass. `table-layout: fixed` + `overflow-wrap: break-word` på alle portrett-tabeller forhindrer overflow ved lange tekstceller.
+Layout: de tre tabellene stacker vertikalt (én under én) for å gi 4-kolonners tabeller nok plass. `table-layout: fixed` + `overflow-wrap: break-word` på alle portrett-tabeller forhindrer overflow ved lange tekstceller. På mobil rendres de via `<ResponsiveTable>` (card-layout per rad) — ingen horisontal scroll (se § 16).
 
 ---
 
@@ -214,7 +214,8 @@ KI-genererte tekster om jus blir aldri «tolket» — paragrafene siteres slik d
 - Print-CSS gir A4 med 15 mm marginer, nullstilling av flex-stacken for å unngå tom førsteside
 - Typografi optimert: 10.5pt body, 18/13/11pt overskrifter, page-break-inside avoid på lov-blokker, kart, tabeller, eiendomskontekst og symbiose-kort
 - Feedback-knapp og portrait-nav skjules
-- Dev-banner beholdes (med ryddig papir-styling) som påminnelse om at portrettet er fra testversjon
+- Sist-oppdatert-linjen i footer beholdes (med ryddig papir-styling) som dato-stempel på utskriften
+- Lovsitater åpnes automatisk ved `beforeprint` (JS-handler i `LegalReferences`) så PDF får komplette sitater selv om de er kollaps i nettleseren
 
 ### Heatmap-side (`/heatmap`)
 - Egen helsides-visualisering av alle arts-registreringer i Oslo som leaflet.heat heatmap (samme datakilde som overlay-en i naturportrett-kartet)
@@ -249,12 +250,15 @@ Admin-side `/admin/feedback` (passordbeskyttet) viser alle innslag + nedlasting 
 `claude-sonnet-4-6` (default) → `claude-opus-4-8` (hvis sonnet er deprecated) → `claude-haiku-4-5` (hvis opus er deprecated). Brukbart fra `server/routes/claude.js` ved 404 / model_not_found.
 
 ### Token- og kostnadssporing
+
 Hvert Claude-kall logges som én linje i `claude-usage.jsonl` på Railway-volumet med:
+
 - Tidspunkt, klient-IP, kontekst (`portrait:naturportrett` etc.), modell
+- **`zoneRadiusM`** (valgt influensområde-radius) — for å spore om token-forbruk øker med større område
 - Input/output/cache-tokens
 - Estimert USD-kost basert på Anthropic prisliste (sonnet $3/$15, opus $15/$75, haiku $1/$5 per million tokens)
 
-Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell og kontekst, sessions (unik IP innenfor 30 min) og snitt USD per session.
+Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell og kontekst, sessions (unik IP innenfor 30 min), snitt USD per session, og **per-radius-tabell** (bin på 100 m) som svarer på om token-forbruk øker med influensområde-størrelse.
 
 ---
 
@@ -262,8 +266,9 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 
 - Sentral oversettelseskatalog i `src/i18n/translations.js`
 - `useT()`-hook + `<SprakProvider>` på rotnivå
-- 150+ oversatte strenger på norsk og engelsk
+- 200+ oversatte strenger på norsk og engelsk (utvidet i juni 2026 med planportrett-strenger, influensområde-steg og mobil-strenger)
 - KI-genererte tekster oversettes via system-prompt-instruks; KI-feltnavn forblir norske (matche tilbake til UI-mappings)
+- Språkbytte etter ferdig portrett: regenererer KI-tekst automatisk (gjenbruker `pickedSubject`), eller treffer cache hvis brukeren har sett denne språkversjonen før
 
 ---
 
@@ -272,7 +277,7 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 - Oslo kommunes visuelle identitet (Oslo Sans, Punkt CSS, Oslo-paletten via `--oslo-*` CSS-variabler)
 - Inline SVG-flagg for språkbryteren (vises i alle nettlesere inkludert Windows)
 - Konsistent spacing-mønster på alle innholdsseksjoner: h2-tittel → intro-tekst (med ramme) → liste/kort med `margin-top: var(--space-4)` og `gap: var(--space-4)`. Gjelder forvaltningsråd, praktiske designtiltak, symbioser og datakvalitet — én sannhetskilde for vertikal rytme.
-- Prototype-banner («Prototype under utvikling — sist oppdatert {dato}» / «Prototype under development — last updated {dato}») ligger i footer som dempet linje, ikke som topbanner. Skjules i print.
+- Prototype-banner forkortet til «Sist oppdatert {dato}» / «Last updated {dato}» i juni 2026 (tidligere prefiks «Prototype under utvikling — » fjernet). Ligger i footer som dempet linje, ikke som topbanner. Skjules i print.
 - Designreferanse: [designmanual.oslo.kommune.no](https://designmanual.oslo.kommune.no)
 
 ---
@@ -291,6 +296,11 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 | Heatmap som overlay i naturportrett-kart (default på) | Gir umiddelbar visuell kontekst om datatetthet uten å kreve at brukeren navigerer til egen side. Toggle av/på hvis ønsket. |
 | MAX_SPECIES = 500 (ikke 60) | Tidligere kappet alltid på 60 så oppsummeringen viste samme tall. iNaturalist + GBIF gir teoretisk maks ~200, så 500 er bare safety-net. |
 | Prototype-banner i footer, ikke topp | Mindre påtrengende i den faktiske brukerflyten; informerer fortsatt om status uten å konkurrere med Oslo-banneret |
+| Portrett-cache i `localStorage` (24-timers TTL) | Sparer KI-runder ved språkbytte frem-og-tilbake, refresh, cross-tab og tilbake-navigering. KI-output er det dyreste å regenerere; species-data er rask og caches ikke |
+| `useSpeciesSearch` løftet til `App.jsx` med to-fase-fetching | 200 m hentes så snart adressen er valgt (heatmap-overlay raskt synlig). Full radius hentes etter at brukeren har bekreftet influensområde. Slik er species-data nesten klart når portrettet skal genereres |
+| Slider på steg 2 oppdaterer LOKAL state mens brukeren drar | Forhindrer species-spam ved hver pixel. Først ved bekreft-klikk propageres ny radius til App |
+| Naturportrett som ett av fem valg (ikke tvunget mellomsteg) | Brukerne kan gå rett til den portrettypen de trenger uten å vente på naturportrett først. Færre KI-kall hvis brukeren bare vil ha et artsportrett |
+| Planportrettets juridiske grense kodet inn i prompten | KI sammenstiller, KI konkluderer aldri. «Kan tale for KU», aldri «er KU-pliktig». Bestemmelser som temaer + `[klamme]`-skisse, aldri ferdig ordlyd. Beskytter saksbehandlers/juristens ansvar |
 
 ---
 
@@ -335,7 +345,7 @@ Lange tekstavsnitt forkortes til ~220 tegn på mobil (kuttet ved nærmeste setni
 ### Andre mobil-grep
 - Arts-tabellen i naturportrettet: skjuler kategori- og datakvalitet-kolonnene på mobil (kategori vises som badge under norsk navn)
 - Lovsitater alltid kollaps som default (`<details>`) på både mobil og desktop — JS-handler åpner alle ved `beforeprint` så PDF får sitatene
-- Heatmap-effekt forsterket på mobil: radius 22 → 45 px, blur 28 → 55 px, minOpacity 0.35 → 0.6
+- Heatmap-effekt forsterket på begge plattformer (særlig viktig ved liten influenssone der kartet er sterkt zoomet inn). Desktop: radius 22 → 35 px, blur 28 → 45 px, minOpacity 0.35 → 0.55. Mobil: radius → 45 px, blur → 55 px, minOpacity → 0.6
 - Header-logo 50 % større, kollisjon-håndtering med `flex-wrap`
 - Konsistent 1100 px max-width på alle steg
 

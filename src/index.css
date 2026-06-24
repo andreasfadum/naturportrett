@@ -877,6 +877,21 @@ img {
   text-align: center;
   font-size: var(--font-size-sm);
   margin-top: auto;
+  /* z-index 0 lager en stacking context som ligger UNDER dropdown
+     (.address-suggestions har z-index 1000). Forhindrer at footer
+     skjuler adresseforslag på iOS når tastaturet er åpent. */
+  position: relative;
+  z-index: 0;
+}
+
+/* På mobil: skjul footer helt når adresseforslagene er åpne. Tastaturet
+   gjør viewporten kort, og selv med høyere z-index ligger forslagene
+   trangt. Footer er ikke kritisk i søkeflyten — den vises igjen etter
+   at adressen er valgt og tastaturet er lukket. */
+@media (max-width: 720px) {
+  body:has(.address-suggestions) .app-footer {
+    display: none;
+  }
 }
 
 .app-footer__lenker {
@@ -1071,7 +1086,9 @@ button.step-indicator__item--klikkbar:active {
   border: 2px solid var(--oslo-morkebla);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
-  z-index: 100;
+  /* Høy z-index — på iOS når tastaturet er åpent ligger footer trangt
+     og kan ellers stable seg over forslagene. */
+  z-index: 1000;
   overflow: hidden;
 }
 

@@ -1,10 +1,16 @@
 import { useState, useCallback } from 'react'
+import { getCache, setCache, lagCacheNokkel } from '../utils/portraitCache.js'
 
 /**
  * Genererer portretter via SSE-strømmet endepunkt. Server sender chunks
  * underveis (for å holde Railway-proxyen levende ved kall som tar over
  * 60 sek), og et endelig 'portrait'-event med det parsete portrett-
  * objektet. Vi viser ikke chunks i UI — bare brukes som heartbeat.
+ *
+ * Cache: før vi fetcher, sjekker vi om brukeren allerede har sett dette
+ * portrettet (samme adresse/radius/språk/subject) innenfor TTL. Hvis hit:
+ * instant retur uten loading-spinner og uten KI-kostnad. Se
+ * src/utils/portraitCache.js.
  *
  * Events fra server:
  *   event: progress  → { lengde }          (lengden av rå tekst så langt)
@@ -18,8 +24,18 @@ export function usePortraitGeneration() {
   const [error, setError] = useState(null)
 
   const generate = useCallback(async (portraitType, payload) => {
-    setIsLoading(true)
     setError(null)
+
+    // Cache-sjekk før vi rører nettverket
+    const cacheNokkel = lagCacheNokkel(portraitType, payload)
+    const cached = getCache(cacheNokkel)
+    if (cached) {
+      setPortrait(cached)
+      setIsLoading(false)
+      return
+    }
+
+    setIsLoading(true)
     setPortrait(null)
     try {
       const res = await fetch('/api/claude/portrait', {
@@ -74,6 +90,7 @@ export function usePortraitGeneration() {
 
       if (serverError) throw new Error(serverError)
       if (!portraitData) throw new Error('Mangler portrait-respons fra serveren.')
+      setCache(cacheNokkel, portraitData.portrait)
       setPortrait(portraitData.portrait)
     } catch (err) {
       setError(err.message)

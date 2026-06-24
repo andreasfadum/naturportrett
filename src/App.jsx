@@ -11,6 +11,7 @@ import HeatmapPage from './pages/HeatmapPage.jsx'
 import FeedbackAdminSide from './components/feedback/FeedbackAdminSide.jsx'
 import UsageAdminSide from './components/admin/UsageAdminSide.jsx'
 import { useSpeciesSearch } from './hooks/useSpeciesSearch.js'
+import { cleanupExpired } from './utils/portraitCache.js'
 
 export default function App() {
   const [pathname, setPathname] = useState(() =>
@@ -22,6 +23,9 @@ export default function App() {
     window.addEventListener('popstate', oppdater)
     return () => window.removeEventListener('popstate', oppdater)
   }, [])
+
+  // Rydd utløpte portrett-cache-entries fra localStorage ved app-start.
+  useEffect(() => { cleanupExpired() }, [])
 
   if (pathname.startsWith('/heatmap')) {
     return <HeatmapPage />

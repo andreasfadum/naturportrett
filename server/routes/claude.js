@@ -5,6 +5,7 @@ import * as naturportrett from '../prompts/naturportrett.js'
 import * as artsportrett from '../prompts/artsportrett.js'
 import * as planteportrett from '../prompts/planteportrett.js'
 import * as naturtypeportrett from '../prompts/naturtypeportrett.js'
+import * as planportrett from '../prompts/planportrett.js'
 import { enrichRelevanteLover } from '../lover/index.js'
 import { CLAUDE_MODEL, MODEL_CHAIN, isModelNotFoundError } from '../config/model.js'
 import { logUsage } from '../usage/index.js'
@@ -20,6 +21,7 @@ const PORTRAIT_MODULES = {
   artsportrett,
   planteportrett,
   naturtypeportrett,
+  planportrett,
 }
 
 // Eldre endepunkt — beholdt for kompatibilitet med tidligere "vurdering"-flyt

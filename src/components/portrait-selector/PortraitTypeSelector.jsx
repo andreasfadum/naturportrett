@@ -21,6 +21,12 @@ export default function PortraitTypeSelector({ onSelect, onBack }) {
       beskrivelse: t('velger.plante.beskrivelse'),
       ikon: '🌿',
     },
+    {
+      type: 'planportrett',
+      tittel: t('velger.plan.tittel'),
+      beskrivelse: t('velger.plan.beskrivelse'),
+      ikon: '📋',
+    },
   ]
 
   return (

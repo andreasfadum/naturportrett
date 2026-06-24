@@ -5,6 +5,7 @@ import SpeciesFilter from '../species/SpeciesFilter.jsx'
 import ArtsportrettView from './ArtsportrettView.jsx'
 import PlanteportrettView from './PlanteportrettView.jsx'
 import NaturtypeportrettView from './NaturtypeportrettView.jsx'
+import PlanportrettView from './PlanportrettView.jsx'
 import PdfDownloadButton from './PdfDownloadButton.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { useT, useSprak } from '../../i18n/index.jsx'
@@ -27,6 +28,15 @@ const TYPE_CONFIG = {
     tittelKey: 'detalj.naturtypeportrett.tittel',
     pickLabelKey: 'detalj.naturtypeportrett.velg',
     emptyMsgKey: 'detalj.naturtypeportrett.tom',
+    filter: null,
+  },
+  // Planportrett tar IKKE et subject — det er beslutningsgrunnlag for
+  // eiendommen/influensområdet som helhet. Subject-picker hoppes over
+  // og generering starter direkte via bekreftelsesmodal.
+  planportrett: {
+    tittelKey: 'detalj.planportrett.tittel',
+    pickLabelKey: 'detalj.planportrett.velg',
+    emptyMsgKey: 'detalj.planportrett.tom',
     filter: null,
   },
 }
@@ -117,6 +127,16 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     setBekreftEmne({ type: 'naturtype', payload: nt, navn: nt.navn, vitenskapelig: nt.ninKode })
   }
 
+  function handlePickPlanportrett() {
+    // Planportrettet gjelder eiendommen/influensområdet — ingen subject
+    setBekreftEmne({
+      type: 'planportrett',
+      payload: null,
+      navn: [address.adressenavn, address.nummer].filter(Boolean).join(' '),
+      vitenskapelig: null,
+    })
+  }
+
   function bekreftOgGener() {
     if (!bekreftEmne) return
     const valgt = bekreftEmne
@@ -134,6 +154,16 @@ export default function DetailPortraitSection({ portraitType, address, species, 
       setPickedSubject(valgt.payload)
       generate(portraitType, {
         species: valgt.payload,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    } else if (valgt.type === 'planportrett') {
+      // Sett pickedSubject til en sentinel-verdi slik at render-logikken
+      // vet at vi har "valgt" planportrettet (selv om det ikke er en art)
+      setPickedSubject({ navn: valgt.navn, _erPlanportrett: true })
+      generate('planportrett', {
         address,
         observedSpecies: species,
         narliggendeGronnstrukturer,
@@ -164,6 +194,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
           {portraitType === 'artsportrett' && <ArtsportrettView portrait={portrait} subject={pickedSubject} />}
           {portraitType === 'planteportrett' && <PlanteportrettView portrait={portrait} subject={pickedSubject} />}
           {portraitType === 'naturtypeportrett' && <NaturtypeportrettView portrait={portrait} subject={pickedSubject} />}
+          {portraitType === 'planportrett' && <PlanportrettView portrait={portrait} address={address} />}
         </div>
         <div className="portrait-nav no-print" style={{
           display: 'flex',
@@ -230,7 +261,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
   }
 
   // Subject picker
-  const erSpeciesType = portraitType !== 'naturtypeportrett'
+  const erSpeciesType = portraitType !== 'naturtypeportrett' && portraitType !== 'planportrett'
 
   return (
     <div>
@@ -247,7 +278,25 @@ export default function DetailPortraitSection({ portraitType, address, species, 
         </details>
       )}
 
-      {portraitType === 'naturtypeportrett' ? (
+      {portraitType === 'planportrett' ? (
+        <div className="planportrett-start">
+          <p className="planportrett-start__intro">{t('detalj.planportrett.intro-lang')}</p>
+          <ul className="planportrett-start__moduler">
+            <li>{t('detalj.planportrett.modul.A')}</li>
+            <li>{t('detalj.planportrett.modul.B')}</li>
+            <li>{t('detalj.planportrett.modul.D')}</li>
+            <li>{t('detalj.planportrett.modul.C')}</li>
+            <li>{t('detalj.planportrett.modul.E')}</li>
+          </ul>
+          <button
+            type="button"
+            className="btn btn--primary planportrett-start__knapp"
+            onClick={handlePickPlanportrett}
+          >
+            {t('detalj.planportrett.gener-knapp')}
+          </button>
+        </div>
+      ) : portraitType === 'naturtypeportrett' ? (
         <div className="naturtype-grid">
           {naturtypeForslag.map(nt => (
             <button

@@ -3438,3 +3438,271 @@ ul.portrait-doc__textblock {
   line-height: 1.45;
   font-style: italic;
 }
+
+/* === Planportrett === */
+
+/* Start-skjerm når brukeren har valgt planportrett (i stedet for picker) */
+.planportrett-start {
+  background: var(--oslo-lysbeige);
+  border: 1px solid var(--oslo-morkbeige, #d6cfb8);
+  padding: var(--space-5) var(--space-6);
+  border-radius: 8px;
+  max-width: 720px;
+}
+.planportrett-start__intro {
+  margin: 0 0 var(--space-4);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.planportrett-start__moduler {
+  margin: 0 0 var(--space-5);
+  padding-left: var(--space-5);
+  line-height: 1.7;
+}
+.planportrett-start__moduler li {
+  margin-bottom: var(--space-2);
+}
+.planportrett-start__knapp {
+  margin-top: var(--space-2);
+}
+
+/* Intro under hver moduls h2 */
+.planportrett__modul-intro {
+  margin: 0 0 var(--space-3);
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 0.92rem;
+}
+.planportrett__underseksjon {
+  margin-bottom: var(--space-5);
+}
+.planportrett__underseksjon:last-child {
+  margin-bottom: 0;
+}
+.planportrett__liste {
+  padding-left: var(--space-5);
+  line-height: 1.55;
+}
+.planportrett__liste li {
+  margin-bottom: var(--space-2);
+}
+.planportrett__kilder, .planportrett__uttrekksdato {
+  font-size: 0.88rem;
+  opacity: 0.85;
+  margin-top: var(--space-2);
+}
+.planportrett__saksbehandler-merk {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-lysbeige);
+  border-left: 3px solid var(--oslo-morkebla);
+  font-size: 0.92rem;
+  font-style: italic;
+}
+.planportrett__samlet-forbehold {
+  background: #fff8e1;
+  border: 1px solid #ffd54f;
+  border-left-width: 5px;
+  padding: var(--space-4) var(--space-5);
+  border-radius: 4px;
+}
+.planportrett__samlet-forbehold p {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Viktig-natur-flagg */
+.viktig-natur-flagg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border-radius: 6px;
+  border: 2px solid;
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+.viktig-natur-flagg--lav { background: #e8f5e9; border-color: #66bb6a; }
+.viktig-natur-flagg--middels { background: #fff3e0; border-color: #ffa726; }
+.viktig-natur-flagg--hoy { background: #ffebee; border-color: #ef5350; }
+.viktig-natur-flagg--ukjent { background: #f5f5f5; border-color: #bdbdbd; }
+.viktig-natur-flagg__grad {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.viktig-natur-flagg__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.viktig-natur-flagg__verdi {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.viktig-natur-flagg__anbefaling {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+.viktig-natur-flagg__begrunnelse {
+  padding-left: var(--space-5);
+  line-height: 1.55;
+  margin: 0 0 var(--space-3);
+}
+.viktig-natur-flagg__begrunnelse li {
+  margin-bottom: var(--space-2);
+}
+.viktig-natur-flagg__forbehold {
+  margin: var(--space-3) 0 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* KU-screening */
+.ku-screening__indikasjon {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  border: 2px solid;
+  margin-bottom: var(--space-4);
+}
+.ku-screening__indikasjon--lav { background: #e8f5e9; border-color: #66bb6a; }
+.ku-screening__indikasjon--middels { background: #fff3e0; border-color: #ffa726; }
+.ku-screening__indikasjon--hoy { background: #ffebee; border-color: #ef5350; }
+.ku-screening__indikasjon--ikke-vurdert { background: #f5f5f5; border-color: #bdbdbd; }
+.ku-screening__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.ku-screening__verdi {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.ku-screening__blokk {
+  margin-bottom: var(--space-4);
+}
+.ku-screening__liste {
+  padding-left: var(--space-5);
+  line-height: 1.55;
+}
+.ku-screening__liste li {
+  margin-bottom: var(--space-2);
+}
+.ku-screening__tom {
+  font-style: italic;
+  opacity: 0.75;
+}
+.ku-screening__forbehold {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--oslo-lysbeige);
+  border-left: 3px solid var(--oslo-morkebla);
+  font-size: 0.9rem;
+}
+
+/* Bestemmelsesforslag */
+.bestemmelser__forbehold {
+  background: #fff8e1;
+  border: 1px solid #ffd54f;
+  border-left-width: 5px;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  border-radius: 4px;
+}
+.bestemmelser__tom {
+  font-style: italic;
+  opacity: 0.75;
+}
+.bestemmelser-liste {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: bestemmelse;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.bestemmelser-liste__kort {
+  counter-increment: bestemmelse;
+  border: 1px solid var(--oslo-svart);
+  border-radius: 6px;
+  padding: var(--space-4);
+  position: relative;
+}
+.bestemmelser-liste__kort::before {
+  content: counter(bestemmelse);
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-4);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--oslo-morkebla);
+  opacity: 0.25;
+  line-height: 1;
+}
+.bestemmelser-liste__tema {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+  margin-bottom: var(--space-3);
+  padding-right: 40px;
+}
+.bestemmelser-liste__behov,
+.bestemmelser-liste__hjemmel,
+.bestemmelser-liste__skisse,
+.bestemmelser-liste__overlapp {
+  margin-bottom: var(--space-3);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.bestemmelser-liste__felt-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--oslo-morkebla);
+  display: block;
+  margin-bottom: 4px;
+}
+.bestemmelser-liste__hjemmel-kode {
+  background: var(--oslo-lysbeige);
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.92rem;
+}
+.bestemmelser-liste__kategori {
+  font-size: 0.78rem;
+  opacity: 0.7;
+  margin-left: var(--space-2);
+  text-transform: lowercase;
+}
+.bestemmelser-liste__hjemmel-merk {
+  font-size: 0.82rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+.bestemmelser-liste__skisse-tekst {
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) var(--space-4);
+  background: #fafafa;
+  border-left: 3px solid var(--oslo-morkebla);
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.bestemmelser-liste__jurist {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  font-size: 0.88rem;
+  color: var(--oslo-morkebla);
+  font-weight: 500;
+}

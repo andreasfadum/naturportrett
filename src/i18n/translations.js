@@ -412,8 +412,8 @@ export const oversettelser = {
     en: '← Back to Naturportrett',
   },
   'footer.dev-banner': {
-    no: 'Prototype under utvikling — sist oppdatert {dato}',
-    en: 'Prototype under development — last updated {dato}',
+    no: 'Sist oppdatert {dato}',
+    en: 'Last updated {dato}',
   },
 
   // --- FactBox-labels (Naturportrett-hovedseksjonen) ---
@@ -670,8 +670,8 @@ export const oversettelser = {
     en: 'Generate {portretttype}?',
   },
   'bekreft.intro': {
-    no: 'Portrettet bygges fra åpne datakilder og KI-syntese. Genereringen tar gjerne under ett minutt.',
-    en: 'The portrait is built from open data sources and AI synthesis. Generation usually takes under a minute.',
+    no: 'Portrettet bygges fra åpne datakilder og KI-syntese. Genereringen tar gjerne under ett minutt, men varigheten påvirkes av størrelsen på influensområdet og mengden artsdata som er registrert i området.',
+    en: 'The portrait is built from open data sources and AI synthesis. Generation usually takes under a minute, but the duration depends on the size of the influence zone and the amount of species data registered in the area.',
   },
   'bekreft.gener': { no: 'Generér portrett', en: 'Generate portrait' },
   'bekreft.aria.lukk': { no: 'Lukk', en: 'Close' },

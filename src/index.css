@@ -3441,6 +3441,20 @@ ul.portrait-doc__textblock {
 
 /* === Planportrett === */
 
+/* Adresse i header — saksbehandler trenger å se hvilken eiendom det
+   gjelder med en gang. Mer prominent enn undertittelen. */
+.planportrett__adresse {
+  margin: var(--space-3) 0 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--oslo-morkebla);
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+}
+@media (max-width: 720px) {
+  .planportrett__adresse { font-size: 1.1rem; }
+}
+
 /* Start-skjerm når brukeren har valgt planportrett (i stedet for picker) */
 .planportrett-start {
   background: var(--oslo-lysbeige);
@@ -3683,6 +3697,15 @@ ul.portrait-doc__textblock {
   margin-left: var(--space-2);
   text-transform: lowercase;
 }
+.bestemmelser-liste__hjemmel-lenke {
+  margin-left: var(--space-2);
+  color: var(--oslo-morkebla);
+  text-decoration: underline;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+.bestemmelser-liste__hjemmel-lenke:hover { text-decoration: none; }
+
 .bestemmelser-liste__hjemmel-merk {
   font-size: 0.82rem;
   opacity: 0.7;

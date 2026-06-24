@@ -29,7 +29,7 @@ export default function PlanportrettView({ portrait, address }) {
         <div>
           <h1 className="portrait-doc__title">{t('planportrett.tittel')}</h1>
           <p className="portrait-doc__undertittel">{t('planportrett.undertittel')}</p>
-          {adresseStr && <p className="portrait-doc__adresse">{adresseStr}</p>}
+          {adresseStr && <p className="planportrett__adresse">{adresseStr}</p>}
         </div>
         <div className="portrait-doc__header-right">
           <div className="portrait-doc__date">{__BUILD_DATE__}</div>
@@ -39,7 +39,7 @@ export default function PlanportrettView({ portrait, address }) {
 
       {p.eiendomsKontekst && (
         <section className="eiendomskontekst">
-          <h2 className="eiendomskontekst__tittel">{t('seksjon.eiendomskontekst')}</h2>
+          <h2 className="eiendomskontekst__tittel">{t('naturportrett.eiendomskontekst.tittel')}</h2>
           <ExpandableText className="eiendomskontekst__brodtekst">{p.eiendomsKontekst}</ExpandableText>
         </section>
       )}
@@ -122,7 +122,7 @@ export default function PlanportrettView({ portrait, address }) {
 
       {/* Felles felter */}
       <DataKvalitetSeksjon items={p.datakvalitet} />
-      <LegalReferences items={p.relevanteLover} />
+      <LegalReferences items={p.relevanteLoverEnriched} />
 
       {p.samletForbehold && (
         <section className="portrait-doc__section planportrett__samlet-forbehold">

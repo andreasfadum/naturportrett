@@ -18,15 +18,25 @@ function formatRadius(meter) {
 // Influensradius-slideren ble flyttet ut av denne komponenten 24. juni 2026.
 // Den ligger nå på steg 2 (InfluenceZoneSection) der brukeren ser kartet
 // samtidig som hun justerer radius.
-export default function AddressSearch({ onAddressSelected }) {
+export default function AddressSearch({ onAddressSelected, initialAddress = null }) {
   const t = useT()
   const [heleNorge, setHeleNorge] = useState(() => {
     try { return window.localStorage.getItem(LS_HELE_NORGE) === '1' } catch { return false }
   })
   const { query, setQuery, results, isLoading, error } = useAddressSearch({ heleNorge })
   const [showSuggestions, setShowSuggestions] = useState(false)
-  const [confirmed, setConfirmed] = useState(null)
+  // Pre-fyll bekreftet adresse og søkefelt hvis brukeren kommer tilbake
+  // til steg 1 via StepIndicator — slik «glemmer» vi ikke valget.
+  // Brukeren kan da enten gå direkte videre eller skrive en ny adresse.
+  const [confirmed, setConfirmed] = useState(initialAddress)
   const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (initialAddress && !query) {
+      setQuery(formatFullAddress(initialAddress))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     try { window.localStorage.setItem(LS_HELE_NORGE, heleNorge ? '1' : '0') } catch { /* noop */ }

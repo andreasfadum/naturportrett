@@ -55,11 +55,22 @@ function statusKategori(sp) {
   return sp.conservationStatus.type === 'redlist' ? 'rodliste' : 'svarteliste'
 }
 
-export default function DetailPortraitSection({ portraitType, address, species, onBack, onRestart }) {
+export default function DetailPortraitSection({
+  portraitType,
+  address,
+  species,
+  initialSubject = null,
+  onSubjectPicked,
+  onBack,
+  onRestart,
+}) {
   const t = useT()
   const { sprak } = useSprak()
   const cfg = TYPE_CONFIG[portraitType]
-  const [pickedSubject, setPickedSubject] = useState(null)
+  // Pre-fyll med tidligere valgt subject (fra App.jsx) slik at brukeren
+  // som navigerer tilbake til samme portretttype hopper rett til portrettet
+  // (cache-hit gir instant retur uten ny KI-runde).
+  const [pickedSubject, setPickedSubject] = useState(initialSubject)
   const [filter, setFilter] = useState('alle')
   const [statusFilter, setStatusFilter] = useState('alle')
   const [kvalitetFilter, setKvalitetFilter] = useState('alle')
@@ -79,6 +90,48 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [bekreftEmne])
+
+  // Auto-generer ved mount hvis vi har et tidligere valgt subject (fra
+  // App.jsx). Cache-hit gir instant retur uten KI-runde; miss kjører
+  // vanlig generering. Slik hopper brukeren rett til portrettet etter å
+  // ha navigert tilbake til samme portretttype.
+  useEffect(() => {
+    if (!initialSubject || portrait || isLoading || error) return
+    if (sisteGenererSprak.current) return  // allerede generert i denne mounten
+
+    const lat = address.representasjonspunkt?.lat
+    const lon = address.representasjonspunkt?.lon
+    const narliggendeGronnstrukturer = (typeof lat === 'number' && typeof lon === 'number')
+      ? finnNarliggende(lat, lon, 1500)
+      : []
+    sisteGenererSprak.current = sprak
+
+    if (portraitType === 'planportrett') {
+      generate('planportrett', {
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    } else if (portraitType === 'naturtypeportrett') {
+      generate('naturtypeportrett', {
+        naturtype: initialSubject,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    } else {
+      generate(portraitType, {
+        species: initialSubject,
+        address,
+        observedSpecies: species,
+        narliggendeGronnstrukturer,
+        lang: sprak,
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Regenerer portrettet på det nye språket når brukeren bytter språk
   // etter at portrettet er ferdig. Gjenbruker pickedSubject og
@@ -198,6 +251,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     sisteGenererSprak.current = sprak
     if (valgt.type === 'species') {
       setPickedSubject(valgt.payload)
+      if (onSubjectPicked) onSubjectPicked(portraitType, valgt.payload)
       generate(portraitType, {
         species: valgt.payload,
         address,
@@ -208,7 +262,9 @@ export default function DetailPortraitSection({ portraitType, address, species, 
     } else if (valgt.type === 'planportrett') {
       // Sett pickedSubject til en sentinel-verdi slik at render-logikken
       // vet at vi har "valgt" planportrettet (selv om det ikke er en art)
-      setPickedSubject({ navn: valgt.navn, _erPlanportrett: true })
+      const planSubject = { navn: valgt.navn, _erPlanportrett: true }
+      setPickedSubject(planSubject)
+      if (onSubjectPicked) onSubjectPicked('planportrett', planSubject)
       generate('planportrett', {
         address,
         observedSpecies: species,
@@ -217,6 +273,7 @@ export default function DetailPortraitSection({ portraitType, address, species, 
       })
     } else {
       setPickedSubject(valgt.payload)
+      if (onSubjectPicked) onSubjectPicked('naturtypeportrett', valgt.payload)
       generate('naturtypeportrett', {
         naturtype: valgt.payload,
         address,

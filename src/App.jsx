@@ -67,6 +67,12 @@ function Hovedflyt() {
   const [step, setStep] = useState(1)
   const [selectedAddress, setSelectedAddress] = useState(null)
   const [portraitType, setPortraitType] = useState(null)
+  // pickedSubjects per portretttype — slik at brukeren som navigerer
+  // tilbake til portretttype-velgeren og velger samme type igjen ikke
+  // mister sitt valgte subject. Naturportrett har ikke subject.
+  // Eksempel: { artsportrett: speciesObj, planteportrett: speciesObj,
+  //            naturtypeportrett: naturtypeObj, planportrett: { _erPlanportrett: true } }
+  const [pickedSubjects, setPickedSubjects] = useState({})
   const [influenceRadiusM, setInfluenceRadiusM] = useState(() => {
     try {
       const lagret = parseInt(window.localStorage.getItem(LS_RADIUS), 10)
@@ -123,20 +129,25 @@ function Hovedflyt() {
     setStep(1)
     setSelectedAddress(null)
     setPortraitType(null)
+    setPickedSubjects({})
+  }
+
+  function handleSubjectPicked(type, subject) {
+    setPickedSubjects(prev => ({ ...prev, [type]: subject }))
   }
 
   // Klikk på et tidligere fullført steg i StepIndicator. Tillater kun
-  // tilbake-hopp (frem-hopp ville krevd at vi vet om steget er gyldig).
-  // Når brukeren hopper tilbake til portretttype-velgeren (steg 3),
-  // nullstiller vi portraitType slik at velgeren vises igjen.
+  // tilbake-hopp. Vi rører IKKE noe data — adressen, radius og
+  // portraitType beholdes. Aktiv ny input på et steg er det som
+  // eventuelt resetter (f.eks. ny adresse i AddressSearch nullstiller
+  // portraitType via handleAddressSelected).
+  //
+  // Renderingen håndterer dette automatisk: steg 3 viser
+  // PortraitTypeSelector (uavhengig av om portraitType er satt fra
+  // tidligere), så brukeren kan velge på nytt. Cache-hit ved samme
+  // valg gir instant retur uten KI-runde.
   function handleStepClick(targetStep) {
     if (targetStep >= step) return
-    if (targetStep === 3) setPortraitType(null)
-    if (targetStep === 2) setPortraitType(null)
-    if (targetStep === 1) {
-      setSelectedAddress(null)
-      setPortraitType(null)
-    }
     setStep(targetStep)
   }
 
@@ -151,7 +162,10 @@ function Hovedflyt() {
         />
 
         {step === 1 && (
-          <AddressSearch onAddressSelected={handleAddressSelected} />
+          <AddressSearch
+            onAddressSelected={handleAddressSelected}
+            initialAddress={selectedAddress}
+          />
         )}
 
         {step === 2 && selectedAddress && (
@@ -189,6 +203,8 @@ function Hovedflyt() {
             species={species}
             speciesLoading={speciesLoading}
             speciesError={speciesError}
+            initialSubject={pickedSubjects[portraitType] || null}
+            onSubjectPicked={handleSubjectPicked}
             onBack={handleBack}
             onRestart={handleRestart}
           />

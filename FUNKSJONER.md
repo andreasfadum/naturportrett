@@ -1,6 +1,6 @@
 # Naturportrett — funksjonsoversikt
 
-Levende dokument som beskriver hva prototypen kan gjøre per **23. juni 2026** (etter iter 13, brukertest-runde 2 og fem fikser fra Vahls gate-test).
+Levende dokument som beskriver hva prototypen kan gjøre per **24. juni 2026** (etter planportrett, navigasjonsrefactor, mobil-tilpasning og portrett-cache).
 
 Skal du forstå hvordan en konkret funksjon er bygd, se [DEVLOG.md](DEVLOG.md) for kronologisk endringshistorikk og pekere til commit-er.
 
@@ -8,18 +8,18 @@ Skal du forstå hvordan en konkret funksjon er bygd, se [DEVLOG.md](DEVLOG.md) f
 
 ## 1. Hovedflyt
 
-Verktøyet er strukturert som en fire-stegs flyt for å bygge et beslutningsgrunnlag rundt naturhensyn i et planleggings- eller byggesaksprosjekt:
+Verktøyet er strukturert som en fire-stegs flyt for å bygge et beslutningsgrunnlag rundt naturhensyn i et planleggings- eller byggesaksprosjekt. **Refactored 24. juni 2026** — naturportrett er ikke lenger et tvunget mellomsteg, men ett av fem portrettvalg på steg 3:
 
 ```
-1. Adresse  →  2. Naturportrett  →  3. Portretttype  →  4. Detaljportrett
+1. Adresse  →  2. Influensområde  →  3. Portretttype  →  4. Portrett
 ```
 
 | Steg | Hva brukeren gjør | Hva verktøyet leverer |
 |---|---|---|
-| **1 — Adresse** | Skriver inn adresse i Norge (default: Oslo), velger influenssone og evt. utvider til hele Norge | Adressesøk via Kartverket, kuratert grønnstruktur-liste for Oslo aktiveres når koordinaten er innenfor bounding-boksen |
-| **2 — Naturportrett** | Genererer KI-portrett for adressen | Helhetsoversikt: eiendomskontekst, naturtyper, arter, økologiske sammenhenger, lovgrunnlag, forvaltningsråd, datakvalitet |
-| **3 — Portretttype** | Velger naturtype-/arts-/planteportrett | Tre kort beskriver hvert detaljportrett |
-| **4 — Detaljportrett** | Velger konkret art/plante/naturtype, bekrefter via modal | Spesifikt portrett med tiltakshierarki, symbioser, lokal forekomst |
+| **1 — Adresse** | Skriver inn adresse i Norge (default: Oslo), evt. utvider til hele Norge | Adressesøk via Kartverket, bekreftet adresse vises som «Valgt adresse: X» (uten radius-henvisning) |
+| **2 — Influensområde** | Justerer slider 200–2000 m med kart + heatmap-overlay som live forhåndsvisning | Bakgrunns-fetcher artsdata for 200 m så heatmap-overlay fylles raskt. Slider oppdaterer lokal state (ingen species-spam ved drag); først ved bekreft-klikk propageres ny radius |
+| **3 — Portretttype** | Velger ETT av fem alternativer: Naturportrett (oversiktsvalg, bredt øverst) eller ett av 4 detaljportretter i 2×2 grid | Bakgrunnen fortsetter å fetche species for valgt radius. Hver type beskrives i et kort |
+| **4 — Portrett** | Hvis naturportrett: KI-syntese starter. Hvis arts-/plante-/naturtypeportrett: subject-picker → bekreftelses-modal → KI. Hvis planportrett: intro-skjerm + bekreftelses-modal → KI (ingen subject) | Generert portrett vises. Cache-hit gir instant retur uten loading-spinner |
 
 ---
 
@@ -31,21 +31,25 @@ Verktøyet er strukturert som en fire-stegs flyt for å bygge et beslutningsgrun
 - Norske bokstaver (æ/ø/å) normaliseres før API-kallet (ae/oe/aa → æ/ø/å).
 - Valg av bryter-status lagres i `localStorage`.
 
-### Influenssone
-- Slider over adressefeltet styrer radius fra **100 m til 2 km** med 100 m-steg.
-- Default: **500 m**.
-- Valgt radius lagres i `localStorage` og påvirker:
-  - GBIF + iNaturalist-søk
-  - Kartlegend i naturportrettet
-  - KI-prompten («innenfor X meter»)
-  - Grønnstruktur-sjekklisten KI får (bredere enn influenssonen for å gi kontekst)
-- Søkeknappen mister ikke fokus når slideren endres — adresse og radius justeres uavhengig.
+### Influenssone (steg 2)
+
+Egen side med kart + heatmap-overlay + slider. Flyttet ut av adressesteget 24. juni 2026 slik at brukeren ser konsekvensen av radius-valget visuelt før hen går videre.
+
+- Slider styrer radius fra **200 m til 2 km** med 100 m-steg.
+- Default: **500 m**, lagret i `localStorage` (min hevet fra 100 til 200 i nav-refactoren).
+- Slideren oppdaterer LOKAL state mens brukeren drar — først ved bekreft-klikk propageres ny radius til App. Forhindrer species-spam på hver pixel.
+- Bakgrunnsfetching i to faser (transparent for brukeren):
+  - Steg 2 mount: artsdata for **200 m** så heatmap-overlay fylles raskt
+  - Steg 3+ (etter bekrefting): artsdata for **valgt radius** (KI-input)
+- Påvirker etter bekrefting: GBIF + iNaturalist-søk, kart-sirkel/legend, KI-prompten («innenfor X meter»), grønnstruktur-sjekklisten KI får.
 
 ### Tospråklighet (NO / EN)
+
 - Pill-bryter med inline SVG-flagg i topp-banneret. Inline SVG sikrer at flagget vises i alle nettlesere (Windows + noen Linux-distros har ikke emoji-flag-rendering).
 - Valget lagres i `localStorage` og setter `<html lang>`.
 - All UI er oversatt. KI-genererte tekster produseres på valgt språk via en eksplisitt `OUTPUT LANGUAGE`-instruks i system-prompten.
 - Lov-sitater fra Lovdata forblir på norsk (de hentes ordrett fra norsk lovkilde) selv når UI-en er på engelsk.
+- **Språkbytte etter ferdig portrett** triggerer regenerering på det nye språket. Hvis brukeren har sett denne språkversjonen før, returnerer cache instant (se § 15). Brukeren slipper å gjenta art-/naturtype-valg — `pickedSubject` gjenbrukes.
 
 ---
 
@@ -93,24 +97,42 @@ Topp 25 sendes til Claude. Tersklene 0.65 / 0.35 deler i Høy / Middels / Lav (�
 
 ## 4. Detaljportrett (steg 4)
 
-Tre typer detaljportretter med felles bygg-klosser (lovgrunnlag, datakvalitet, tiltakshierarki, feedback-knapp, PDF-eksport):
+Fire typer detaljportretter med felles bygg-klosser (lovgrunnlag, datakvalitet, tiltakshierarki, feedback-knapp, PDF-eksport):
 
 ### Naturtypeportrett
+
 NiN-klassifisert naturtype (T35 Park, T4 Bare rock, T35 Skrotemark osv.). Innhold: beskrivelse, viktige strukturer (vegetasjon/hydrologi/substrat/topografi), økologiske forhold (typiske/nøkkelarter, funksjoner, naturlig dynamikk), tidsaspekter (årstidsvariasjon, forstyrrelsesregime), trusler, samspill med mennesker.
 
 ### Artsportrett
+
 Konkret dyreart (fugl, pattedyr, insekt, sopp). Hero-seksjon med navn + foto + rødlistestatus, beskrivelse, foretrukne habitater, **årssyklus-tidslinje**, **næringskilder i 3 grupper med lokal forekomst** (se neste seksjon), attributter (nøkkelart, høy økologisk verdi, ansvarsart osv.), atferdsprofil, symbioser.
 
 ### Planteportrett
+
 Konkret plante. Habitatkrav (fuktighet, klimasone, lysforhold, vindtoleranse, jord, pH), spredning og livssyklus, tilknyttede arter, pollinator-verdi, erfaringsgrunnlag i Norge, anbefalt samplanting, vedlikeholdsbehov, særskilte hensyn, symbioser med pollinatorer/mykorrhiza/spredere.
 
+### Planportrett (NYTT — juni 2026)
+
+Beslutningsstøtte for naturmangfold i plansak. Bygd etter [PLANPORTRETT-SPEC.md](PLANPORTRETT-SPEC.md). Gjelder eiendommen/influensområdet som helhet — **tar ikke et subject**. Subject-picker hoppes over og brukeren ser i stedet en intro-skjerm med modul-oversikt + «Generér»-knapp.
+
+Strukturert etter fem moduler:
+
+- **A** Naturmangfold-avsnitt (utkast etter nml §§ 8–12, jf. § 7) — kunnskapsgrunnlag, føre-var, samlet belastning, forvaltningsmål
+- **B** Viktig-natur-screening (lav/middels/høy med fargekodet badge + punktvis begrunnelse)
+- **C** Bestemmelsesforslag (tema + materielt behov + kandidat-hjemmel + skisseOrdlyd med `[klamme]`-markører + obligatorisk «⚖ Må avklares med jurist»-banner per oppføring + Lovdata-lenke til kandidat-hjemmel)
+- **D** KU-screening (indikasjon + momenter til vurdering — aldri konklusjon)
+- **E** Underlag til område- og prosessavklaring (komprimert sammendrag for oppstartsfasen)
+
+**Skjerpet anti-hallusinering** for planportrett (juridisk grense): «kan tale for KU», aldri «er KU-pliktig»; bestemmelser er temaer + skisse, aldri ferdig ordlyd; hjemmel er hypotese til verifisert mot Lovdata. **Ikke-overlapp-regel**: KI skal IKKE foreslå bestemmelser som allerede er sikret av annet lovverk (nml § 53, vassdragsvern, artsfredning).
+
 ### Subject-picker — felles for arts- og planteportrett
+
 - **Kategori-filter** (Fugl / Plante / Insekt / Sopp / Annet)
 - **Verne-status-filter** (Alle / Rødlistet / Svartelistet / Ikke vurdert)
 - **Datakvalitet-filter** (Alle / Høy / Middels / Lav)
 - Alle tre filtre er kombinable — alle må gi treff
 - **Forkortelse-forklaring** som åpningsbar boks: LC/NT/VU/EN/CR + SE/HI/PH/LO/NK/NR
-- **Bekreftelses-modal** før KI-igangsettelse: «Generér portrett for X? Tar ca. 20 sekunder.» (kostnad er ikke nevnt for brukeren)
+- **Bekreftelses-modal** før KI-igangsettelse: «Generér portrett for X? Genereringen tar gjerne under ett minutt, men varigheten påvirkes av størrelsen på influensområdet og mengden artsdata.» (kostnad er ikke nevnt for brukeren)
 
 ### Bilde-oppløsninger
 - Tabellbilder (SpeciesCard): `photoMediumUrl` (~500 px)
@@ -272,17 +294,67 @@ Admin-side `/admin/usage` (passordbeskyttet) viser totaler, fordeling per modell
 
 ---
 
-## 15. Hva som ikke er implementert ennå
+## 15. Portrett-cache (24-timers TTL)
+
+Implementert juni 2026 etter brukerobservasjon at språkbytte frem og tilbake regenererte portrettet hver gang (sløsing av tokens).
+
+KI-output (alle portretttyper) cachees i `localStorage` med 24-timers TTL. `usePortraitGeneration.generate()` sjekker cache **før** fetch — hit gir instant retur uten loading-spinner og uten KI-kostnad.
+
+| Scenario | Atferd |
+|---|---|
+| Generere et portrett første gang | Vanlig SSE-fetch + lagring i cache |
+| Bytte språk NO → EN → NO | Andre returrunde er cache-hit (sparer ett KI-kall) |
+| Tilbake til steg 3 → annet valg → tilbake til første | Cache-hit (sparer KI-kall) |
+| Refresh side / cross-tab | Cache-hit innen TTL |
+| Etter 24 timer | Cache invalidert, ny generering |
+
+Cache-nøkkel: `lagCacheNokkel(portraitType, payload)` bygger nøkkel av (koordinater 5 desimaler, radius, språk, subject-id/NiN-kode). Prefiks `naturportrett.portrett-cache.*`.
+
+`cleanupExpired()` kjøres ved app-start og rydder utløpte entries. Ved `QuotaExceededError` ryddes utløpte først, deretter ny forsøk; til slutt hopper vi cache-lagring stille (generering fungerer fortsatt).
+
+Personvern: lagrer koordinater + radius + språk + subject-ID. Ingen personlig identifiserbar info.
+
+---
+
+## 16. Mobil-tilpasning
+
+Brukere er primært på desktop, men prototypen må kunne leses på mobiltelefon **uten horisontal scroll**.
+
+### `useIsMobile()`-hook
+Terskel 720 px. Brukes for JSX-betinget rendering (f.eks. `<ResponsiveTable>` velger mellom tabell og card-layout).
+
+### `<ResponsiveTable>`-komponent
+Multikol-tabeller (3+ kolonner) bytter til card-layout på mobil: hver rad blir et eget kort med felt-label over verdi. Brukt i bl.a. naturtype-tabellen, næringskilde-tabeller, tilknyttede arter.
+
+### `.portrait-doc__table--label-value`-klasse
+Label-value-tabeller (én `<th>` + én `<td>` per rad — vanlig i beskrivelse, habitatkrav, spredning, viktige strukturer) stacker hver rad vertikalt på mobil: liten label-overskrift over verdi.
+
+### `<ExpandableText>`-komponent
+Lange tekstavsnitt forkortes til ~220 tegn på mobil (kuttet ved nærmeste setningsbrudd) med «Vis mer»-knapp. På desktop vises hele teksten alltid.
+
+### Andre mobil-grep
+- Arts-tabellen i naturportrettet: skjuler kategori- og datakvalitet-kolonnene på mobil (kategori vises som badge under norsk navn)
+- Lovsitater alltid kollaps som default (`<details>`) på både mobil og desktop — JS-handler åpner alle ved `beforeprint` så PDF får sitatene
+- Heatmap-effekt forsterket på mobil: radius 22 → 45 px, blur 28 → 55 px, minOpacity 0.35 → 0.6
+- Header-logo 50 % større, kollisjon-håndtering med `flex-wrap`
+- Konsistent 1100 px max-width på alle steg
+
+Alle endringene er gated bak `@media (max-width: 720px)` eller `useIsMobile` — desktop er uendret.
+
+---
+
+## 17. Hva som ikke er implementert ennå
 
 Roadmap-emner som er notert men ikke realisert (oppdateres når noe begynner):
 
 - **RAG-integrasjon for Kunnskapsbase-PDF-ene** — planlagt juli 2026
-- **Rødlistestatus direkte fra Artsdatabanken-API** (i dag lokal datafil)
-- **Polygon/areal-input** som alternativ til punkt + radius
+- **Naturbase-integrasjon** (Miljødirektoratets habitat-data) — vil heve viktig-natur- og KU-screeningen i planportrettet fra «observasjonsbasert» til «forvaltningsdatabasert»
+- **Artsdatabanken-API** for live rødliste/fremmedartsliste (i dag lokal datafil)
+- **Polygon/areal-input** som alternativ til punkt + radius (særlig viktig for planportrett — en plansak har en avgrensning, ikke et punkt)
 - **Brukerautentisering** — i dag åpen tjeneste, admin-passord på admin-endepunkt
-- **Lagring og eksport av vurderinger** som strukturert data (i tillegg til PDF)
-- **Naturbase-integrasjon** (Miljødirektoratets habitat-data)
+- **Lagring og eksport av vurderinger** som strukturert data (i tillegg til PDF) + «Eksport til saksmappe»-knapp for planportrett
 - **Filtrering av arter til PDF-eksport** — i dag eksporterer PDF det som vises i nettleseren
+- **Versjonering** av planportretter med dato slik at et portrett kan «fryses» som vedlegg til en bestemt saksfremstilling
 
 ---
 

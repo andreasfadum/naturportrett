@@ -2,7 +2,7 @@
 
 > **Formål:** Denne loggen er en referanseressurs for hvordan prosjektet er bygget — arkitekturvalg, problemer vi har løst, og driftsoppsett. Den påvirker ikke kjøretid (ren dokumentasjon). Bruk den ved feilsøk, onboarding, eller når historikk trengs. Oppdateres ved milepæler, ikke ved hver endring.
 
-Sist oppdatert: 22. mai 2026
+Sist oppdatert: 24. juni 2026
 
 ---
 
@@ -13,9 +13,13 @@ Webapplikasjon for Oslo kommune (Plan- og bygningsetaten) som hjelper arkitekter
 **Live:** https://naturportrett.figurate.studio
 **Repo:** github.com/andreasfadum/naturportrett
 
-Tjenesten lager fire produkttyper:
-- **Naturportrett** — områdeoversikt (auto-generert etter adressesøk)
-- **Naturtypeportrett**, **Artsportrett**, **Planteportrett** — detaljutdypninger man kan generere fra naturportrettet
+Tjenesten lager fem produkttyper (per juni 2026):
+
+- **Naturportrett** — generell oversikt over influensområdet
+- **Naturtypeportrett**, **Artsportrett**, **Planteportrett** — detaljutdypning for én konkret naturtype/art/plante
+- **Planportrett** — beslutningsstøtte for naturmangfold i plansak (fem moduler etter nml §§ 8–12 + KU-screening + kandidat-bestemmelser)
+
+Brukerflyt etter nav-refactor 24. juni 2026: `Adresse → Influensområde → Portretttype → Portrett`. Naturportrett er ikke lenger et tvunget mellomsteg, men ett av fem valg på portretttype-skjermen.
 
 ---
 
@@ -72,15 +76,24 @@ Tjenesten lager fire produkttyper:
 | 21. jun 2026 | `9895488` | **Iterasjon 10** — PDF-eksport-rydding. Brukerobservasjon: «Last ned som PDF» genererte en tom førsteside (kun nettleserens topptekst) før portrettet kom på side 2. Rotårsak: `.app-container` er flex column med `min-height: 100vh` som i print-modus oppfattes som «én A4 høyde» og forskyver innholdet. Fix: ny `@page A4`-regel med 15 mm marginer + nullstilling av flex-stacken (`.app-container`, `.main-content`, `.portrait-screen`) i `@media print`. Lagt til typografi for trykk (10.5pt body, 18/13/11pt overskrifter), smartere sideskift på lov-blokker / kart / eiendomskontekst / tabeller, skjul av feedback-knapp og portrait-nav i print. Dev-banner beholdes (brukerønske) men med ryddig papir-styling (mørkeblå border, hvit bakgrunn). |
 | 21. jun 2026 | `799036f` + `e31acfb` | **Iterasjon 11** — Feedback-routing til e-post via Resend. Nå sendes hver tilbakemelding til `FEEDBACK_RECIPIENT_EMAIL` (default `andreas.haugstad@pbe.oslo.kommune.no`) med emne-prefiks `[Naturportrett tilbakemelding]`. Sendt fra `onboarding@resend.dev` så domeneverifisering ikke kreves. `replyTo` settes til brukerens e-post hvis oppgitt. Fire-and-forget — klient venter ikke på Resend. Mail-formatet er en kopierbar markdown-blokk (overskrifter + felter + Innspill-seksjon + Kontekst-liste) som lar mottaker Cmd+A → Cmd+C → lime inn i Claude. |
 | 21. jun 2026 | `e90a41f` | **Iterasjon 12** — Token- og kostnadssporing for Claude-kall. Logges som JSONL på Railway-volumet; admin-side `/admin/usage` viser totaler, fordeling per modell og kontekst, sessions (unik IP innenfor 30 min) og snitt USD/kall. |
-| 22. jun 2026 | (denne commit) | **Iterasjon 13** — To utvidelser i forberedelse til Ebbe Nielsen Challenge-søknad og bredere bruk: (a) Kartverket-adressesøk dekker nå hele Norge (`kommunenummer=0301`-filteret er fjernet); Oslo-grønnstrukturer-listen aktiveres kun innenfor Oslos bounding-boks slik at andre kommuner ikke får feil sjekkliste. (b) Ny i18n-infrastruktur (`src/i18n/`) med norske/engelske oversettelser, `useT()`-hook og `<SprakProvider>` på rotnivå. `<LanguageSwitcher>` (NO/EN-pill med flagg) plassert i AppHeader, valg lagres i localStorage. KI-prompter forblir norske i denne iterasjonen — kun UI-strenger er oversatt; engelsk førsteutkast skal korrekturleses av Andreas (PBE) i `src/i18n/translations.js`. |
+| 22. jun 2026 | (commit) | **Iterasjon 13** — To utvidelser i forberedelse til Ebbe Nielsen Challenge-søknad og bredere bruk: (a) Kartverket-adressesøk dekker nå hele Norge (`kommunenummer=0301`-filteret er fjernet); Oslo-grønnstrukturer-listen aktiveres kun innenfor Oslos bounding-boks slik at andre kommuner ikke får feil sjekkliste. (b) Ny i18n-infrastruktur (`src/i18n/`) med norske/engelske oversettelser, `useT()`-hook og `<SprakProvider>` på rotnivå. `<LanguageSwitcher>` (NO/EN-pill med flagg) plassert i AppHeader, valg lagres i localStorage. KI-prompter forblir norske i denne iterasjonen — kun UI-strenger er oversatt; engelsk førsteutkast skal korrekturleses av Andreas (PBE) i `src/i18n/translations.js`. |
+| 23. jun 2026 | `b0fbb9c` m.fl. | **Iterasjon 14 — mobil-tilpasning + Oslo-logo + heatmap-tilpasning.** Header-kollisjon på mobil fikset (flex-wrap, kommune-tekst skjult < 640 px). Oslo-logo brukt korrekt (hvit på mørk header, mørkeblå på portretter) iht. designmanualen, «Oslo kommune»-tilleggstekst fjernet (logoen inneholder «Oslo» selv). Logo 50 % større. Avstander rapporteres i km med 0,1 km-presisjon, ikke meter (eiendom er et areal, ikke et punkt) — `formatAvstandKm()`-helper + `AVSTAND_INSTRUKS` i prompt. Heatmap-effekt forsterket: radius 22→35, blur 28→45, minOpacity 0,35→0,55. Konsistent 1100 px max-width på alle steg. |
+| 23. jun 2026 | `4e640ef` m.fl. | **Iterasjon 15 — mobil-tilpasning runde 2: tabeller responsive + lange tekster forkortet.** Ny `useIsMobile()`-hook (terskel 720 px). Ny `<ResponsiveTable>` rendrer card-layout på mobil for multikol-tabeller (naturtype-tabell, næringskilde-tabeller, tilknyttede arter, pollinator-verdi). Ny CSS-klasse `.portrait-doc__table--label-value` stacker `<th>` + `<td>` vertikalt på mobil for label-value-tabeller (beskrivelse, habitatkrav, spredning, viktige strukturer i alle detaljportretter). Ny `<ExpandableText>` forkorter lange tekstavsnitt til ~220 tegn på mobil med «Vis mer»-knapp. Arts-tabellen skjuler kategori + datakvalitet-kolonner på mobil (kategori vises som badge under norsk navn). Lovsitater alltid kollaps som default (`<details>`) på begge plattformer — JS-handler åpner alle ved `beforeprint` så PDF får sitatene. Forrige iterasjons «overflow-x: auto»-tilnærming var feil — den krevde horisontal scroll. Ny strategi: **ingen horisontal scroll på mobil**, all tilpasning via card-layout og vertikal stacking. |
+| 23.–24. jun 2026 | `e5bdc48`, `3f3ce21` | **Iterasjon 16 — Planportrett (fjerde detaljportretttype).** Implementert etter [PLANPORTRETT-SPEC.md](PLANPORTRETT-SPEC.md) som beslutningsstøtte for naturmangfold i plansak. Fem moduler: (A) Naturmangfold-avsnitt etter nml §§ 8–12, jf. § 7; (B) Viktig-natur-screening (lav/middels/høy med fargekodet badge); (C) Bestemmelsesforslag (tema + materielt behov + kandidat-hjemmel + `[klamme]`-skisseOrdlyd + obligatorisk «⚖ Må avklares med jurist»-banner per oppføring); (D) KU-screening (momenter, aldri konklusjon); (E) Underlag til område- og prosessavklaring. **Arkitektonisk forskjell** fra øvrige detaljportretter: tar IKKE et subject — gjelder eiendommen som helhet. Subject-picker hoppes over. **Skjerpet anti-hallusinering** for juridisk grense: KI sammenstiller aldri konkluderer; «kan tale for KU», aldri «er KU-pliktig»; ikke-overlapp-regel (foreslår ikke bestemmelser som allerede er sikret av annet lovverk). Server: ny `server/prompts/planportrett.js` registrert i `PORTRAIT_MODULES`. Klient: nye komponenter `PlanportrettView`, `BestemmelsesforslagListe`, `KuScreeningSeksjon`, `ViktigNaturFlagg`. Ny `src/utils/lovdataLenke.js` bygger Lovdata-URL fra kandidat-hjemmel-streng (`pbl § 12-7 nr. 4` → `https://lovdata.no/.../§12-7`). Bug-fix: `LegalReferences` i planportrett brukte `relevanteLover` (rådata) i stedet for `relevanteLoverEnriched` (beriket med sitater fra Kunnskapsbase/) — alle andre views bruker `Enriched`-varianten. |
+| 24. jun 2026 | `v0.9-pre-nav-refactor` (tag) | **Backup-anker** før navigasjonsrefactoren. Tag peker på commit `3f3ce21` (siste stabile versjon med 4-stegsflyt der naturportrett var tvunget mellomsteg). Rull tilbake med `git checkout v0.9-pre-nav-refactor` hvis nav-refactoren skaper problemer. |
+| 24. jun 2026 | `8409a47`, `d6f3e7f` | **Iterasjon 17 — navigasjonsrefactor + 2×2 portrett-grid.** Slider for influensområde flyttet ut av adressesøket til nytt eget steg 2 med kart + heatmap. Min-radius hevet fra 100 til **200 m**. Portrettype-velger har nå 5 alternativer: naturportrett som **bredt kort øverst** (oversiktsvalget, lysgrønn bakgrunn) + 4 detaljportretter i **2×2 grid** under (`.portrait-type-grid--2x2`). På mobil stacker alle 5 vertikalt. Stegene er nå `Adresse → Influensområde → Portretttype → Portrett`. **Bakgrunnsfetching av species i to faser**: `useSpeciesSearch` løftet til `App.jsx`, henter 200 m straks adressen er valgt (steg 2) og full radius straks brukeren bekrefter (steg 3). Slik er data klart når steg 4 starter generering. **Språkbytte regenererer KI-tekst** automatisk (`sisteGenererSprak.current` i `useRef`). Tre etterslep fra refactoren rettet: (a) InfluenceZoneInfo viste hardkodet «Søker innenfor 500 m» — endret til «Valgt adresse: X» (radius velges på neste steg); (b) modal-teksten «ca. 20 sekunder» var misvisende — endret til vagt formulering med varighetsfaktor-forklaring; (c) språkbytte oppdaterte ikke KI-innhold — fikset via re-generering på sprak-endring. **Per-radius-metrikk** i `/admin/usage`: viser om token-forbruk øker med influensområde (bin på 100 m). |
+| 24. jun 2026 | `d96b581` | **Iterasjon 18 — portrett-cache i localStorage (24-timers TTL).** Brukerproblem: språkbytte NO→EN→NO regenererte portrettet hver gang — sløsing av tokens. Også navigering tilbake til et portrett man hadde sett før kostet ny generering. Løsning: ny `src/utils/portraitCache.js` med `lagCacheNokkel()`, `getCache()`, `setCache()`, `cleanupExpired()`. `usePortraitGeneration.generate()` sjekker cache før fetch — hit gir instant retur uten loading-spinner og uten KI-kostnad. Cache-nøkkel bygges av (koordinater 5 desimaler, radius, språk, subject-id/NiN-kode). Prefiks `naturportrett.portrett-cache.*`. `cleanupExpired()` kjøres ved app-start fra `App.jsx`. Ved `QuotaExceededError` ryddes utløpte først, deretter ny forsøk; til slutt hopper vi cache-lagring stille. **Effekt**: språkbytte frem og tilbake bruker cache, navigering tilbake til sett portrett er instant, refresh/cross-tab beholder portrettet innen TTL. Cachen lagrer kun KI-output; species-data hentes fortsatt av `useSpeciesSearch` ved adresse-/radiusendring. |
 
 Presentasjon laget separat i `presentasjon/` (genereres med `python-pptx` via `generate_pptx.py`) — ikke en del av selve appen.
 
-**Rollback-anker:** `v1-presentasjon-2026-06-17` (annotert tag på commit `3ac8f25`) er den versjonen som ble brukt 17. juni. Bruk denne hvis senere iterasjoner svikter:
+**Rollback-ankre:**
+
+- `v1-presentasjon-2026-06-17` (annotert tag på commit `3ac8f25`) — versjonen brukt på presentasjonen 17. juni
+- `v0.9-pre-nav-refactor` (annotert tag på commit `3f3ce21`) — siste stabile versjon før navigasjonsrefactoren 24. juni. Bruk hvis nav-flyt-endringer skaper problemer
 
 ```sh
-git checkout v1-presentasjon-2026-06-17   # lokalt
-# eller: Railway-konsoll → Redeploy commit 3ac8f25
+git checkout v0.9-pre-nav-refactor       # lokalt
+# eller: Railway-konsoll → Redeploy commit 3f3ce21
 ```
 
 ---
@@ -172,13 +185,18 @@ npm run dev:all        # Vite (5173) + Express (3001) parallelt
 ## 7. Kjente begrensninger / å huske
 
 - Rødliste/fremmedarts-status dekker kun et utvalg arter (statisk liste), ikke hele Artsdatabanken.
-- Naturtyper foreslås av KI, ikke hentet fra autoritativ database (NiN) — må kvalitetssikres.
+- Naturtyper foreslås av KI, ikke hentet fra autoritativ database (NiN/Naturbase) — må kvalitetssikres.
 - Ingen RAG ennå — KI kan hallusinere detaljer. Alle portretter må kvalitetssikres av fagperson.
+- Planportrettets kandidat-hjemmel og bestemmelses-skisser er kandidater til verifisering, ikke ferdige juridiske formuleringer.
+- Portrett-cache med 24-timers TTL: planportrettets `uttrekksdato`-felt viser opprinnelig dato selv om cache vises neste dag. Akseptabelt for prototype.
 - Ingen TypeScript (planlagt v2). Norsk i all UI, engelske variabelnavn i kode.
 
 ---
 
-## 8. Planlagt videre (per mai 2026)
+## 8. Planlagt videre (per juni 2026)
 
 - **Juli 2026:** RAG-system (sporbarhet mot Oslo kommunes dokumenter), flere datakilder, bedre output-format, vurdere brukertesting.
+- **Naturbase-integrasjon** (Miljødirektoratet) — vil heve viktig-natur- og KU-screeningen i planportrettet fra «observasjonsbasert» til «forvaltningsdatabasert».
+- **Artsdatabanken-API** for live rødliste/fremmedartsliste (i dag lokal datafil).
+- **Polygon/areal-input** som alternativ til punkt + radius (særlig viktig for planportrett — en plansak har en avgrensning, ikke et punkt).
 - **Etter sommeren:** møte med UKE om implementering i kommunens systemer (eller at UKE bygger system med denne prototypen som skisse).

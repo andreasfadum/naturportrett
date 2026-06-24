@@ -530,6 +530,11 @@ export const oversettelser = {
     no: 'Detaljert portrett av en konkret plante med fokus på relevans for bymiljø, grønne tak og grønne arealer.',
     en: 'A detailed portrait of a specific plant with focus on relevance for urban environments, green roofs and green areas.',
   },
+  'velger.plan.tittel': { no: 'Planportrett', en: 'Plan portrait' },
+  'velger.plan.beskrivelse': {
+    no: 'Beslutningsgrunnlag for naturmangfold i plansak: utkast til naturmangfold-avsnitt etter nml §§ 8–12, viktig-natur-screening, KU-screening og kandidat-temaer for reguleringsbestemmelser.',
+    en: 'Decision support for biodiversity in a planning case: draft biodiversity section per Nature Diversity Act §§ 8–12, important-nature screening, EIA screening and candidate themes for zoning provisions.',
+  },
   'velger.tilbake': { no: '← Tilbake til naturportrett', en: '← Back to nature portrait' },
 
   // --- Arts-/Subjekt-valg ---
@@ -741,4 +746,133 @@ export const oversettelser = {
   'portrett.samplanting': { no: 'Anbefalt samplanting', en: 'Recommended companion planting' },
   'portrett.vedlikehold': { no: 'Vedlikeholdsbehov', en: 'Maintenance needs' },
   'portrett.saerskilte-hensyn': { no: 'Særskilte hensyn', en: 'Special considerations' },
+
+  // --- Planportrett ---
+  'detalj.planportrett.tittel': { no: 'Planportrett', en: 'Plan portrait' },
+  'detalj.planportrett.velg': { no: 'planportrett', en: 'plan portrait' },
+  'detalj.planportrett.tom': { no: 'Ingen data tilgjengelig.', en: 'No data available.' },
+  'detalj.planportrett.intro-lang': {
+    no: 'Planportrettet er beslutningsstøtte for naturmangfold i plansak. Det bygger på influensområdets observasjoner og kjente Oslo-grønnstrukturer, og strukturer et utkast etter de bestemmelsene saksbehandler uansett må skrive mot.',
+    en: 'The Plan portrait is decision support for biodiversity in a planning case. It builds on observations from the influence zone and known Oslo green structures, and structures a draft after the provisions the case handler would write against anyway.',
+  },
+  'detalj.planportrett.modul.A': {
+    no: 'Naturmangfold-avsnitt etter nml §§ 8–12, jf. § 7',
+    en: 'Biodiversity section per Nature Diversity Act §§ 8–12, cf. § 7',
+  },
+  'detalj.planportrett.modul.B': {
+    no: 'Viktig-natur-screening (indikasjon, ikke konklusjon)',
+    en: 'Important-nature screening (indication, not conclusion)',
+  },
+  'detalj.planportrett.modul.D': {
+    no: 'KU-screening og momenter til vurdering (pbl § 4-2)',
+    en: 'EIA screening and assessment points (Planning Act § 4-2)',
+  },
+  'detalj.planportrett.modul.C': {
+    no: 'Kandidat-temaer for reguleringsbestemmelser (med jurist-forbehold)',
+    en: 'Candidate themes for zoning provisions (with lawyer reservation)',
+  },
+  'detalj.planportrett.modul.E': {
+    no: 'Underlag til område- og prosessavklaring (oppstart)',
+    en: 'Material for area and process clarification (start-up phase)',
+  },
+  'detalj.planportrett.gener-knapp': {
+    no: 'Generér planportrett',
+    en: 'Generate plan portrait',
+  },
+  'planportrett.tittel': { no: 'Planportrett', en: 'Plan portrait' },
+  'planportrett.undertittel': {
+    no: 'Beslutningsgrunnlag for naturmangfold i plansak',
+    en: 'Decision support for biodiversity in a planning case',
+  },
+
+  // Modul A — naturmangfold-avsnitt
+  'planportrett.nma.tittel': {
+    no: 'Naturmangfold-avsnitt (utkast til saksfremstillingen)',
+    en: 'Biodiversity section (draft for the case presentation)',
+  },
+  'planportrett.nma.intro': {
+    no: 'Strukturert etter naturmangfoldloven §§ 8–12, jf. § 7. Saksbehandler fullfører vurderingen.',
+    en: 'Structured per Nature Diversity Act §§ 8–12, cf. § 7. The case handler completes the assessment.',
+  },
+  'planportrett.nma.kunnskapsgrunnlag': { no: 'Kunnskapsgrunnlaget (nml § 8)', en: 'Knowledge base (NDA § 8)' },
+  'planportrett.nma.kilder': { no: 'Kilder:', en: 'Sources:' },
+  'planportrett.nma.uttrekksdato': { no: 'Uttrekksdato:', en: 'Extraction date:' },
+  'planportrett.nma.forevar': { no: 'Føre-var-momenter (nml § 9)', en: 'Precautionary points (NDA § 9)' },
+  'planportrett.nma.samlet-belastning': { no: 'Samlet belastning (nml § 10)', en: 'Cumulative impact (NDA § 10)' },
+  'planportrett.nma.forvaltningsmaal': { no: 'Berørte forvaltningsmål (nml §§ 4–5)', en: 'Affected management goals (NDA §§ 4–5)' },
+  'planportrett.nma.saksbehandler-merk': {
+    no: 'Vurderingen etter nml § 7 skal fremgå av beslutningen og må fullføres av saksbehandler.',
+    en: 'The assessment per NDA § 7 must appear in the decision and be completed by the case handler.',
+  },
+
+  // Modul B — viktig natur
+  'planportrett.viktig-natur.tittel': { no: 'Viktig-natur-screening', en: 'Important-nature screening' },
+  'planportrett.viktig-natur.grad-label': { no: 'Naturinteresse:', en: 'Nature interest:' },
+  'planportrett.viktig-natur.grad.lav': { no: 'Lav', en: 'Low' },
+  'planportrett.viktig-natur.grad.middels': { no: 'Middels', en: 'Medium' },
+  'planportrett.viktig-natur.grad.hoy': { no: 'Høy', en: 'High' },
+  'planportrett.viktig-natur.grad.ukjent': { no: 'Ikke vurdert', en: 'Not assessed' },
+  'planportrett.viktig-natur.anbefal-utvidet': {
+    no: 'Naturkapittelet bør utvides i saksfremstillingen.',
+    en: 'The nature chapter should be expanded in the case presentation.',
+  },
+  'planportrett.viktig-natur.forbehold-label': { no: 'Forbehold:', en: 'Reservation:' },
+
+  // Modul D — KU
+  'planportrett.ku.tittel': { no: 'KU-screening og momenter', en: 'EIA screening and points' },
+  'planportrett.ku.indikasjon-label': { no: 'Indikasjon:', en: 'Indication:' },
+  'planportrett.ku.indikasjon.lav': { no: 'Lav', en: 'Low' },
+  'planportrett.ku.indikasjon.middels': { no: 'Middels', en: 'Medium' },
+  'planportrett.ku.indikasjon.hoy': { no: 'Høy', en: 'High' },
+  'planportrett.ku.indikasjon.ikke-vurdert': { no: 'Ikke vurdert', en: 'Not assessed' },
+  'planportrett.ku.momenter-tittel': { no: 'Momenter til vurdering av KU-plikt', en: 'Points for assessing EIA obligation' },
+  'planportrett.ku.utredningstemaer-tittel': { no: 'Forslag til utredningstemaer (hvis KU er utløst)', en: 'Suggested assessment themes (if EIA is triggered)' },
+  'planportrett.ku.tom': {
+    no: 'Datagrunnlaget gir ikke holdepunkter for å vurdere KU-plikt på dette nivået.',
+    en: 'The data does not provide a basis for assessing EIA obligation at this level.',
+  },
+  'planportrett.ku.forbehold-label': { no: 'Forbehold:', en: 'Reservation:' },
+
+  // Modul C — bestemmelser
+  'planportrett.bestemmelser.tittel': {
+    no: 'Kandidat-temaer for reguleringsbestemmelser',
+    en: 'Candidate themes for zoning provisions',
+  },
+  'planportrett.bestemmelser.forbehold-label': { no: 'Forbehold:', en: 'Reservation:' },
+  'planportrett.bestemmelser.forbehold-fallback': {
+    no: 'Forslagene peker på materielle behov som bør vurderes sikret med en bestemmelse. De er ikke ferdige reguleringsbestemmelser. Saksbehandler må avklare alle bestemmelser med jurist, og ordlyd må tilpasses det konkrete prosjektet. KI formulerer ikke endelige juridiske bestemmelser.',
+    en: 'The suggestions point to substantive needs that should be considered secured by a provision. They are not finished zoning provisions. The case handler must clarify all provisions with a lawyer, and the wording must be adapted to the specific project. AI does not formulate final legal provisions.',
+  },
+  'planportrett.bestemmelser.behov-label': { no: 'Materielt behov:', en: 'Substantive need:' },
+  'planportrett.bestemmelser.hjemmel-label': { no: 'Kandidat-hjemmel:', en: 'Candidate legal basis:' },
+  'planportrett.bestemmelser.hjemmel-merk': {
+    no: ' (foreslås — verifiseres mot Lovdata)',
+    en: ' (suggested — to be verified against Lovdata)',
+  },
+  'planportrett.bestemmelser.skisse-label': { no: 'Skisse til ordlyd', en: 'Draft wording' },
+  'planportrett.bestemmelser.overlapp-label': { no: 'Allerede sikret:', en: 'Already secured:' },
+  'planportrett.bestemmelser.maa-avklares': {
+    no: '⚖ Må avklares med jurist før eventuell innarbeiding i plan.',
+    en: '⚖ Must be clarified with a lawyer before any incorporation in the plan.',
+  },
+  'planportrett.bestemmelser.tom': {
+    no: 'Ingen bestemmelsesforslag i denne saken. Datagrunnlaget gir ikke selvstendige tilskudd utover annet lovverk.',
+    en: 'No provision suggestions for this case. The data does not provide independent additions beyond other legislation.',
+  },
+
+  // Modul E
+  'planportrett.omrade-prosess.tittel': {
+    no: 'Underlag til område- og prosessavklaring',
+    en: 'Material for area and process clarification',
+  },
+  'planportrett.omrade-prosess.intro': {
+    no: 'Komprimert sammendrag for bruk tidlig i oppstartsfasen (prosessdiagram 016).',
+    en: 'Compressed summary for use early in the start-up phase (process diagram 016).',
+  },
+
+  // Samlet forbehold
+  'planportrett.samlet-forbehold.tittel': {
+    no: 'Forbehold',
+    en: 'Reservations',
+  },
 }

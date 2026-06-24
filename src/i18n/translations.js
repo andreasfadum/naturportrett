@@ -238,6 +238,68 @@ export const oversettelser = {
     en: 'Already generated',
   },
 
+  // --- Kategori-filter på subject-picker ---
+  'filter.gruppe-aria': {
+    no: 'Filtrer etter artsgruppe',
+    en: 'Filter by species group',
+  },
+  'filter.kategori.alle': { no: 'Alle', en: 'All' },
+  'filter.kategori.fugler': { no: 'Fugler', en: 'Birds' },
+  'filter.kategori.planter': { no: 'Planter', en: 'Plants' },
+  'filter.kategori.pattedyr': { no: 'Pattedyr', en: 'Mammals' },
+  'filter.kategori.insekter': { no: 'Insekter', en: 'Insects' },
+  'filter.kategori.sopp': { no: 'Sopp', en: 'Fungi' },
+  'filter.kategori.andre': { no: 'Andre', en: 'Other' },
+
+  // --- Kategori-badge på artskort (entall) ---
+  'kategori.fugl': { no: 'Fugl', en: 'Bird' },
+  'kategori.plante': { no: 'Plante', en: 'Plant' },
+  'kategori.pattedyr': { no: 'Pattedyr', en: 'Mammal' },
+  'kategori.insekt': { no: 'Insekt', en: 'Insect' },
+  'kategori.reptil': { no: 'Reptil', en: 'Reptile' },
+  'kategori.amfibium': { no: 'Amfibium', en: 'Amphibian' },
+  'kategori.fisk': { no: 'Fisk', en: 'Fish' },
+  'kategori.edderkoppdyr': { no: 'Edderkoppdyr', en: 'Arachnid' },
+  'kategori.sopp': { no: 'Sopp', en: 'Fungus' },
+  'kategori.blotdyr': { no: 'Bløtdyr', en: 'Mollusk' },
+  'kategori.dyr': { no: 'Dyr', en: 'Animal' },
+  'kategori.protist': { no: 'Protist', en: 'Protist' },
+  'kategori.bakterie': { no: 'Bakterie', en: 'Bacterium' },
+  'kategori.annet': { no: 'Annet', en: 'Other' },
+
+  // --- Conservation status (tooltip på rødliste-/svartelistet-badge) ---
+  'conservation.rodlistet': { no: 'Rødlistet', en: 'Red-listed' },
+  'conservation.svartelistet-fremmed': {
+    no: 'Svartelistet (fremmed art)',
+    en: 'Alien species (invasive)',
+  },
+
+  // --- Naturtype-forslag på naturtypeportrett-picker ---
+  'naturtype.park-bymark': {
+    no: 'Park og bymark',
+    en: 'Parks and urban green',
+  },
+  'naturtype.skrotemark': {
+    no: 'Skrotemark',
+    en: 'Wasteland',
+  },
+  'naturtype.boreal-lauvskog': {
+    no: 'Boreal lauvskog',
+    en: 'Boreal deciduous forest',
+  },
+  'naturtype.solvbunkeeng': {
+    no: 'Sølvbunkeeng (tørreng)',
+    en: 'Silver hairgrass dry meadow',
+  },
+  'naturtype.strandsone': {
+    no: 'Strandsone og kantvegetasjon',
+    en: 'Shoreline and fringe vegetation',
+  },
+  'naturtype.hagemark': {
+    no: 'Hagemark / treklynge i kulturlandskap',
+    en: 'Wood pasture / tree cluster in cultural landscape',
+  },
+
   // --- Naturportrett (oversikt) ---
   'naturportrett.tittel': {
     no: 'Naturportrett',

@@ -1,4 +1,4 @@
-import { getCategoryCss } from '../../utils/speciesCategories.js'
+import { getCategoryCss, BADGE_LABEL_KEYS } from '../../utils/speciesCategories.js'
 import { useT } from '../../i18n/index.jsx'
 
 export default function SpeciesCard({ species, isSelected, alleredeLaget = false, onToggle }) {
@@ -61,10 +61,10 @@ export default function SpeciesCard({ species, isSelected, alleredeLaget = false
       <div className="species-card__body">
         <div className="species-card__badges">
           <span className={`species-card__category species-card__category--${categoryCss}`}>
-            {species.category}
+            {t(BADGE_LABEL_KEYS[species.category] || 'kategori.annet')}
           </span>
           {species.conservationStatus && (
-            <ConservationBadge status={species.conservationStatus} />
+            <ConservationBadge status={species.conservationStatus} t={t} />
           )}
         </div>
         <div className="species-card__name">{species.norwegianName}</div>
@@ -74,7 +74,7 @@ export default function SpeciesCard({ species, isSelected, alleredeLaget = false
   )
 }
 
-function ConservationBadge({ status }) {
+function ConservationBadge({ status, t }) {
   const isRedlist = status.type === 'redlist'
   const bgColor = isRedlist
     ? (['CR', 'EN'].includes(status.category) ? 'var(--oslo-rod)' : 'var(--oslo-gul)')
@@ -82,12 +82,15 @@ function ConservationBadge({ status }) {
   const fgColor = isRedlist
     ? (['CR', 'EN'].includes(status.category) ? '#fff' : 'var(--oslo-svart)')
     : (['SE', 'HI'].includes(status.category) ? '#fff' : 'var(--oslo-svart)')
+  const typeLabel = isRedlist
+    ? t('conservation.rodlistet')
+    : t('conservation.svartelistet-fremmed')
 
   return (
     <span
       className="species-card__conservation-badge"
       style={{ background: bgColor, color: fgColor }}
-      title={`${isRedlist ? 'Rødlistet' : 'Svartelistet (fremmed art)'}: ${status.category} – ${status.label}`}
+      title={`${typeLabel}: ${status.category} – ${status.label}`}
     >
       {isRedlist ? `🔴 ${status.category}` : `⚠ ${status.category}`}
     </span>

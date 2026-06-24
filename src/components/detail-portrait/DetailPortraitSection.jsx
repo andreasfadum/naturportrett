@@ -183,13 +183,16 @@ export default function DetailPortraitSection({
 
   const naturtypeForslag = useMemo(() => {
     if (portraitType !== 'naturtypeportrett') return []
+    // `navn` er stabil intern verdi som sendes til KI som payload og som
+    // brukes som subject-ID i cache + generatedSubjects-markering.
+    // `labelKey` styrer kun visningstittel via t() — bytter med språk.
     return [
-      { navn: 'Park og bymark', ninKode: 'T35' },
-      { navn: 'Skrotemark', ninKode: 'T35' },
-      { navn: 'Boreal lauvskog', ninKode: 'T4-1' },
-      { navn: 'Sølvbunkeeng (tørreng)', ninKode: 'T32-3' },
-      { navn: 'Strandsone og kantvegetasjon', ninKode: 'T39' },
-      { navn: 'Hagemark / treklynge i kulturlandskap', ninKode: 'T32' },
+      { navn: 'Park og bymark', ninKode: 'T35', labelKey: 'naturtype.park-bymark' },
+      { navn: 'Skrotemark', ninKode: 'T35', labelKey: 'naturtype.skrotemark' },
+      { navn: 'Boreal lauvskog', ninKode: 'T4-1', labelKey: 'naturtype.boreal-lauvskog' },
+      { navn: 'Sølvbunkeeng (tørreng)', ninKode: 'T32-3', labelKey: 'naturtype.solvbunkeeng' },
+      { navn: 'Strandsone og kantvegetasjon', ninKode: 'T39', labelKey: 'naturtype.strandsone' },
+      { navn: 'Hagemark / treklynge i kulturlandskap', ninKode: 'T32', labelKey: 'naturtype.hagemark' },
     ]
   }, [portraitType])
 
@@ -397,7 +400,7 @@ export default function DetailPortraitSection({
                 onClick={() => handlePickNaturtype(nt)}
                 title={erLaget ? t('detalj.allerede-laget') : undefined}
               >
-                <div className="naturtype-card__title">{nt.navn}</div>
+                <div className="naturtype-card__title">{t(nt.labelKey)}</div>
                 <div className="naturtype-card__nin">{t('detalj.nin-prefix')} {nt.ninKode}</div>
                 {erLaget && (
                   <div className="naturtype-card__badge">{t('detalj.allerede-laget')}</div>

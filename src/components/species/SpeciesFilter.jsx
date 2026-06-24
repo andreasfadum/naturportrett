@@ -1,8 +1,10 @@
 import { FILTER_OPTIONS } from '../../utils/speciesCategories.js'
+import { useT } from '../../i18n/index.jsx'
 
 export default function SpeciesFilter({ activeFilter, onFilterChange }) {
+  const t = useT()
   return (
-    <div className="species-filter" role="group" aria-label="Filtrer etter artsgruppe">
+    <div className="species-filter" role="group" aria-label={t('filter.gruppe-aria')}>
       {FILTER_OPTIONS.map(opt => (
         <button
           key={opt.value}
@@ -10,7 +12,7 @@ export default function SpeciesFilter({ activeFilter, onFilterChange }) {
           onClick={() => onFilterChange(opt.value)}
           type="button"
         >
-          {opt.label}
+          {t(opt.labelKey)}
         </button>
       ))}
     </div>

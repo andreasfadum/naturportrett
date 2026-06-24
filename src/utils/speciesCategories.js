@@ -30,15 +30,37 @@ export const CATEGORY_CSS = {
   Sopp: 'sopp',
 }
 
+// FILTER_OPTIONS: `value` er stabil intern ID (matcher mot species.category
+// i filterlogikk). `labelKey` er i18n-nøkkel for visningstekst — SpeciesFilter
+// renderer t(labelKey) basert på valgt språk.
 export const FILTER_OPTIONS = [
-  { value: 'alle', label: 'Alle' },
-  { value: 'Fugl', label: 'Fugler' },
-  { value: 'Plante', label: 'Planter' },
-  { value: 'Pattedyr', label: 'Pattedyr' },
-  { value: 'Insekt', label: 'Insekter' },
-  { value: 'Sopp', label: 'Sopp' },
-  { value: 'annet', label: 'Andre' },
+  { value: 'alle', labelKey: 'filter.kategori.alle' },
+  { value: 'Fugl', labelKey: 'filter.kategori.fugler' },
+  { value: 'Plante', labelKey: 'filter.kategori.planter' },
+  { value: 'Pattedyr', labelKey: 'filter.kategori.pattedyr' },
+  { value: 'Insekt', labelKey: 'filter.kategori.insekter' },
+  { value: 'Sopp', labelKey: 'filter.kategori.sopp' },
+  { value: 'annet', labelKey: 'filter.kategori.andre' },
 ]
+
+// BADGE_LABEL_KEYS: mapping fra norsk kategori-ID (verdien i species.category)
+// til i18n-nøkkel for kategoribadge på artskort. Brukes i SpeciesCard.
+export const BADGE_LABEL_KEYS = {
+  Fugl: 'kategori.fugl',
+  Plante: 'kategori.plante',
+  Pattedyr: 'kategori.pattedyr',
+  Insekt: 'kategori.insekt',
+  Reptil: 'kategori.reptil',
+  Amfibium: 'kategori.amfibium',
+  Fisk: 'kategori.fisk',
+  Edderkoppdyr: 'kategori.edderkoppdyr',
+  Sopp: 'kategori.sopp',
+  Bløtdyr: 'kategori.blotdyr',
+  Dyr: 'kategori.dyr',
+  Protist: 'kategori.protist',
+  Bakterie: 'kategori.bakterie',
+  Annet: 'kategori.annet',
+}
 
 export function getCategory(iconicTaxonName, kingdom) {
   return (

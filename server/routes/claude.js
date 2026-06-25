@@ -150,12 +150,19 @@ claudeRouter.post('/portrait', async (req, res) => {
 
   // M7 — avbryt KI-streamen hvis klienten kobler fra midt i genereringen.
   // Uten dette fortsetter Anthropic-kallet (og token-forbruket) etter at
-  // brukeren har forlatt siden. Signalet sendes ned i streamWithRetry og
-  // videre til Anthropic-SDK-et. `writableEnded`-sjekken sikrer at vi kun
-  // aborterer ved reell frakobling, ikke ved vår egen res.end().
+  // brukeren har forlatt siden.
+  //
+  // Robusthetsfiks 2026-06-26: `req.on('close')` fyrer av når socket-en
+  // lukkes — det inkluderer proxy-bortfall hos Railway underveis i
+  // streamingen, ikke bare ekte klient-disconnects. Vi MÅ derfor sjekke
+  // at portrettet ikke allerede er ferdig parsert før vi aborterer.
+  // Ellers hopper catch-blokken nedenfor over sendEvent('portrait'), og
+  // klienten ser "Mangler portrait-respons fra serveren".
   const abortController = new AbortController()
   let klientForlot = false
+  let portraitFerdig = false
   req.on('close', () => {
+    if (portraitFerdig) return  // ferdig portrett er allerede klart eller sendt
     if (!res.writableEnded) {
       klientForlot = true
       abortController.abort()
@@ -246,13 +253,21 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
       zoneRadiusM: typeof payload?.zoneRadiusM === 'number' ? payload.zoneRadiusM : null,
     })
 
+    // Portrett er ferdig parsert. Marker dette FØR vi prøver å skrive til
+    // responsen — så hvis req.on('close') fyrer av før sendEvent('portrait')
+    // når frem, kommer vi ikke til å logge det som «klient forlot» og
+    // svelge feilen.
+    portraitFerdig = true
     sendEvent('portrait', { portrait: parsed, model: modelUsed, stopReason })
     sendEvent('done', { ok: true })
     res.end()
   } catch (err) {
     // M7 — klienten koblet fra: KI-streamen ble abortert med vilje. Ikke logg
     // som feil, ikke prøv å sende events på en lukket forbindelse.
-    if (klientForlot || abortController.signal.aborted || err.name === 'AbortError' || err.name === 'APIUserAbortError') {
+    // VIKTIG: hvis portrettet er ferdig parsert, må vi forsøke å skrive det
+    // ut likevel. Railway-proxyens close-event kan ellers svelge et ferdig
+    // svar og gi klienten "Mangler portrait-respons fra serveren".
+    if (!portraitFerdig && (klientForlot || abortController.signal.aborted || err.name === 'AbortError' || err.name === 'APIUserAbortError')) {
       console.warn('Klient koblet fra under portrett-generering — KI-stream avbrutt')
       try { res.end() } catch { /* allerede lukket */ }
       return

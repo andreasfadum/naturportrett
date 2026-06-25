@@ -68,7 +68,9 @@ Endepunktet validerer kun at `portraitType` er kjent. `payload` slippes gjennom 
 
 Default Express-grensen er 100 KB, men ikke satt eksplisitt. En klient kan sende en stor payload som spiser server-minne før den ankommer claude-routen.
 
-**Anbefaling:** `app.use(express.json({ limit: '10kb' }))` — payload-en vår er typisk 1–3 KB, så 10 KB er romslig.
+**Anbefaling:** `app.use(express.json({ limit: '5mb' }))` (satt 25. juni 2026).
+
+⚠️ **IKKE senk grensen til 10 KB / 100 KB.** Den opprinnelige anbefalingen («10 KB er romslig, payload-en er 1–3 KB») var feil: portrett-flyten sender HELE den sammenslåtte artslista i `topSpecies` (`NaturportrettSection.jsx` → `usePortraitGeneration.js`). Med GBIF- og iNaturalist-limit på 200 hver, og fire foto-URLer per art (~700 byte/art), passerer payloaden 100 KB allerede ved ~140 arter — vanlig for influensområder på 500 m+ i Oslo. Default-grensen ga derfor HTTP 413 (Payload Too Large) i produksjon. 5 MB dekker selv de største artslistene med god margin. Vil man stramme inn igjen, må man først flytte arts-payloaden ut av request-body (f.eks. la serveren hente arter selv ut fra koordinater + radius) — ellers gjeninnføres 413.
 
 ### K3 — Ingen rate-limiting på admin-endepunkter
 

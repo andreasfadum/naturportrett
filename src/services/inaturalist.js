@@ -12,11 +12,17 @@ export async function fetchSpeciesFromINaturalist(lat, lon, radiusKm = 0.5) {
     lat: lat.toFixed(6),
     lng: lon.toFixed(6),
     radius: radiusKm.toString(),
-    per_page: '100',
+    per_page: '200',
     locale: 'nb',
     quality_grade: 'research',
+    // Sorter på `id` desc i stedet for `votes` desc. votes er dynamisk
+    // og endrer seg når noen voter på iNaturalist — fører til at samme
+    // adresse kan returnere ulike arter mellom søk (en art akkurat
+    // over/under per_page-grensen flyttes ut når votes endres). `id`
+    // desc er monotont voksende → stabilt over tid, gir nyeste
+    // observasjoner først.
     order: 'desc',
-    order_by: 'votes',
+    order_by: 'id',
     photos: 'true',
   })
 

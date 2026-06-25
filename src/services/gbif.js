@@ -14,7 +14,7 @@ export async function fetchSpeciesFromGBIF(lat, lon, radiusKm = 0.5) {
     country: 'NO',
     hasCoordinate: 'true',
     mediaType: 'StillImage',
-    limit: '100',
+    limit: '200',
     offset: '0',
   })
 

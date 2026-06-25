@@ -93,6 +93,16 @@ Hver art får en **`priorityScore`** mellom 0 og 1:
 
 Topp 25 sendes til Claude. Tersklene 0.65 / 0.35 deler i Høy / Middels / Lav (én sannhetskilde delt mellom `speciesAggregator.js`, `NaturportrettView` og picker-filteret).
 
+### Stabil artsliste mellom søk (24-timers cache)
+
+Bruker oppdaget at to søk på samme adresse kunne returnere ulike arter — fordi iNaturalist sorterte på `votes` (peer-stemmer som endrer seg dynamisk). Tre endringer for stabilitet:
+
+1. **iNaturalist sorterer nå på `id` desc** (monotont voksende) i stedet for `votes` (dynamisk)
+2. **`per_page` og `limit` hevet til 200** i begge tjenester (mindre risiko for at en art faller akkurat over/under terskelen)
+3. **Species-cache med 24-timers TTL** i `src/utils/speciesCache.js` — gjentatte søk på samme adresse innen 24 t gir deterministisk identisk liste. Cache-nøkkelen er språk-agnostisk (`lat,lon:rRADIUS`).
+
+Effekt: «Søk Monrads gate 3D kl 14:00 → samme liste kl 14:15 → fortsatt samme liste kl 22:00. I morgen utløper cachen; ny fetch henter 99 %+ samme arter pluss eventuelle nye registreringer.»
+
 ---
 
 ## 4. Detaljportrett (steg 4)
@@ -125,14 +135,21 @@ Strukturert etter fem moduler:
 
 **Skjerpet anti-hallusinering** for planportrett (juridisk grense): «kan tale for KU», aldri «er KU-pliktig»; bestemmelser er temaer + skisse, aldri ferdig ordlyd; hjemmel er hypotese til verifisert mot Lovdata. **Ikke-overlapp-regel**: KI skal IKKE foreslå bestemmelser som allerede er sikret av annet lovverk (nml § 53, vassdragsvern, artsfredning).
 
-### Subject-picker — felles for arts- og planteportrett
+### Subject-picker — felles for arts-, plante- og naturtypeportrett
 
-- **Kategori-filter** (Fugl / Plante / Insekt / Sopp / Annet)
+- **Kategori-filter** (NO: Alle/Fugler/Planter/Pattedyr/Insekter/Sopp/Andre · EN: All/Birds/Plants/Mammals/Insects/Fungi/Other) — internt er `species.category` norsk, visning via i18n-nøkler
 - **Verne-status-filter** (Alle / Rødlistet / Svartelistet / Ikke vurdert)
 - **Datakvalitet-filter** (Alle / Høy / Middels / Lav)
 - Alle tre filtre er kombinable — alle må gi treff
 - **Forkortelse-forklaring** som åpningsbar boks: LC/NT/VU/EN/CR + SE/HI/PH/LO/NK/NR
 - **Bekreftelses-modal** før KI-igangsettelse: «Generér portrett for X? Genereringen tar gjerne under ett minutt, men varigheten påvirkes av størrelsen på influensområdet og mengden artsdata.» (kostnad er ikke nevnt for brukeren)
+- **Markering av allerede genererte subjects** — arter/naturtyper som brukeren har generert portrett for i sesjonen får lys grønn bakgrunn + «ALLEREDE LAGET»-badge. Klikk på markert subject hopper over bekreftelses-modal og gir instant retur (cache-hit). App.jsx holder `generatedSubjects` per type — beholdes på tvers av tilbake-navigering.
+
+### Navigering mellom portretter
+
+- **Klikkbar StepIndicator** — fullførte steg er knapper med tilbake-hopp i ett klikk. Aktivt steg er ikke klikkbart.
+- **Tilbake-navigering nullstiller INGENTING** — adressen, radius, portrettype og alle genererte subjects beholdes. Cache-hit gir instant retur til ferdige portretter når brukeren bytter mellom dem.
+- AddressSearch husker valgt adresse (pre-fylt) når man kommer tilbake til steg 1 — kun aktiv ny adresse trigger reset.
 
 ### Bilde-oppløsninger
 - Tabellbilder (SpeciesCard): `photoMediumUrl` (~500 px)

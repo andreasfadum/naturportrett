@@ -58,7 +58,8 @@ src/
                         useRecommendations, useIsMobile
   services/             kartverket, inaturalist, gbif, speciesAggregator
   utils/                norwegianText, speciesCategories, osloGronnstrukturer,
-                        conservationStatus, portraitCache, lovdataLenke
+                        conservationStatus, portraitCache, speciesCache,
+                        lovdataLenke, buildDate
   i18n/                 translations.js + index.jsx (SprakProvider + useT-hook)
   pages/                HeatmapPage
 server/
@@ -159,7 +160,29 @@ Implementert juni 2026 etter [PLANPORTRETT-SPEC.md](PLANPORTRETT-SPEC.md). Beslu
 
 `src/utils/portraitCache.js` cacher KI-output i localStorage. `usePortraitGeneration.generate()` sjekker cache før fetch — hit gir instant retur uten loading-spinner og uten KI-kostnad. Sparer kostnad ved språkbytte frem og tilbake, tilbake-navigering, side-refresh og cross-tab.
 
-Cache-nøkkel bygges av `lagCacheNokkel(portraitType, payload)` fra (koordinater, radius, språk, subject-id/NiN-kode). Prefiks `naturportrett.portrett-cache.*`. `cleanupExpired()` kjøres ved app-start fra `App.jsx`. Ved `QuotaExceededError` ryddes utløpte entries, ny forsøk, ellers hopp stille.
+Cache-nøkkel bygges av `lagCacheNokkel(portraitType, payload)` fra (koordinater, radius, språk, subject-id/NiN-kode). Prefiks `naturportrett.portrett-cache.*`. Ved `QuotaExceededError` ryddes utløpte entries, ny forsøk, ellers hopp stille.
+
+### Species-cache (24-timers TTL)
+
+`src/utils/speciesCache.js` speiler `portraitCache`, men cacher GBIF/iNaturalist-resultatene. Nøkkel: `lat,lon:rRADIUS` (språk-agnostisk siden artsdata er det). Prefiks `naturportrett.species-cache.*`. `useSpeciesSearch` sjekker cache før fetch — hit gir identisk artsliste innen 24 timer.
+
+**Bakgrunn:** Bruker oppdaget at to søk på samme adresse kunne returnere ulike arter. Root cause var iNaturalist-sortering på `votes` (dynamisk pga peer-stemmer). Tre endringer for stabilitet: (1) iNaturalist `order_by: 'id'` desc i stedet for `votes`, (2) `per_page` (iNaturalist) + `limit` (GBIF) hevet til 200, (3) species-cachen. Sortering på `id` er kritisk — IKKE endre tilbake til `votes` uten å forstå konsekvensen.
+
+### Cleanup ved app-start
+
+Både `cleanupExpired()` (portretter) og `cleanupExpiredSpecies()` (arter) kalles fra `App.jsx` `useEffect` ved mount. Begge er trygge ved manglende localStorage (private browsing strict mode hopper stille).
+
+### Tilbake-navigering nullstiller ingenting
+
+`handleStepClick(targetStep)` i `App.jsx` gjør kun `setStep(targetStep)`. Adressen, radius, portrettype og `generatedSubjects` beholdes. Aktiv ny input er det eneste som resetter (ny adresse i AddressSearch nullstiller portraitType og generatedSubjects; eksplisitt «Ny adresse»-knapp på et ferdig portrett nullstiller alt).
+
+### generatedSubjects-mønster (markering i picker)
+
+App.jsx holder `generatedSubjects` som mapping fra portretttype → array av subjects som er generert. DetailPortraitSection mottar `generatedSubjects[portraitType]` og markerer dem i pickeren med lys grønn bakgrunn + «ALLEREDE LAGET»-badge. Klikk på et markert subject hopper over bekreftelses-modal (cache-hit gir instant retur uansett). `subjectId()`-helper bygger stabil ID fra `id || scientificName || ninKode || navn || _erPlanportrett`.
+
+### Klikkbar StepIndicator
+
+Fullførte steg (`num < currentStep`) rendres som `<button>` med klikkbar tilbake-nav. AddressSearch tar `initialAddress`-prop slik at den viser valgt adresse når brukeren navigerer tilbake til steg 1 (slik at hen ikke må skrive på nytt).
 
 ### Språkbytte regenererer KI-tekst
 
@@ -182,6 +205,8 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - All bruker-tekst går via `useT()`-hook (NO + EN). Aldri hardkod synlige strenger.
 - Engelske variabel- og funksjonsnavn i kode. KI-feltnavn i JSON er norske (`folkenavn`, `vitenskapelig`, `eiendomsKontekst` osv.) — disse mappes til oversettelser i UI.
 - **Språkstyring av KI-output:** når brukeren har valgt engelsk skal ALL KI-generert fritekst være på flytende profesjonell engelsk. Eneste unntak: (1) JSON-feltnavn (norske), (2) verbatim lovsitater fra Lovdata (norske), (3) norske stedsnavn (Tøyenparken, Akerselva osv.), (4) latinske artsnavn. Norske artsnavn-fellesnavn vises i parentes ETTER det engelske: `"Canada Goose (Kanadagås)"`. Språk-instruksen plasseres FØRST i system-prompten med `# CRITICAL — OUTPUT LANGUAGE` — ellers drukner den i den norske basis-prompten og KI fortsetter å skrive norsk. Repeter regelen som påminnelse på slutten av prompten.
+- **Språkbevisst build-dato:** `vite.config.js` injiserer `__BUILD_DATE_ISO__` som YYYY-MM-DD. Komponenter henter `sprak` fra `useSprak()` og kaller `formatBuildDate(__BUILD_DATE_ISO__, sprak)` fra `src/utils/buildDate.js`. Bruk ALDRI `__BUILD_DATE__`-konstanten direkte (utfases — var hardkodet norsk format på build-tid).
+- **Stabile interne IDer for kategori/naturtype:** `species.category` (norsk: «Fugl», «Plante» osv.) og `naturtypeForslag[*].navn` er INTERNE stabile IDer brukt som filter-nøkkel, cache-nøkkel, subject-ID og KI-payload. Endre dem ALDRI til engelsk — bruk i stedet `labelKey` (i18n-nøkkel) for visning og `BADGE_LABEL_KEYS[category]` for kategoribadge.
 - Ingen TypeScript ennå (planlagt i v2)
 - CSS custom properties fra `--oslo-*` paletten, ikke hardkodede farger
 - Datakvalitet-tersklene (0.65 / 0.35) er én sannhetskilde i `speciesAggregator.js` og brukes konsekvent i UI
@@ -198,6 +223,8 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - **Mobil-tilpasning:** ingen horisontal scroll på mobil. Tabeller med 3+ kolonner skal bruke `<ResponsiveTable>` (rendrer card-layout på mobil). Label-value-tabeller (`<th>` + `<td>` per rad) får klasse `portrait-doc__table--label-value` som stacker vertikalt på mobil. Lange tekstavsnitt skal pakkes i `<ExpandableText>` (forkortet med «Vis mer» på mobil). `useIsMobile()`-hooken (terskel 720 px) brukes for JSX-betinget rendering. Disse endringene skal IKKE påvirke desktop.
 - **Cache-nøkkel ved nye portretttyper:** hvis du legger til en ny portretttype, utvid `lagCacheNokkel()` i `src/utils/portraitCache.js` med riktig nøkkelformat. Ellers blir det ingen caching og hver generering koster tokens.
 - **Modal-tekster om varighet:** ikke skriv konkrete sekundtall — varighet avhenger av influensområde og datatetthet. Bruk vage formuleringer som «under ett minutt», ev. med faktor-forklaring.
+- **iNaturalist-sortering:** `src/services/inaturalist.js` bruker `order_by: 'id'` desc (ikke `votes`). `votes` er dynamisk og endrer seg når noen voter på iNaturalist — gjør samme adresse-søk inkonsistent over tid. `id` er monotont voksende → stabilt. Hvis du vurderer å endre dette, les commit `282b764` først.
+- **Species/portrett-cache ved nye datakilder:** hvis du legger til en ny datakilde for arter eller en ny portretttype, husk å utvide cache-nøkkelen så vi ikke får cache-hit på feil grunnlag. Se `lagSpeciesNokkel` og `lagCacheNokkel`.
 
 ## Tilbakemeldinger og admin
 

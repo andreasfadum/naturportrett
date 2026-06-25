@@ -3,3 +3,7 @@ dist/
 .env
 .DS_Store
 *.local
+svar-radata/
+
+# Opphavsrettsbeskyttet tredjeparts-materiale — ikke vår distribusjonsrett
+Kunnskapsbase/AAD_Web_10MB_Norwegian.pdf

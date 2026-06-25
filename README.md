@@ -143,7 +143,7 @@ npm run check-models        # verify which Claude models are currently available
 | `PORT` | Express port (default 3001) | No |
 | `RESEND_API_KEY` | For routing user feedback as email | No |
 | `FEEDBACK_RECIPIENT_EMAIL` | Recipient address for user feedback | No |
-| `WORKSHOP_ADMIN_PASSWORD` | Password for `/admin/feedback` and `/admin/usage` | No (default: `naturportrett`) |
+| `WORKSHOP_ADMIN_PASSWORD` | Password for `/admin/feedback` and `/admin/usage`. If unset, admin routes return HTTP 503 (the rest of the app still works). | Recommended |
 | `WORKSHOP_DATA_DIR` | Path for persistent storage (Railway: `/data`) | No |
 
 ---

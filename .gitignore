@@ -13,6 +13,10 @@ ROS/
 maler/
 Kunnskapsarkiv-AAD/
 Oslo visuell identitet/
+workshop/
+samarbeid-BYM/
+samarbeid-GBIF/
+samarbeid-KLI/
 
 # Råkildedokumenter i Kunnskapsbase — vi indekserer fra .md-versjonene
 Kunnskapsbase/*.docx

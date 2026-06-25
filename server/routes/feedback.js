@@ -13,18 +13,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Resend } from 'resend'
+import { krevAdmin } from '../middleware/adminAuth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = process.env.WORKSHOP_DATA_DIR || path.join(__dirname, '..', '..', 'workshop-app', 'data')
 const FEEDBACK_FILE = 'naturportrett-feedback.json'
-// Ingen default-fallback — repoet er offentlig, så et hardkodet
-// passord her ville gi alle med tilgang til kildekoden mulighet til å
-// lese tilbakemeldinger. Hvis env-var ikke er satt, blokkeres admin-
-// rutene med 503. Resten av tjenesten kjører som normalt.
-const ADMIN_PASSWORD = process.env.WORKSHOP_ADMIN_PASSWORD
-if (!ADMIN_PASSWORD) {
-  console.warn('[admin/feedback] WORKSHOP_ADMIN_PASSWORD ikke satt — admin-rutene er deaktivert. Sett env-variabelen for å aktivere.')
-}
+// Admin-autentisering (passord + brute-force-grense) ligger nå sentralt i
+// ../middleware/adminAuth.js og deles med usage-ruten.
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
 const FEEDBACK_RECIPIENT_EMAIL = process.env.FEEDBACK_RECIPIENT_EMAIL || 'andreas.haugstad@pbe.oslo.kommune.no'
@@ -142,15 +137,6 @@ function leggTil(innslag) {
   alle.push(innslag)
   fs.writeFileSync(fil, JSON.stringify(alle, null, 2))
   return alle.length
-}
-
-function krevAdmin(req, res, next) {
-  if (!ADMIN_PASSWORD) {
-    return res.status(503).json({ feil: 'admin deaktivert — WORKSHOP_ADMIN_PASSWORD ikke satt' })
-  }
-  const oppgitt = req.headers['x-workshop-admin']
-  if (oppgitt && oppgitt === ADMIN_PASSWORD) return next()
-  res.status(401).json({ feil: 'feil passord' })
 }
 
 export const feedbackRouter = Router()

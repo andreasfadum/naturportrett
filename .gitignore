@@ -25,3 +25,13 @@ Kunnskapsbase/*.jpg
 Kunnskapsbase/*.jpeg
 Kunnskapsbase/*.png
 Kunnskapsbase/*.pdf
+
+# Presentasjons-binærfiler — bakgrunnsmateriell, ikke del av produktet.
+# oslopresentasjon.potx er en opphavsrettsbeskyttet Oslo-mal og må ALDRI
+# havne i det offentlige MIT-repoet ved et uhell.
+presentasjon/*.pptx
+presentasjon/*.potx
+presentasjon/*.pptx.zip
+
+# Midlertidige test-/scratch-skript
+__*test.mjs

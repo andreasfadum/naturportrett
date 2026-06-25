@@ -186,11 +186,9 @@ Den eldre vurderings-rute som brukte `biodiversity.SYSTEM_PROMPT`. `Recommendati
 
 **Anbefaling:** Sjekk om noen sti i UI fortsatt aktivt bruker den. Hvis ikke: marker deprecated, fjern i neste større refactor.
 
-### L2 — `fuse.js` i `package.json` ikke synlig brukt
+### L2 — ~~`fuse.js` i `package.json` ikke synlig brukt~~ AVKREFTET
 
-Frontend-rapporten fant ingen aktive importer av `fuse.js`. Den ble lagt inn for klientside-re-rangering av adressesøk-resultater.
-
-**Anbefaling:** Verifiser med `grep -rn "from 'fuse.js'" src/` — fjern fra `package.json` hvis dødt.
+> **Rettet 25. juni 2026:** Denne anbefalingen var feil. `fuse.js` ER aktivt i bruk for klientside-re-rangering av adressesøk-resultater i [src/hooks/useAddressSearch.js](src/hooks/useAddressSearch.js#L3) (`import Fuse from 'fuse.js'`, brukt på linje 31–38). **Ikke fjern den** — det vil knekke adressesøket. Ingen handling nødvendig.
 
 ### L3 — `SpeciesCard` mangler `React.memo`
 
@@ -240,7 +238,7 @@ Effektivisering er **ikke** hovedgevinsten — vedlikeholdbarhet og sikkerhet er
 
 ### Fase 1 (~6 timer) — kritiske
 
-1. K2: `express.json({ limit: '10kb' })` (5 min)
+1. K2: ✅ Gjennomført 25. juni 2026 — `express.json({ limit: '5mb' })` (IKKE 10kb, se K2)
 2. K1: Zod-schema-validering på `/api/claude/portrait` (2 t)
 3. K3: `express-rate-limit` på admin-endepunkter (1 t)
 4. K4: Ekstraher SpeciesPicker + ConfirmationModal fra DetailPortraitSection (3 t)

@@ -8,6 +8,7 @@ import { claudeRouter } from './routes/claude.js'
 import { sourcesRouter } from './routes/sources.js'
 import { feedbackRouter } from './routes/feedback.js'
 import { usageRouter } from './routes/usage.js'
+import { roterUsageLogg } from './usage/index.js'
 import { createWorkshopRouter } from '../workshop-app/server/router.js'
 import { CLAUDE_MODEL, MODEL_CHAIN } from './config/model.js'
 
@@ -51,6 +52,17 @@ if (fs.existsSync(workshopDist)) {
 const distPath = join(__dirname, '../dist')
 app.use(express.static(distPath))
 app.get('*', (_, res) => res.sendFile(join(distPath, 'index.html')))
+
+// M2 (GDPR) — rydd usage-loggen ved oppstart: fjern innslag eldre enn 90 dager
+// og anonymiser ev. gjenværende rå IP-er fra før anonymiseringen ble innført.
+try {
+  const r = roterUsageLogg()
+  if (r.fjernet > 0 || r.anonymisert > 0) {
+    console.log(`[usage] Rotasjon: ${r.fjernet} fjernet (>90 d), ${r.anonymisert} IP-er anonymisert, ${r.beholdt} beholdt.`)
+  }
+} catch (err) {
+  console.error('[usage] Rotasjon ved oppstart feilet:', err.message)
+}
 
 app.listen(PORT, () => {
   console.log(`Naturportrett API-server kjører på http://localhost:${PORT}`)

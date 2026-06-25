@@ -225,6 +225,7 @@ Når UI viser tom symbioser-liste, skal det vises eksplisitt at KI vurderte felt
 - **Modal-tekster om varighet:** ikke skriv konkrete sekundtall — varighet avhenger av influensområde og datatetthet. Bruk vage formuleringer som «under ett minutt», ev. med faktor-forklaring.
 - **iNaturalist-sortering:** `src/services/inaturalist.js` bruker `order_by: 'id'` desc (ikke `votes`). `votes` er dynamisk og endrer seg når noen voter på iNaturalist — gjør samme adresse-søk inkonsistent over tid. `id` er monotont voksende → stabilt. Hvis du vurderer å endre dette, les commit `282b764` først.
 - **Species/portrett-cache ved nye datakilder:** hvis du legger til en ny datakilde for arter eller en ny portretttype, husk å utvide cache-nøkkelen så vi ikke får cache-hit på feil grunnlag. Se `lagSpeciesNokkel` og `lagCacheNokkel`.
+- **Filer som ikke brukes av koden skal IKKE i git-repo.** Repoet er offentlig (MIT-lisens) — bakgrunnsmateriell (PDF-er, pptx, opphavsrettsbeskyttet tredjeparts-materiale, store mediafiler, interne notater som ikke er en del av produktet) skal kun ligge lokalt på Andreas' maskin, ikke i git. Hvis du oppdager slike filer som er sjekket inn: foreslå å fjerne dem fra HEAD via `git rm` + `.gitignore`, og fra historikken via `git filter-repo` + force-push hvis filen er sensitiv (opphavsrett, hemmeligheter). Gjelder ALDRI kode, kunnskapskilder eller dokumentasjon som er nødvendig for å forstå/kjøre prosjektet.
 
 ## Tilbakemeldinger og admin
 

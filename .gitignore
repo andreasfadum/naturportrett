@@ -7,3 +7,17 @@ svar-radata/
 
 # Opphavsrettsbeskyttet tredjeparts-materiale — ikke vår distribusjonsrett
 Kunnskapsbase/AAD_Web_10MB_Norwegian.pdf
+
+# Interne arbeidsdokumenter — kun lokalt, ikke i offentlig repo
+ROS/
+maler/
+Kunnskapsarkiv-AAD/
+Oslo visuell identitet/
+
+# Råkildedokumenter i Kunnskapsbase — vi indekserer fra .md-versjonene
+Kunnskapsbase/*.docx
+Kunnskapsbase/*.ai
+Kunnskapsbase/*.jpg
+Kunnskapsbase/*.jpeg
+Kunnskapsbase/*.png
+Kunnskapsbase/*.pdf

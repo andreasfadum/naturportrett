@@ -10,6 +10,7 @@ import AreaMap from './AreaMap.jsx'
 import ResponsiveTable from '../portrait-shared/ResponsiveTable.jsx'
 import ExpandableText from '../portrait-shared/ExpandableText.jsx'
 import { useIsMobile } from '../../hooks/useIsMobile.js'
+import { BADGE_LABEL_KEYS } from '../../utils/speciesCategories.js'
 import { useT, useSprak } from '../../i18n/index.jsx'
 
 const ANTALL_TIL_KI = 25
@@ -173,7 +174,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
                       className={`arter-kategori-pill${valgtKategori === kat ? ' arter-kategori-pill--aktiv' : ''}`}
                       onClick={() => setValgtKategori(kat)}
                     >
-                      {kat} ({n})
+                      {t(BADGE_LABEL_KEYS[kat] || 'kategori.annet')} ({n})
                     </button>
                   ))}
               </div>
@@ -199,11 +200,11 @@ export default function NaturportrettView({ portrait, address, species = [], spe
                   <td>
                     <strong>{a.navn}</strong>
                     {erMobil && a.kategori && (
-                      <span className="arts-tabell__kategori-badge">{a.kategori}</span>
+                      <span className="arts-tabell__kategori-badge">{t(BADGE_LABEL_KEYS[a.kategori] || 'kategori.annet')}</span>
                     )}
                   </td>
                   <td><em>{a.vitenskapelig}</em></td>
-                  <td className="arts-tabell__kategori-kolonne">{a.kategori}</td>
+                  <td className="arts-tabell__kategori-kolonne">{t(BADGE_LABEL_KEYS[a.kategori] || 'kategori.annet')}</td>
                   <td>{a.status}</td>
                   <td className="arts-tabell__datakvalitet-kolonne">
                     <DatakvalitetCelle score={a._priorityScore} dato={a._lastObservedDate} sprak={sprak} t={t} />
@@ -228,7 +229,7 @@ export default function NaturportrettView({ portrait, address, species = [], spe
                   .sort((a, b) => b[1] - a[1])
                   .map(([kat, n]) => (
                     <span key={kat} className="arter-oppsummering__pill">
-                      {kat}: {n}
+                      {t(BADGE_LABEL_KEYS[kat] || 'kategori.annet')}: {n}
                     </span>
                   ))}
               </div>

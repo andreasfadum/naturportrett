@@ -148,26 +148,18 @@ claudeRouter.post('/portrait', async (req, res) => {
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-  // M7 — avbryt KI-streamen hvis klienten kobler fra midt i genereringen.
-  // Uten dette fortsetter Anthropic-kallet (og token-forbruket) etter at
-  // brukeren har forlatt siden.
-  //
-  // Robusthetsfiks 2026-06-26: `req.on('close')` fyrer av når socket-en
-  // lukkes — det inkluderer proxy-bortfall hos Railway underveis i
-  // streamingen, ikke bare ekte klient-disconnects. Vi MÅ derfor sjekke
-  // at portrettet ikke allerede er ferdig parsert før vi aborterer.
-  // Ellers hopper catch-blokken nedenfor over sendEvent('portrait'), og
-  // klienten ser "Mangler portrait-respons fra serveren".
+  // M7 (DEAKTIVERT 2026-06-26 etter prod-feil): `req.on('close')` fyrer av
+  // svært tidlig på Railway — sannsynligvis ved proxy-handshake, ikke ved
+  // ekte klient-disconnect. Resultatet var at HVER portrett-generering
+  // ble abortert i de første millisekundene og klienten satt igjen med
+  // «Mangler portrait-respons fra serveren». Vi beholder
+  // abortController-stubben slik at signaturen til streamWithRetry er
+  // uendret, men fyrer den aldri av. Token-besparelser ved ekte
+  // client-disconnect er en kvalitets-fiks — kommer tilbake til den etter
+  // GBIF-innlevering med en mer presis trigger (f.eks. socket.destroyed).
   const abortController = new AbortController()
   let klientForlot = false
   let portraitFerdig = false
-  req.on('close', () => {
-    if (portraitFerdig) return  // ferdig portrett er allerede klart eller sendt
-    if (!res.writableEnded) {
-      klientForlot = true
-      abortController.abort()
-    }
-  })
 
   try {
     const userMessage = promptModule.buildUserPrompt(payload)

@@ -26,7 +26,11 @@ const allowedOrigins = [
   'https://naturportrett.figurate.studio',
 ]
 app.use(cors({ origin: allowedOrigins }))
-app.use(express.json())
+// Portrett-payload inneholder hele artslista (opptil ~200 GBIF + 200 iNaturalist
+// med foto-URLer, navn osv.) i `topSpecies`. Default Express-grense er 100 KB,
+// noe som ga HTTP 413 (Payload Too Large) på store influensområder. 5 MB er
+// romslig og dekker selv de største artslistene.
+app.use(express.json({ limit: '5mb' }))
 
 app.use('/api/claude', claudeRouter)
 app.use('/api/sources', sourcesRouter)

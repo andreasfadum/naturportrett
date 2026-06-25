@@ -105,6 +105,36 @@ claudeRouter.post('/portrait', async (req, res) => {
     return res.status(500).json({ error: 'ANTHROPIC_API_KEY mangler i Railway-variabler eller .env.' })
   }
 
+  // K1 (lett) — input-validering FØR vi starter SSE/KI-kallet. Repoet og API-et
+  // er offentlig: frontend-slideren stopper på 2000 m, men et direkte API-kall
+  // kan ellers sette vilkårlig radius og mangedoble token-bruken per kall.
+  // 400-svar må returneres her, før SSE-headerne settes nedenfor.
+  if (!payload || typeof payload !== 'object') {
+    return res.status(400).json({ error: 'Mangler eller ugyldig payload.' })
+  }
+  // Clamp influensradius til [100, 2000] m (UI bruker 200–2000, litt slingring
+  // ned). Clamping framfor 400 garanterer kostnadstak uten å avvise legitime
+  // kall. payload muteres slik at både prompt og usage-logg bruker trygg verdi.
+  if (payload.zoneRadiusM != null) {
+    const r = Number(payload.zoneRadiusM)
+    if (!Number.isFinite(r)) {
+      return res.status(400).json({ error: 'zoneRadiusM må være et tall.' })
+    }
+    const clamped = Math.min(2000, Math.max(100, Math.round(r)))
+    if (clamped !== r) {
+      console.warn(`zoneRadiusM ${r} utenfor [100, 2000] — clampet til ${clamped}`)
+    }
+    payload.zoneRadiusM = clamped
+  }
+  // Begrens artslistene som sendes til KI (reell maks er ~400). Hindrer at en
+  // oppblåst payload presser prompt-/token-størrelsen i taket.
+  for (const felt of ['topSpecies', 'observedSpecies', 'selectedSpecies']) {
+    if (Array.isArray(payload[felt]) && payload[felt].length > 400) {
+      console.warn(`${felt} hadde ${payload[felt].length} arter — kuttet til 400`)
+      payload[felt] = payload[felt].slice(0, 400)
+    }
+  }
+
   // Sett SSE-headers og start strømming umiddelbart
   res.setHeader('Content-Type', 'text/event-stream')
   res.setHeader('Cache-Control', 'no-cache, no-transform')
@@ -117,6 +147,20 @@ claudeRouter.post('/portrait', async (req, res) => {
   }
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+  // M7 — avbryt KI-streamen hvis klienten kobler fra midt i genereringen.
+  // Uten dette fortsetter Anthropic-kallet (og token-forbruket) etter at
+  // brukeren har forlatt siden. Signalet sendes ned i streamWithRetry og
+  // videre til Anthropic-SDK-et. `writableEnded`-sjekken sikrer at vi kun
+  // aborterer ved reell frakobling, ikke ved vår egen res.end().
+  const abortController = new AbortController()
+  let klientForlot = false
+  req.on('close', () => {
+    if (!res.writableEnded) {
+      klientForlot = true
+      abortController.abort()
+    }
+  })
 
   try {
     const userMessage = promptModule.buildUserPrompt(payload)
@@ -160,7 +204,7 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
       max_tokens: 8000,
       system: systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
-    }, (lengde) => sendEvent('progress', { lengde }))
+    }, (lengde) => sendEvent('progress', { lengde }), { signal: abortController.signal })
 
     const rawText = result.fullText
     const stopReason = result.finalMessage?.stop_reason
@@ -206,6 +250,13 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
     sendEvent('done', { ok: true })
     res.end()
   } catch (err) {
+    // M7 — klienten koblet fra: KI-streamen ble abortert med vilje. Ikke logg
+    // som feil, ikke prøv å sende events på en lukket forbindelse.
+    if (klientForlot || abortController.signal.aborted || err.name === 'AbortError' || err.name === 'APIUserAbortError') {
+      console.warn('Klient koblet fra under portrett-generering — KI-stream avbrutt')
+      try { res.end() } catch { /* allerede lukket */ }
+      return
+    }
     console.error('Claude portrait-feil:', err.message)
     let brukerMelding = err.message
     if (err.status === 401) {
@@ -242,12 +293,12 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
  * fallback-/retry-logikk som createWithRetry — 404 → bytt modell uten
  * venting, transient 5xx/429 → backoff.
  */
-async function streamWithRetry(client, params, onProgress, maxRetries = 2) {
+async function streamWithRetry(client, params, onProgress, { maxRetries = 2, signal } = {}) {
   let lastErr
   for (const model of MODEL_CHAIN) {
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
-        const stream = client.messages.stream({ ...params, model })
+        const stream = client.messages.stream({ ...params, model }, { signal })
         let fullText = ''
         let lastFlush = Date.now()
         for await (const chunk of stream) {
@@ -269,6 +320,11 @@ async function streamWithRetry(client, params, onProgress, maxRetries = 2) {
         return { fullText, finalMessage, modelUsed: model }
       } catch (err) {
         lastErr = err
+        // Klienten koblet fra: ikke gjenforsøk og ikke fallback — bare kast
+        // videre slik at rute-handleren kan avslutte stille.
+        if (signal?.aborted || err.name === 'AbortError' || err.name === 'APIUserAbortError') {
+          throw err
+        }
         if (isModelNotFoundError(err)) {
           console.warn(`Modell ${model} ikke funnet (deprecated/retired) — prøver neste i kjeden`)
           break

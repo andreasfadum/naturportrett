@@ -16,6 +16,32 @@ function isModelNotFound(status, body) {
   return msg.includes('model_not_found') || (msg.includes('model') && msg.includes('not found'))
 }
 
+// KI-budsjettet brukt opp: forbrukstaket er nådd (400 «You have reached your
+// specified [workspace] API usage limits», eller 429 enforced_spend_limit_reached)
+// eller kreditten er tom («credit balance is too low», 402 billing_error).
+// Neste modell feiler likt. Samme gjenkjenning som server/budsjett/index.js.
+export const BUDSJETT_FEIL = 'budsjett_brukt_opp'
+
+export function budsjettfeil(status, body) {
+  const tekst = String(body || '')
+  if (/enforced_spend_limit_reached/.test(tekst) || /you have reached your (specified )?(workspace )?api usage limits/i.test(tekst)) {
+    const naa = new Date()
+    const nullstilles = new Date(Date.UTC(naa.getUTCFullYear(), naa.getUTCMonth() + 1, 1)).toISOString().slice(0, 10)
+    return { grunn: 'tak', igjen: tekst.match(/regain access on (\d{4}-\d{2}-\d{2})/i)?.[1] ?? nullstilles }
+  }
+  if (/credit balance is too low/i.test(tekst) || status === 402 || /"billing_error"/.test(tekst)) {
+    return { grunn: 'kreditt', igjen: null }
+  }
+  return null
+}
+
+export function budsjettSvar({ igjen }) {
+  const dato = igjen && new Date(`${igjen}T00:00:00Z`).toLocaleDateString('nb-NO', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+  const melding = 'KI-budsjettet er brukt opp, så KI-en kan ikke svare nå. '
+    + (dato ? `Den virker igjen ${dato}.` : 'Den virker igjen når budsjettet er fylt på.')
+  return { feil: BUDSJETT_FEIL, melding, igjen }
+}
+
 export async function callClaude(system, user, maxTokens = 800, timeoutMs = 90000) {
   const key = process.env.ANTHROPIC_API_KEY
   if (!key) throw new Error('Mangler ANTHROPIC_API_KEY')
@@ -48,6 +74,12 @@ export async function callClaude(system, user, maxTokens = 800, timeoutMs = 9000
         return (data.content || []).map(b => b.text || '').join('').trim()
       }
       const body = await res.text().catch(() => '')
+      const budsjett = budsjettfeil(res.status, body)
+      if (budsjett) {
+        const err = new Error(`Anthropic ${res.status} (${model}): KI-budsjettet er brukt opp (${budsjett.grunn})`)
+        err.budsjett = budsjett
+        throw err
+      }
       if (isModelNotFound(res.status, body)) {
         console.warn(`Workshop-KI: modell ${model} ikke funnet — prøver neste`)
         lastErr = new Error(`Anthropic ${res.status} (${model}): ${body.slice(0, 200)}`)

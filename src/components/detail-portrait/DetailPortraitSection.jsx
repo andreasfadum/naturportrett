@@ -7,6 +7,7 @@ import PlanteportrettView from './PlanteportrettView.jsx'
 import NaturtypeportrettView from './NaturtypeportrettView.jsx'
 import PlanportrettView from './PlanportrettView.jsx'
 import PdfDownloadButton from './PdfDownloadButton.jsx'
+import KiBudsjettMelding from '../portrait-shared/KiBudsjettMelding.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { useT, useSprak } from '../../i18n/index.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
@@ -75,7 +76,7 @@ export default function DetailPortraitSection({
   const [statusFilter, setStatusFilter] = useState('alle')
   const [kvalitetFilter, setKvalitetFilter] = useState('alle')
   const [bekreftEmne, setBekreftEmne] = useState(null) // species/naturtype som venter på bekreftelse
-  const { portrait, isLoading, error, generate, reset } = usePortraitGeneration()
+  const { portrait, isLoading, error, budsjett, generate, reset } = usePortraitGeneration()
   // Hvilket språk siste fullførte generering ble gjort på. Når brukeren
   // bytter språk etter at portrettet er ferdig, regenererer vi på det
   // nye språket så all KI-tekst oppdateres.
@@ -328,6 +329,19 @@ export default function DetailPortraitSection({
             t('detalj.last.steg5'),
           ]}
         />
+      </div>
+    )
+  }
+
+  // KI-budsjettet er brukt opp — egen melding, ikke feilboksen
+  if (budsjett) {
+    return (
+      <div>
+        <h1 className="portrait-page-title">{tittel}</h1>
+        <KiBudsjettMelding igjen={budsjett.igjen} />
+        <button type="button" className="btn btn--secondary" onClick={handleBackToSubjectPicker}>
+          {t('detalj.knapp.velg-annet')}
+        </button>
       </div>
     )
   }

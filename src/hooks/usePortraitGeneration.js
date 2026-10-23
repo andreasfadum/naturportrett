@@ -17,14 +17,22 @@ import { getCache, setCache, lagCacheNokkel } from '../utils/portraitCache.js'
  *   event: portrait  → { portrait, model } (siste, ferdig parsete data)
  *   event: error     → { error, ... }      (feilmelding)
  *   event: done      → { ok: true }        (server lukker streamen)
+ *
+ * Er KI-budsjettet brukt opp, har error-eventet feil: 'budsjett_brukt_opp'
+ * og igjen (YYYY-MM-DD eller null). Da settes `budsjett` i stedet for
+ * `error`, så komponenten kan vise en egen, vennlig melding.
  */
+const BUDSJETT_FEIL = 'budsjett_brukt_opp'
+
 export function usePortraitGeneration() {
   const [portrait, setPortrait] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [budsjett, setBudsjett] = useState(null)
 
   const generate = useCallback(async (portraitType, payload) => {
     setError(null)
+    setBudsjett(null)
 
     // Cache-sjekk før vi rører nettverket
     const cacheNokkel = lagCacheNokkel(portraitType, payload)
@@ -45,6 +53,10 @@ export function usePortraitGeneration() {
       })
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
+        if (data.feil === BUDSJETT_FEIL) {
+          setBudsjett({ igjen: data.igjen || null })
+          return
+        }
         throw new Error(data.error || `HTTP ${res.status}`)
       }
       if (!res.body) {
@@ -56,6 +68,7 @@ export function usePortraitGeneration() {
       let buffer = ''
       let portraitData = null
       let serverError = null
+      let budsjettData = null
 
       while (true) {
         const { value, done } = await reader.read()
@@ -81,6 +94,8 @@ export function usePortraitGeneration() {
 
           if (eventName === 'portrait' && data?.portrait) {
             portraitData = data
+          } else if (eventName === 'error' && data?.feil === BUDSJETT_FEIL) {
+            budsjettData = { igjen: data.igjen || null }
           } else if (eventName === 'error' && data?.error) {
             serverError = data.error
           }
@@ -88,6 +103,10 @@ export function usePortraitGeneration() {
         }
       }
 
+      if (budsjettData) {
+        setBudsjett(budsjettData)
+        return
+      }
       if (serverError) throw new Error(serverError)
       if (!portraitData) throw new Error('Mangler portrait-respons fra serveren.')
       setCache(cacheNokkel, portraitData.portrait)
@@ -102,7 +121,8 @@ export function usePortraitGeneration() {
   const reset = useCallback(() => {
     setPortrait(null)
     setError(null)
+    setBudsjett(null)
   }, [])
 
-  return { portrait, isLoading, error, generate, reset }
+  return { portrait, isLoading, error, budsjett, generate, reset }
 }

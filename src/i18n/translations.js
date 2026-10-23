@@ -596,6 +596,21 @@ export const oversettelser = {
   'nps.detalj': { no: 'Lag mer detaljert portrett →', en: 'Generate a more detailed portrait →' },
   'nps.feil-label': { no: 'Feil:', en: 'Error:' },
 
+  // --- KI-budsjettet brukt opp (server svarer feil: 'budsjett_brukt_opp') ---
+  'budsjett.tittel': { no: 'KI-budsjettet er brukt opp', en: 'The AI budget has been used up' },
+  'budsjett.tekst-dato': {
+    no: 'Naturportrett har brukt opp KI-budsjettet for denne måneden og kan ikke lage nye portretter nå. Tjenesten virker igjen {dato}.',
+    en: 'Naturportrett has used up its AI budget for this month and cannot generate new portraits right now. The service will be available again on {dato}.',
+  },
+  'budsjett.tekst': {
+    no: 'Naturportrett har brukt opp KI-budsjettet og kan ikke lage nye portretter nå. Tjenesten virker igjen når budsjettet er fylt på.',
+    en: 'Naturportrett has used up its AI budget and cannot generate new portraits right now. The service will be available again once the budget has been topped up.',
+  },
+  'budsjett.lagret': {
+    no: 'Portretter du har laget i denne nettleseren det siste døgnet, kan du fortsatt åpne.',
+    en: 'Portraits you have generated in this browser in the last 24 hours can still be opened.',
+  },
+
   // --- Portretttype-velger ---
   'velger.tittel': { no: 'Velg portrettype', en: 'Select portrait type' },
   'velger.intro': {

@@ -64,7 +64,7 @@ export default function Admin() {
     try {
       const r = await adminFetch(api('/summarize'), { method: 'POST' })
       const d = await r.json()
-      setSummary(d.markdown || ('Feil: ' + (d.feil || 'ukjent')))
+      setSummary(d.markdown || d.melding || ('Feil: ' + (d.feil || 'ukjent')))
     } catch { setSummary('Klarte ikke å lage oppsummering.') }
     finally { setBusyS(false) }
   }

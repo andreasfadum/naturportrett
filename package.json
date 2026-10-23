@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "build:lover-index": "node scripts/build-lover-index.js",
     "build:heatmap-data": "node scripts/build-heatmap-data.js",
-    "check-models": "node scripts/check-models.js"
+    "check-models": "node scripts/check-models.js",
+    "test": "node --test \"server/**/*.test.js\" \"workshop-app/server/**/*.test.js\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

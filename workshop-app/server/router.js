@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { append, readJSON, writeJSON, clearAll } from './store.js'
-import { callClaude } from './claude.js'
+import { callClaude, budsjettSvar } from './claude.js'
 import {
   RESERVE_TASKS, GENERATE_SYSTEM, buildGenerateUser,
   SUMMARY_SYSTEM, buildSummaryUser
@@ -81,6 +81,10 @@ export function createWorkshopRouter() {
       writeJSON('tasks.json', { tasks, generertTid: new Date().toISOString() })
       res.json({ tasks, generert: true })
     } catch (e) {
+      if (e.budsjett) {
+        const svar = budsjettSvar(e.budsjett)
+        return res.status(503).json({ tasks: RESERVE_TASKS, generert: false, grunn: svar.melding, ...svar })
+      }
       res.json({ tasks: RESERVE_TASKS, generert: false, grunn: String(e.message || e) })
     }
   })
@@ -94,6 +98,7 @@ export function createWorkshopRouter() {
       const markdown = await callClaude(SUMMARY_SYSTEM, buildSummaryUser(responses, answers), 2000, 120000)
       res.json({ ok: true, markdown })
     } catch (e) {
+      if (e.budsjett) return res.status(503).json(budsjettSvar(e.budsjett))
       res.status(500).json({ feil: String(e.message || e) })
     }
   })

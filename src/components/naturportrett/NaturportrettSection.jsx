@@ -3,6 +3,7 @@ import { usePortraitGeneration } from '../../hooks/usePortraitGeneration.js'
 import NaturportrettView from './NaturportrettView.jsx'
 import AreaMap from './AreaMap.jsx'
 import PdfDownloadButton from '../detail-portrait/PdfDownloadButton.jsx'
+import KiBudsjettMelding from '../portrait-shared/KiBudsjettMelding.jsx'
 import ProgressBar from '../layout/ProgressBar.jsx'
 import { finnNarliggende } from '../../utils/osloGronnstrukturer.js'
 import { useT, useSprak } from '../../i18n/index.jsx'
@@ -23,7 +24,7 @@ export default function NaturportrettSection({
 }) {
   const t = useT()
   const { sprak } = useSprak()
-  const { portrait, isLoading: portraitLoading, error: portraitError, generate } = usePortraitGeneration()
+  const { portrait, isLoading: portraitLoading, error: portraitError, budsjett, generate } = usePortraitGeneration()
   // Hvilket språk siste fullførte generering ble gjort på. Når brukeren
   // bytter språk etter at portrettet er ferdig, regenererer vi på det
   // nye språket så all KI-tekst oppdateres (lovsitater forblir norske —
@@ -114,6 +115,8 @@ export default function NaturportrettSection({
             <strong>{t('nps.feil-label')}</strong> {speciesError || portraitError}
           </div>
         )}
+
+        {budsjett && !isLoading && <KiBudsjettMelding igjen={budsjett.igjen} />}
 
         {portrait && !isLoading && (
           <NaturportrettView

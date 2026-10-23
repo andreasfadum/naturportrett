@@ -141,6 +141,8 @@ Slider på steg 2 oppdaterer LOKAL state mens brukeren drar — ikke App. Først
   - `naturportrett.js`, `artsportrett.js`, `planteportrett.js`, `naturtypeportrett.js`, `planportrett.js` for hver portretttype
 - Server velger system-prompt-tilleggsinstruks basert på `payload.lang` (norsk default, engelsk hvis brukeren har valgt det)
 - Modell-fallback: ved 404 (modell deprecated) bytter `createWithRetry` automatisk til neste i `MODEL_CHAIN`
+- KI-budsjettet brukt opp (forbrukstak nådd eller kreditt tom): `server/budsjett/` gjenkjenner feilen, kjeden stopper med én gang, og klienten får `feil: 'budsjett_brukt_opp'` + `igjen` (dato) i stedet for rå API-tekst. Frontend viser `KiBudsjettMelding`. Workshop-appen har egen kopi av gjenkjenningen.
+- Tester: `npm test` (Node sin innebygde testløper, falsk Anthropic-server — ingen ekte API-kall)
 
 ### Planportrett — fjerde detaljportretttype
 

@@ -9,6 +9,7 @@ import * as planportrett from '../prompts/planportrett.js'
 import { enrichRelevanteLover } from '../lover/index.js'
 import { CLAUDE_MODEL, MODEL_CHAIN, isModelNotFoundError } from '../config/model.js'
 import { logUsage } from '../usage/index.js'
+import { budsjettfeil, budsjettSvar } from '../budsjett/index.js'
 
 function klientIp(req) {
   return req.ip || req.socket?.remoteAddress || null
@@ -75,6 +76,12 @@ claudeRouter.post('/', async (req, res) => {
     res.end()
   } catch (err) {
     console.error('Claude API-feil:', err.message)
+    const budsjett = budsjettfeil(err)
+    if (budsjett) {
+      res.write(`data: ${JSON.stringify(budsjettSvar(budsjett))}\n\n`)
+      res.end()
+      return
+    }
     let userMessage = err.message
     if (err.status === 401) {
       userMessage = 'API-nøkkelen er ugyldig. Gå til console.anthropic.com, generer en ny nøkkel, og oppdater .env-filen.'
@@ -265,6 +272,14 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
       return
     }
     console.error('Claude portrait-feil:', err.message)
+    const budsjett = budsjettfeil(err)
+    if (budsjett) {
+      try {
+        sendEvent('error', budsjettSvar(budsjett))
+      } catch { /* connection kan være lukket */ }
+      res.end()
+      return
+    }
     let brukerMelding = err.message
     if (err.status === 401) {
       brukerMelding = 'API-nøkkelen er ugyldig.'
@@ -288,6 +303,8 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
  *
  * Forbigående feil (529/503/429): inntil 2 gjenforsøk med backoff per modell.
  * Permanent 404: gå videre til neste modell i kjeden uten å vente.
+ * Brukt opp KI-budsjett (forbrukstak eller tom kreditt, også når det kommer
+ * som 429): kastes umiddelbart — neste modell feiler på samme måte.
  * Andre feil (401, 400 osv.): kastes umiddelbart.
  */
 /**
@@ -300,7 +317,7 @@ Re-read the OUTPUT LANGUAGE rules above before finalizing the JSON. The default 
  * fallback-/retry-logikk som createWithRetry — 404 → bytt modell uten
  * venting, transient 5xx/429 → backoff.
  */
-async function streamWithRetry(client, params, onProgress, { maxRetries = 2, signal } = {}) {
+export async function streamWithRetry(client, params, onProgress, { maxRetries = 2, signal } = {}) {
   let lastErr
   for (const model of MODEL_CHAIN) {
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -332,6 +349,7 @@ async function streamWithRetry(client, params, onProgress, { maxRetries = 2, sig
         if (signal?.aborted || err.name === 'AbortError' || err.name === 'APIUserAbortError') {
           throw err
         }
+        if (budsjettfeil(err)) throw err
         if (isModelNotFoundError(err)) {
           console.warn(`Modell ${model} ikke funnet (deprecated/retired) — prøver neste i kjeden`)
           break
@@ -362,6 +380,7 @@ async function createWithRetry(client, params, maxRetries = 2) {
         return { response, modelUsed: model }
       } catch (err) {
         lastErr = err
+        if (budsjettfeil(err)) throw err
         if (isModelNotFoundError(err)) {
           console.warn(`Modell ${model} ikke funnet (deprecated/retired) — prøver neste i kjeden`)
           break // hopp til neste modell uten å vente

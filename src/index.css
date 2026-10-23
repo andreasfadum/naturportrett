@@ -1653,6 +1653,32 @@ button.step-indicator__item--klikkbar:active {
   color: #c0392b;
 }
 
+/* KI-budsjettet brukt opp: rolig beskjed, ikke en feil brukeren har gjort */
+.ki-budsjett {
+  background: var(--oslo-lysbeige);
+  border-left: 8px solid var(--oslo-gul);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius);
+  color: var(--oslo-svart);
+  line-height: 1.45;
+  margin-bottom: var(--space-6);
+}
+
+.ki-budsjett__tittel {
+  display: block;
+  color: var(--oslo-morkebla);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-2);
+}
+
+.ki-budsjett p {
+  margin: 0;
+}
+
+.ki-budsjett p + p {
+  margin-top: var(--space-2);
+}
+
 /* ================================
    Markdown-rendering i anbefalinger
 ================================ */
